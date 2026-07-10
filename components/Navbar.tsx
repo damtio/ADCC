@@ -18,6 +18,12 @@ export function Navbar() {
             Events
           </Link>
           <Link
+            href="/academies"
+            className="text-sm text-zinc-400 transition-colors hover:text-white"
+          >
+            Academies
+          </Link>
+          <Link
             href="/submit-event"
             className="text-sm text-zinc-400 transition-colors hover:text-white"
           >
