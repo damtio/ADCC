@@ -16,6 +16,12 @@ export function Navbar() {
           >
             Events
           </Link>
+          <Link
+            href="/submit-event"
+            className="text-sm text-zinc-400 transition-colors hover:text-white"
+          >
+            Submit Event
+          </Link>
         </nav>
       </div>
     </header>

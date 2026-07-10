@@ -1,5 +1,9 @@
 import Link from "next/link";
-import { getAllEventsAdmin, logoutAction } from "@/app/admin/actions";
+import {
+  getAllEventsAdmin,
+  getPendingSubmissionsCount,
+  logoutAction,
+} from "@/app/admin/actions";
 import { AdminEventRow } from "@/components/AdminEventRow";
 import { AdminLoginForm } from "@/components/AdminLoginForm";
 import { Button } from "@/components/ui/button";
@@ -28,6 +32,7 @@ export default async function AdminPage() {
   }
 
   const events = await getAllEventsAdmin();
+  const pendingSubmissions = await getPendingSubmissionsCount();
   const supabaseReady = isSupabaseConfigured();
 
   return (
@@ -46,6 +51,16 @@ export default async function AdminPage() {
           </p>
         </div>
         <div className="flex gap-3">
+          <Button asChild variant="outline">
+            <Link href="/admin/submissions">
+              Submissions
+              {pendingSubmissions > 0 && (
+                <span className="ml-1.5 rounded-full bg-red-600 px-2 py-0.5 text-xs text-white">
+                  {pendingSubmissions}
+                </span>
+              )}
+            </Link>
+          </Button>
           <Button asChild>
             <Link href="/admin/new">Add Event</Link>
           </Button>

@@ -8,10 +8,11 @@ import {
   isAuthenticated,
   verifyPassword,
 } from "@/lib/auth";
+import { parseEventFormData } from "@/lib/event-form";
 import { createSupabaseAdmin } from "@/lib/supabase-admin";
 import { uploadEventImage } from "@/lib/storage";
 import { slugify } from "@/lib/utils";
-import { EVENT_CATEGORIES, type EventCategory } from "@/types/event";
+import type { EventSubmission } from "@/types/submission";
 
 export async function loginAction(
   _prevState: { error?: string } | null,
@@ -34,35 +35,6 @@ export async function loginAction(
 export async function logoutAction(): Promise<void> {
   await destroySession();
   redirect("/admin");
-}
-
-function parseEventFormData(formData: FormData) {
-  const category = formData.get("category") as string;
-  if (!EVENT_CATEGORIES.includes(category as EventCategory)) {
-    throw new Error("Invalid category");
-  }
-
-  const published = formData.get("published") === "on";
-  const priceStr = formData.get("price") as string;
-
-  return {
-    title: formData.get("title") as string,
-    category: category as EventCategory,
-    instructor: (formData.get("instructor") as string) || null,
-    academy: (formData.get("academy") as string) || null,
-    city: (formData.get("city") as string) || null,
-    address: (formData.get("address") as string) || null,
-    date: formData.get("date") as string,
-    start_time: (formData.get("start_time") as string) || null,
-    end_time: (formData.get("end_time") as string) || null,
-    price: priceStr ? parseFloat(priceStr) : null,
-    currency: (formData.get("currency") as string) || "PLN",
-    registration_url: (formData.get("registration_url") as string) || null,
-    facebook_url: (formData.get("facebook_url") as string) || null,
-    instagram_url: (formData.get("instagram_url") as string) || null,
-    description: (formData.get("description") as string) || null,
-    published,
-  };
 }
 
 async function resolveImageUrl(
@@ -226,4 +198,110 @@ export async function getEventByIdAdmin(id: string) {
 
   if (error) return null;
   return data;
+}
+
+export async function getPendingSubmissionsCount(): Promise<number> {
+  if (!(await isAuthenticated())) return 0;
+
+  const supabase = createSupabaseAdmin();
+  if (!supabase) return 0;
+
+  const { count, error } = await supabase
+    .from("event_submissions")
+    .select("*", { count: "exact", head: true })
+    .eq("status", "pending");
+
+  if (error) return 0;
+  return count ?? 0;
+}
+
+export async function getAllSubmissionsAdmin(): Promise<EventSubmission[]> {
+  if (!(await isAuthenticated())) return [];
+
+  const supabase = createSupabaseAdmin();
+  if (!supabase) return [];
+
+  const { data, error } = await supabase
+    .from("event_submissions")
+    .select("*")
+    .order("created_at", { ascending: false });
+
+  if (error) throw error;
+  return (data as EventSubmission[]) ?? [];
+}
+
+export async function approveSubmissionAction(id: string): Promise<void> {
+  if (!(await isAuthenticated())) throw new Error("Unauthorized");
+
+  const supabase = createSupabaseAdmin();
+  if (!supabase) throw new Error("Supabase is not configured");
+
+  const { data: submission, error } = await supabase
+    .from("event_submissions")
+    .select("*")
+    .eq("id", id)
+    .eq("status", "pending")
+    .single();
+
+  if (error || !submission) throw new Error("Submission not found");
+
+  let slug = slugify(submission.title);
+  const { data: existing } = await supabase
+    .from("events")
+    .select("id")
+    .eq("slug", slug)
+    .maybeSingle();
+
+  if (existing) slug = `${slug}-${id.slice(0, 8)}`;
+
+  const { error: insertError } = await supabase.from("events").insert({
+    title: submission.title,
+    slug,
+    category: submission.category,
+    description: submission.description,
+    instructor: submission.instructor,
+    academy: submission.academy,
+    city: submission.city,
+    address: submission.address,
+    date: submission.date,
+    start_time: submission.start_time,
+    end_time: submission.end_time,
+    price: submission.price,
+    currency: submission.currency,
+    registration_url: submission.registration_url,
+    facebook_url: submission.facebook_url,
+    instagram_url: submission.instagram_url,
+    image_url: submission.image_url,
+    published: false,
+  });
+
+  if (insertError) throw new Error(insertError.message);
+
+  const { error: updateError } = await supabase
+    .from("event_submissions")
+    .update({ status: "approved" })
+    .eq("id", id);
+
+  if (updateError) throw new Error(updateError.message);
+
+  revalidatePath("/");
+  revalidatePath("/admin");
+  revalidatePath("/admin/submissions");
+}
+
+export async function rejectSubmissionAction(id: string): Promise<void> {
+  if (!(await isAuthenticated())) throw new Error("Unauthorized");
+
+  const supabase = createSupabaseAdmin();
+  if (!supabase) throw new Error("Supabase is not configured");
+
+  const { error } = await supabase
+    .from("event_submissions")
+    .update({ status: "rejected" })
+    .eq("id", id)
+    .eq("status", "pending");
+
+  if (error) throw new Error(error.message);
+
+  revalidatePath("/admin/submissions");
 }
