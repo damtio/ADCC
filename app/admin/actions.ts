@@ -16,6 +16,10 @@ export async function loginAction(
   _prevState: { error?: string } | null,
   formData: FormData,
 ): Promise<{ error?: string } | null> {
+  if (!process.env.ADMIN_PASSWORD) {
+    return { error: "Admin password is not configured on the server." };
+  }
+
   const password = formData.get("password") as string;
 
   if (!verifyPassword(password)) {
@@ -67,9 +71,9 @@ function parseEventFormData(formData: FormData) {
 }
 
 export async function createEventAction(
-  _prevState: { error?: string } | null,
+  _prevState: { error?: string; success?: boolean } | null,
   formData: FormData,
-): Promise<{ error?: string } | null> {
+): Promise<{ error?: string; success?: boolean } | null> {
   if (!(await isAuthenticated())) {
     return { error: "Unauthorized" };
   }
@@ -93,16 +97,16 @@ export async function createEventAction(
 
     revalidatePath("/");
     revalidatePath("/admin");
-    redirect("/admin");
+    return { success: true };
   } catch (e) {
     return { error: e instanceof Error ? e.message : "Failed to create event" };
   }
 }
 
 export async function updateEventAction(
-  _prevState: { error?: string } | null,
+  _prevState: { error?: string; success?: boolean } | null,
   formData: FormData,
-): Promise<{ error?: string } | null> {
+): Promise<{ error?: string; success?: boolean } | null> {
   if (!(await isAuthenticated())) {
     return { error: "Unauthorized" };
   }
@@ -128,7 +132,7 @@ export async function updateEventAction(
     revalidatePath("/");
     revalidatePath("/admin");
     revalidatePath(`/event/${slug}`);
-    redirect("/admin");
+    return { success: true };
   } catch (e) {
     return { error: e instanceof Error ? e.message : "Failed to update event" };
   }

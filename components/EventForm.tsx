@@ -1,6 +1,7 @@
 "use client";
 
-import { useActionState } from "react";
+import { useRouter } from "next/navigation";
+import { useActionState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -8,9 +9,9 @@ import { Textarea } from "@/components/ui/textarea";
 import { EVENT_CATEGORIES, type Event } from "@/types/event";
 
 type FormAction = (
-  prevState: { error?: string } | null,
+  prevState: { error?: string; success?: boolean } | null,
   formData: FormData,
-) => Promise<{ error?: string } | null>;
+) => Promise<{ error?: string; success?: boolean } | null>;
 
 interface EventFormProps {
   event?: Event;
@@ -18,7 +19,14 @@ interface EventFormProps {
 }
 
 export function EventForm({ event, action }: EventFormProps) {
+  const router = useRouter();
   const [state, formAction, isPending] = useActionState(action, null);
+
+  useEffect(() => {
+    if (state?.success) {
+      router.push("/admin");
+    }
+  }, [state?.success, router]);
 
   return (
     <form action={formAction} className="space-y-6">
