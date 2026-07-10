@@ -2,7 +2,7 @@ import { ExternalLink, Globe, Mail, MapPin, Phone } from "lucide-react";
 import { MapPreview } from "@/components/MapPreview";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
-import type { Academy } from "@/data/academies";
+import type { Academy } from "@/types/academy";
 
 interface AcademyCardProps {
   academy: Academy;
@@ -10,6 +10,13 @@ interface AcademyCardProps {
 
 function buildMapsUrl(academy: Academy): string {
   return `https://www.google.com/maps/search/?api=1&query=${academy.latitude},${academy.longitude}`;
+}
+
+function hasCoordinates(academy: Academy): academy is Academy & {
+  latitude: number;
+  longitude: number;
+} {
+  return academy.latitude != null && academy.longitude != null;
 }
 
 export function AcademyCard({ academy }: AcademyCardProps) {
@@ -63,22 +70,26 @@ export function AcademyCard({ academy }: AcademyCardProps) {
           )}
         </div>
 
-        <MapPreview
-          latitude={academy.latitude}
-          longitude={academy.longitude}
-          title={academy.name}
-        />
+        {hasCoordinates(academy) && (
+          <>
+            <MapPreview
+              latitude={academy.latitude}
+              longitude={academy.longitude}
+              title={academy.name}
+            />
 
-        <Button asChild variant="outline" size="sm" className="w-full">
-          <a
-            href={buildMapsUrl(academy)}
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <ExternalLink className="h-4 w-4" />
-            Open in Maps
-          </a>
-        </Button>
+            <Button asChild variant="outline" size="sm" className="w-full">
+              <a
+                href={buildMapsUrl(academy)}
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                <ExternalLink className="h-4 w-4" />
+                Open in Maps
+              </a>
+            </Button>
+          </>
+        )}
       </CardContent>
     </Card>
   );

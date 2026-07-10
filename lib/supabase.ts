@@ -1,4 +1,5 @@
 import { createClient, type SupabaseClient } from "@supabase/supabase-js";
+import type { Academy } from "@/types/academy";
 import type { Event } from "@/types/event";
 
 export function isSupabasePublicConfigured(): boolean {
@@ -68,4 +69,19 @@ export async function getAllEventSlugs(): Promise<{ slug: string }[]> {
 
   if (error) return [];
   return data ?? [];
+}
+
+export async function getPublishedAcademies(): Promise<Academy[]> {
+  const supabase = createSupabaseClient();
+  if (!supabase) return [];
+
+  const { data, error } = await supabase
+    .from("academies")
+    .select("*")
+    .eq("published", true)
+    .order("sort_order", { ascending: true })
+    .order("name", { ascending: true });
+
+  if (error) throw error;
+  return (data as Academy[]) ?? [];
 }

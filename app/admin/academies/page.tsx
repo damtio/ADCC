@@ -1,38 +1,17 @@
 import Link from "next/link";
-import {
-  getAllEventsAdmin,
-  getPendingSubmissionsCount,
-  logoutAction,
-} from "@/app/admin/actions";
-import { AdminEventRow } from "@/components/AdminEventRow";
-import { AdminLoginForm } from "@/components/AdminLoginForm";
+import { redirect } from "next/navigation";
+import { getAllAcademiesAdmin, logoutAction } from "@/app/admin/actions";
+import { AdminAcademyRow } from "@/components/AdminAcademyRow";
 import { Button } from "@/components/ui/button";
 import { isAuthenticated } from "@/lib/auth";
 import { isSupabaseConfigured } from "@/lib/supabase-admin";
 
 export const dynamic = "force-dynamic";
 
-export default async function AdminPage() {
-  const authenticated = await isAuthenticated();
+export default async function AdminAcademiesPage() {
+  if (!(await isAuthenticated())) redirect("/admin");
 
-  if (!authenticated) {
-    return (
-      <div className="mx-auto max-w-7xl px-4 py-16 sm:px-6 lg:px-8">
-        <div className="mx-auto max-w-md text-center">
-          <h1 className="text-2xl font-bold text-white">Admin Panel</h1>
-          <p className="mt-2 text-sm text-zinc-500">
-            Enter your password to manage events.
-          </p>
-          <div className="mt-8">
-            <AdminLoginForm />
-          </div>
-        </div>
-      </div>
-    );
-  }
-
-  const events = await getAllEventsAdmin();
-  const pendingSubmissions = await getPendingSubmissionsCount();
+  const academies = await getAllAcademiesAdmin();
   const supabaseReady = isSupabaseConfigured();
 
   return (
@@ -40,32 +19,27 @@ export default async function AdminPage() {
       {!supabaseReady && (
         <div className="mb-6 rounded-lg border border-amber-800/50 bg-amber-950/30 px-4 py-3 text-sm text-amber-200">
           Supabase is not configured yet. Add your project credentials to{" "}
-          <code className="text-amber-100">.env.local</code> to manage events.
+          <code className="text-amber-100">.env.local</code> to manage
+          academies.
         </div>
       )}
+
       <div className="mb-8 flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
         <div>
-          <h1 className="text-2xl font-bold text-white">Admin Dashboard</h1>
+          <Link
+            href="/admin"
+            className="mb-2 inline-block text-sm text-zinc-500 transition-colors hover:text-red-500"
+          >
+            &larr; Back to dashboard
+          </Link>
+          <h1 className="text-2xl font-bold text-white">Academies</h1>
           <p className="mt-1 text-sm text-zinc-500">
-            Manage BJJ events ({events.length})
+            Manage BJJ academies ({academies.length})
           </p>
         </div>
         <div className="flex gap-3">
-          <Button asChild variant="outline">
-            <Link href="/admin/academies">Academies</Link>
-          </Button>
-          <Button asChild variant="outline">
-            <Link href="/admin/submissions">
-              Submissions
-              {pendingSubmissions > 0 && (
-                <span className="ml-1.5 rounded-full bg-red-600 px-2 py-0.5 text-xs text-white">
-                  {pendingSubmissions}
-                </span>
-              )}
-            </Link>
-          </Button>
           <Button asChild>
-            <Link href="/admin/new">Add Event</Link>
+            <Link href="/admin/academies/new">Add Academy</Link>
           </Button>
           <form action={logoutAction}>
             <Button type="submit" variant="outline">
@@ -80,13 +54,13 @@ export default async function AdminPage() {
           <thead className="bg-[#111]">
             <tr className="border-b border-[#2B2B2B]">
               <th className="px-4 py-3 text-left text-xs font-medium tracking-wider text-zinc-500 uppercase">
-                Title
+                Name
               </th>
               <th className="px-4 py-3 text-left text-xs font-medium tracking-wider text-zinc-500 uppercase">
-                Category
+                District
               </th>
               <th className="px-4 py-3 text-left text-xs font-medium tracking-wider text-zinc-500 uppercase">
-                Date
+                Order
               </th>
               <th className="px-4 py-3 text-left text-xs font-medium tracking-wider text-zinc-500 uppercase">
                 Status
@@ -97,24 +71,24 @@ export default async function AdminPage() {
             </tr>
           </thead>
           <tbody>
-            {events.length === 0 ? (
+            {academies.length === 0 ? (
               <tr>
                 <td
                   colSpan={5}
                   className="px-4 py-12 text-center text-zinc-500"
                 >
-                  No events yet.{" "}
+                  No academies yet.{" "}
                   <Link
-                    href="/admin/new"
+                    href="/admin/academies/new"
                     className="text-red-500 hover:underline"
                   >
-                    Create your first event
+                    Add your first academy
                   </Link>
                 </td>
               </tr>
             ) : (
-              events.map((event) => (
-                <AdminEventRow key={event.id} event={event} />
+              academies.map((academy) => (
+                <AdminAcademyRow key={academy.id} academy={academy} />
               ))
             )}
           </tbody>

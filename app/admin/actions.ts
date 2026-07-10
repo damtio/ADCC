@@ -8,10 +8,12 @@ import {
   isAuthenticated,
   verifyPassword,
 } from "@/lib/auth";
+import { parseAcademyFormData } from "@/lib/academy-form";
 import { parseEventFormData } from "@/lib/event-form";
 import { createSupabaseAdmin } from "@/lib/supabase-admin";
 import { uploadEventImage } from "@/lib/storage";
 import { slugify } from "@/lib/utils";
+import type { Academy } from "@/types/academy";
 import type { EventSubmission } from "@/types/submission";
 
 export async function loginAction(
@@ -304,4 +306,145 @@ export async function rejectSubmissionAction(id: string): Promise<void> {
   if (error) throw new Error(error.message);
 
   revalidatePath("/admin/submissions");
+}
+
+export async function createAcademyAction(
+  _prevState: { error?: string; success?: boolean } | null,
+  formData: FormData,
+): Promise<{ error?: string; success?: boolean } | null> {
+  if (!(await isAuthenticated())) {
+    return { error: "Unauthorized" };
+  }
+
+  try {
+    const data = parseAcademyFormData(formData);
+    const supabase = createSupabaseAdmin();
+    if (!supabase) {
+      return {
+        error: "Supabase is not configured. Add credentials to .env.local.",
+      };
+    }
+
+    const { error } = await supabase.from("academies").insert(data);
+    if (error) return { error: error.message };
+
+    revalidatePath("/academies");
+    revalidatePath("/admin/academies");
+    return { success: true };
+  } catch (e) {
+    return {
+      error: e instanceof Error ? e.message : "Failed to create academy",
+    };
+  }
+}
+
+export async function updateAcademyAction(
+  _prevState: { error?: string; success?: boolean } | null,
+  formData: FormData,
+): Promise<{ error?: string; success?: boolean } | null> {
+  if (!(await isAuthenticated())) {
+    return { error: "Unauthorized" };
+  }
+
+  try {
+    const id = formData.get("id") as string;
+    const data = parseAcademyFormData(formData);
+    const supabase = createSupabaseAdmin();
+    if (!supabase) {
+      return {
+        error: "Supabase is not configured. Add credentials to .env.local.",
+      };
+    }
+
+    const { error } = await supabase
+      .from("academies")
+      .update({
+        ...data,
+        updated_at: new Date().toISOString(),
+      })
+      .eq("id", id);
+
+    if (error) return { error: error.message };
+
+    revalidatePath("/academies");
+    revalidatePath("/admin/academies");
+    return { success: true };
+  } catch (e) {
+    return {
+      error: e instanceof Error ? e.message : "Failed to update academy",
+    };
+  }
+}
+
+export async function deleteAcademyAction(id: string): Promise<void> {
+  if (!(await isAuthenticated())) {
+    throw new Error("Unauthorized");
+  }
+
+  const supabase = createSupabaseAdmin();
+  if (!supabase) {
+    throw new Error("Supabase is not configured");
+  }
+
+  const { error } = await supabase.from("academies").delete().eq("id", id);
+  if (error) throw new Error(error.message);
+
+  revalidatePath("/academies");
+  revalidatePath("/admin/academies");
+}
+
+export async function toggleAcademyPublishAction(
+  id: string,
+  published: boolean,
+): Promise<void> {
+  if (!(await isAuthenticated())) {
+    throw new Error("Unauthorized");
+  }
+
+  const supabase = createSupabaseAdmin();
+  if (!supabase) {
+    throw new Error("Supabase is not configured");
+  }
+
+  const { error } = await supabase
+    .from("academies")
+    .update({ published, updated_at: new Date().toISOString() })
+    .eq("id", id);
+
+  if (error) throw new Error(error.message);
+
+  revalidatePath("/academies");
+  revalidatePath("/admin/academies");
+}
+
+export async function getAllAcademiesAdmin(): Promise<Academy[]> {
+  if (!(await isAuthenticated())) return [];
+
+  const supabase = createSupabaseAdmin();
+  if (!supabase) return [];
+
+  const { data, error } = await supabase
+    .from("academies")
+    .select("*")
+    .order("sort_order", { ascending: true })
+    .order("name", { ascending: true });
+
+  if (error) throw error;
+  return (data as Academy[]) ?? [];
+}
+
+export async function getAcademyByIdAdmin(id: string): Promise<Academy | null> {
+  if (!(await isAuthenticated())) return null;
+
+  const supabase = createSupabaseAdmin();
+  if (!supabase) return null;
+
+  const { data, error } = await supabase
+    .from("academies")
+    .select("*")
+    .eq("id", id)
+    .single();
+
+  if (error) return null;
+  return data as Academy;
 }
