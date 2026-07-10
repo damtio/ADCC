@@ -1,10 +1,9 @@
 export const EVENT_CATEGORIES = [
-  "Seminar",
+  "Seminar - Gi",
+  "Seminar - NoGi",
+  "Seminar - Gi + NoGi",
+  "Afterparty",
   "Open Mat",
-  "Camp",
-  "Competition",
-  "After Party",
-  "Other",
 ] as const;
 
 export type EventCategory = (typeof EVENT_CATEGORIES)[number];
