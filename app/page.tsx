@@ -18,7 +18,7 @@ export default async function HomePage() {
               Kraków, Poland
             </h1>
             <p className="mt-4 text-lg text-zinc-400 sm:text-xl">
-              Find seminars, open mats and camps happening during ADCC weekend.
+              Find seminars, open mats and after parties during ADCC weekend.
             </p>
             <div className="mt-8">
               <p className="mb-4 text-sm tracking-widest text-zinc-500 uppercase">

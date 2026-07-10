@@ -44,19 +44,14 @@ function parseEventFormData(formData: FormData) {
 
   const published = formData.get("published") === "on";
   const priceStr = formData.get("price") as string;
-  const latStr = formData.get("latitude") as string;
-  const lngStr = formData.get("longitude") as string;
 
   return {
     title: formData.get("title") as string,
     category: category as EventCategory,
     instructor: (formData.get("instructor") as string) || null,
-    organizer: (formData.get("organizer") as string) || null,
     academy: (formData.get("academy") as string) || null,
     city: (formData.get("city") as string) || null,
     address: (formData.get("address") as string) || null,
-    latitude: latStr ? parseFloat(latStr) : null,
-    longitude: lngStr ? parseFloat(lngStr) : null,
     date: formData.get("date") as string,
     start_time: (formData.get("start_time") as string) || null,
     end_time: (formData.get("end_time") as string) || null,

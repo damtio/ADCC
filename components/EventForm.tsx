@@ -74,15 +74,6 @@ export function EventForm({ event, action }: EventFormProps) {
         </div>
 
         <div className="space-y-2">
-          <Label htmlFor="organizer">Organizer</Label>
-          <Input
-            id="organizer"
-            name="organizer"
-            defaultValue={event?.organizer ?? ""}
-          />
-        </div>
-
-        <div className="space-y-2">
           <Label htmlFor="academy">Academy</Label>
           <Input
             id="academy"
@@ -102,28 +93,6 @@ export function EventForm({ event, action }: EventFormProps) {
             id="address"
             name="address"
             defaultValue={event?.address ?? ""}
-          />
-        </div>
-
-        <div className="space-y-2">
-          <Label htmlFor="latitude">Latitude</Label>
-          <Input
-            id="latitude"
-            name="latitude"
-            type="number"
-            step="any"
-            defaultValue={event?.latitude ?? ""}
-          />
-        </div>
-
-        <div className="space-y-2">
-          <Label htmlFor="longitude">Longitude</Label>
-          <Input
-            id="longitude"
-            name="longitude"
-            type="number"
-            step="any"
-            defaultValue={event?.longitude ?? ""}
           />
         </div>
 
