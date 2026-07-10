@@ -1,4 +1,3 @@
-import Image from "next/image";
 import { ExternalLink, Globe, Mail, MapPin, Phone } from "lucide-react";
 import { MapPreview } from "@/components/MapPreview";
 import { Button } from "@/components/ui/button";
@@ -16,16 +15,6 @@ function buildMapsUrl(academy: Academy): string {
 export function AcademyCard({ academy }: AcademyCardProps) {
   return (
     <Card className="group overflow-hidden transition-all duration-300 hover:-translate-y-1 hover:border-red-600/40 hover:shadow-lg hover:shadow-red-900/10">
-      <div className="relative aspect-[16/10] overflow-hidden bg-[#1a1a1a]">
-        <Image
-          src={academy.image_url}
-          alt={academy.name}
-          fill
-          className="object-cover transition-transform duration-300 group-hover:scale-105"
-          sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
-        />
-      </div>
-
       <CardContent className="space-y-4 p-5">
         <div>
           <h3 className="text-lg font-semibold text-white">{academy.name}</h3>
