@@ -8,6 +8,8 @@ const Input = React.forwardRef<HTMLInputElement, React.ComponentProps<"input">>(
         type={type}
         className={cn(
           "flex h-10 w-full rounded-lg border border-[#2B2B2B] bg-[#151515] px-3 py-2 text-sm text-white placeholder:text-zinc-500 focus-visible:ring-2 focus-visible:ring-red-500 focus-visible:outline-none disabled:cursor-not-allowed disabled:opacity-50",
+          (type === "date" || type === "time" || type === "datetime-local") &&
+            "pr-2 [&::-webkit-calendar-picker-indicator]:ml-1",
           className,
         )}
         ref={ref}

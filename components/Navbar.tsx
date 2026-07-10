@@ -6,8 +6,8 @@ export function Navbar() {
       <div className="mx-auto flex h-16 max-w-7xl items-center justify-between px-4 sm:px-6 lg:px-8">
         <Link href="/" className="group flex items-center gap-2">
           <span className="text-lg font-bold tracking-tight text-white transition-colors group-hover:text-red-500">
-            Seminars and Events <span className="text-red-500">ADCC2026</span>{" "}
-            Kraków, Poland
+            BJJ<span className="text-red-500">Seminars & Events</span> Kraków,
+            Poland
           </span>
         </Link>
         <nav className="flex items-center gap-4">

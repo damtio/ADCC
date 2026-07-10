@@ -16,12 +16,25 @@ body {
 }
 
 input[type="date"]::-webkit-calendar-picker-indicator,
-input[type="time"]::-webkit-calendar-picker-indicator {
-  filter: invert(0.8);
+input[type="time"]::-webkit-calendar-picker-indicator,
+input[type="datetime-local"]::-webkit-calendar-picker-indicator {
+  filter: invert(1) brightness(1.15);
+  opacity: 0.9;
   cursor: pointer;
+  padding: 2px;
+}
+
+input[type="date"]::-webkit-calendar-picker-indicator:hover,
+input[type="time"]::-webkit-calendar-picker-indicator:hover,
+input[type="datetime-local"]::-webkit-calendar-picker-indicator:hover {
+  opacity: 1;
+  filter: invert(48%) sepia(79%) saturate(2476%) hue-rotate(335deg)
+    brightness(98%) contrast(97%);
 }
 
 input[type="date"],
-input[type="time"] {
+input[type="time"],
+input[type="datetime-local"] {
   color-scheme: dark;
+  position: relative;
 }
