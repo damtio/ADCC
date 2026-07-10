@@ -22,7 +22,7 @@ export default async function HomePage() {
             </p>
             <div className="mt-8">
               <p className="mb-4 text-sm tracking-widest text-zinc-500 uppercase">
-                Countdown to ADCC Weekend
+                Countdown to ADCC 2026 — 12 September
               </p>
               <Countdown />
             </div>

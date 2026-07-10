@@ -40,4 +40,4 @@ export function formatPrice(
   return `${price} ${curr}`;
 }
 
-export const ADCC_WEEKEND_DATE = "2025-09-27";
+export const ADCC_WEEKEND_DATE = "2026-09-12";

@@ -34,7 +34,13 @@ export function Countdown() {
     return () => clearInterval(timer);
   }, []);
 
-  if (!timeLeft) return null;
+  if (!timeLeft) {
+    return (
+      <p className="text-lg font-semibold text-red-500">
+        ADCC Weekend is here!
+      </p>
+    );
+  }
 
   const units = [
     { label: "Days", value: timeLeft.days },

@@ -9,6 +9,7 @@ import {
   verifyPassword,
 } from "@/lib/auth";
 import { createSupabaseAdmin } from "@/lib/supabase-admin";
+import { uploadEventImage } from "@/lib/storage";
 import { slugify } from "@/lib/utils";
 import { EVENT_CATEGORIES, type EventCategory } from "@/types/event";
 
@@ -64,10 +65,22 @@ function parseEventFormData(formData: FormData) {
     registration_url: (formData.get("registration_url") as string) || null,
     facebook_url: (formData.get("facebook_url") as string) || null,
     instagram_url: (formData.get("instagram_url") as string) || null,
-    image_url: (formData.get("image_url") as string) || null,
     description: (formData.get("description") as string) || null,
     published,
   };
+}
+
+async function resolveImageUrl(
+  formData: FormData,
+  supabase: NonNullable<ReturnType<typeof createSupabaseAdmin>>,
+): Promise<string | null> {
+  const file = formData.get("image");
+  if (file instanceof File && file.size > 0) {
+    return uploadEventImage(supabase, file);
+  }
+
+  const existing = formData.get("existing_image_url") as string;
+  return existing || null;
 }
 
 export async function createEventAction(
@@ -88,9 +101,12 @@ export async function createEventAction(
       };
     }
 
+    const image_url = await resolveImageUrl(formData, supabase);
+
     const { error } = await supabase.from("events").insert({
       ...data,
       slug,
+      image_url,
     });
 
     if (error) return { error: error.message };
@@ -122,9 +138,16 @@ export async function updateEventAction(
       };
     }
 
+    const image_url = await resolveImageUrl(formData, supabase);
+
     const { error } = await supabase
       .from("events")
-      .update({ ...data, slug, updated_at: new Date().toISOString() })
+      .update({
+        ...data,
+        slug,
+        image_url,
+        updated_at: new Date().toISOString(),
+      })
       .eq("id", id);
 
     if (error) return { error: error.message };

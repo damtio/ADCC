@@ -1,5 +1,6 @@
 "use client";
 
+import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { useActionState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
@@ -29,7 +30,11 @@ export function EventForm({ event, action }: EventFormProps) {
   }, [state?.success, router]);
 
   return (
-    <form action={formAction} className="space-y-6">
+    <form
+      action={formAction}
+      encType="multipart/form-data"
+      className="space-y-6"
+    >
       {state?.error && (
         <div className="rounded-lg border border-red-800 bg-red-900/20 px-4 py-3 text-sm text-red-400">
           {state.error}
@@ -205,13 +210,35 @@ export function EventForm({ event, action }: EventFormProps) {
         </div>
 
         <div className="space-y-2 sm:col-span-2">
-          <Label htmlFor="image_url">Image URL</Label>
+          <Label htmlFor="image">Event Image</Label>
+          {event?.image_url && (
+            <div className="relative mb-2 h-40 w-full max-w-xs overflow-hidden rounded-lg border border-[#2B2B2B]">
+              <Image
+                src={event.image_url}
+                alt="Current event image"
+                fill
+                className="object-cover"
+                sizes="320px"
+              />
+            </div>
+          )}
           <Input
-            id="image_url"
-            name="image_url"
-            type="url"
-            defaultValue={event?.image_url ?? ""}
+            id="image"
+            name="image"
+            type="file"
+            accept="image/jpeg,image/png,image/webp,image/gif"
           />
+          <p className="text-xs text-zinc-500">
+            JPEG, PNG, WebP or GIF. Max 5 MB.
+            {event?.image_url && " Leave empty to keep current image."}
+          </p>
+          {event?.image_url && (
+            <input
+              type="hidden"
+              name="existing_image_url"
+              value={event.image_url}
+            />
+          )}
         </div>
 
         <div className="space-y-2 sm:col-span-2">
