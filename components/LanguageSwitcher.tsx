@@ -1,23 +1,26 @@
 "use client";
 
-import { useParams } from "next/navigation";
+import Link from "next/link";
+import { usePathname } from "next/navigation";
 import { useLocale } from "next-intl";
-import { Link, usePathname } from "@/i18n/navigation";
-import { routing } from "@/i18n/routing";
+import { routing, type Locale } from "@/i18n/routing";
 import { cn } from "@/lib/utils";
+
+function buildLocalizedHref(pathname: string, nextLocale: Locale): string {
+  const segments = pathname.split("/").filter(Boolean);
+
+  if (segments.length > 0 && routing.locales.includes(segments[0] as Locale)) {
+    segments[0] = nextLocale;
+  } else {
+    segments.unshift(nextLocale);
+  }
+
+  return `/${segments.join("/")}`;
+}
 
 export function LanguageSwitcher({ className }: { className?: string }) {
   const locale = useLocale();
   const pathname = usePathname();
-  const params = useParams();
-
-  const routeParams = { ...params };
-  delete routeParams.locale;
-  const href =
-    Object.keys(routeParams).length > 0
-      ? // eslint-disable-next-line @typescript-eslint/no-explicit-any
-        ({ pathname, params: routeParams } as any)
-      : pathname;
 
   return (
     <div
@@ -29,8 +32,7 @@ export function LanguageSwitcher({ className }: { className?: string }) {
       {routing.locales.map((loc) => (
         <Link
           key={loc}
-          href={href}
-          locale={loc}
+          href={buildLocalizedHref(pathname, loc)}
           className={cn(
             "rounded-md px-2.5 py-1 text-xs font-medium uppercase transition-colors",
             locale === loc
