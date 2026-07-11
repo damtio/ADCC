@@ -9,6 +9,7 @@ import { cn } from "@/lib/utils";
 const NAV_LINKS = [
   { href: "/", label: "Events" },
   { href: "/academies", label: "Academies" },
+  { href: "/krakow-orientation", label: "Orientation" },
   { href: "/submit-event", label: "Submit Event" },
 ] as const;
 
@@ -52,7 +53,7 @@ export function Navbar() {
         className={cn(
           "overflow-hidden border-t border-[#2B2B2B] transition-all duration-200 md:hidden",
           open
-            ? "max-h-48 opacity-100"
+            ? "max-h-56 opacity-100"
             : "max-h-0 border-t-transparent opacity-0",
         )}
         aria-hidden={!open}
