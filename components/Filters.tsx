@@ -1,5 +1,6 @@
 "use client";
 
+import { useTranslations } from "next-intl";
 import { SearchBox } from "@/components/SearchBox";
 import {
   Select,
@@ -36,16 +37,18 @@ export function Filters({
   onCityChange,
   onDateChange,
 }: FiltersProps) {
+  const t = useTranslations("events");
+
   return (
     <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
       <SearchBox value={search} onChange={onSearchChange} />
 
       <Select value={category || "all"} onValueChange={onCategoryChange}>
         <SelectTrigger>
-          <SelectValue placeholder="Category" />
+          <SelectValue placeholder={t("category")} />
         </SelectTrigger>
         <SelectContent>
-          <SelectItem value="all">All categories</SelectItem>
+          <SelectItem value="all">{t("allCategories")}</SelectItem>
           {EVENT_CATEGORIES.map((cat) => (
             <SelectItem key={cat} value={cat}>
               {cat}
@@ -56,10 +59,10 @@ export function Filters({
 
       <Select value={city || "all"} onValueChange={onCityChange}>
         <SelectTrigger>
-          <SelectValue placeholder="City" />
+          <SelectValue placeholder={t("city")} />
         </SelectTrigger>
         <SelectContent>
-          <SelectItem value="all">All cities</SelectItem>
+          <SelectItem value="all">{t("allCities")}</SelectItem>
           {cities.map((c) => (
             <SelectItem key={c} value={c}>
               {c}
@@ -70,10 +73,10 @@ export function Filters({
 
       <Select value={date || "all"} onValueChange={onDateChange}>
         <SelectTrigger>
-          <SelectValue placeholder="Date" />
+          <SelectValue placeholder={t("date")} />
         </SelectTrigger>
         <SelectContent>
-          <SelectItem value="all">All dates</SelectItem>
+          <SelectItem value="all">{t("allDates")}</SelectItem>
           {dates.map((d) => (
             <SelectItem key={d} value={d}>
               {formatDate(d)}

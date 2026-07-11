@@ -1,5 +1,6 @@
-import type { Metadata } from "next";
 import { Inter } from "next/font/google";
+import { NextIntlClientProvider } from "next-intl";
+import { getLocale, getMessages } from "next-intl/server";
 import { Footer } from "@/components/Footer";
 import { Navbar } from "@/components/Navbar";
 import "./globals.css";
@@ -9,46 +10,24 @@ const inter = Inter({
   variable: "--font-inter",
 });
 
-export const metadata: Metadata = {
-  title: {
-    default: "ADCC 2026 Kraków - Seminars and Events",
-    template: "%s | ADCC 2026 Kraków - Seminars and Events",
-  },
-  description:
-    "Find seminars, open mats and camps happening during ADCC weekend in Poland.",
-  openGraph: {
-    title: "ADCC 2026 Kraków - Seminars and Events",
-    description:
-      "Find seminars, open mats and camps happening during ADCC weekend in Poland.",
-    type: "website",
-    locale: "en_US",
-    siteName: "ADCC 2026 Kraków - Seminars and Events",
-  },
-  twitter: {
-    card: "summary_large_image",
-    title: "ADCC 2026 Kraków - Seminars and Events",
-    description:
-      "Find seminars, open mats and camps happening during ADCC weekend in Poland.",
-  },
-  robots: {
-    index: true,
-    follow: true,
-  },
-};
-
-export default function RootLayout({
+export default async function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  const locale = await getLocale();
+  const messages = await getMessages();
+
   return (
-    <html lang="en" className="dark">
+    <html lang={locale} className="dark">
       <body
         className={`${inter.variable} flex min-h-screen flex-col antialiased`}
       >
-        <Navbar />
-        <main className="flex-1">{children}</main>
-        <Footer />
+        <NextIntlClientProvider messages={messages}>
+          <Navbar />
+          <main className="flex-1">{children}</main>
+          <Footer />
+        </NextIntlClientProvider>
       </body>
     </html>
   );

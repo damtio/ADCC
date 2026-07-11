@@ -1,9 +1,12 @@
-import Image from "next/image";
-import Link from "next/link";
+"use client";
+
 import { Calendar, Clock, MapPin, User } from "lucide-react";
+import Image from "next/image";
+import { useTranslations } from "next-intl";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
+import { Link } from "@/i18n/navigation";
 import type { Event } from "@/types/event";
 import { formatDate, formatPrice, formatTime } from "@/lib/utils";
 
@@ -12,6 +15,8 @@ interface EventCardProps {
 }
 
 export function EventCard({ event }: EventCardProps) {
+  const t = useTranslations("events");
+
   return (
     <Card className="group overflow-hidden transition-all duration-300 hover:-translate-y-1 hover:border-red-600/40 hover:shadow-lg hover:shadow-red-900/10">
       <div className="relative aspect-[16/10] overflow-hidden bg-[#1a1a1a]">
@@ -74,7 +79,7 @@ export function EventCard({ event }: EventCardProps) {
             {formatPrice(event.price, event.currency)}
           </span>
           <Button asChild size="sm" variant="outline">
-            <Link href={`/event/${event.slug}`}>Details</Link>
+            <Link href={`/event/${event.slug}`}>{t("details")}</Link>
           </Button>
         </div>
       </CardContent>

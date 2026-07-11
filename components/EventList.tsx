@@ -1,5 +1,6 @@
 "use client";
 
+import { useTranslations } from "next-intl";
 import { useMemo, useState } from "react";
 import { EventCard } from "@/components/EventCard";
 import { Filters } from "@/components/Filters";
@@ -11,6 +12,7 @@ interface EventListProps {
 }
 
 export function EventList({ events }: EventListProps) {
+  const t = useTranslations("events");
   const [search, setSearch] = useState("");
   const [category, setCategory] = useState("");
   const [city, setCity] = useState("");
@@ -47,10 +49,8 @@ export function EventList({ events }: EventListProps) {
 
       {filteredEvents.length === 0 ? (
         <div className="rounded-xl border border-[#2B2B2B] bg-[#151515] py-16 text-center">
-          <p className="text-lg text-zinc-400">No events found.</p>
-          <p className="mt-1 text-sm text-zinc-600">
-            Try adjusting your filters.
-          </p>
+          <p className="text-lg text-zinc-400">{t("noResults")}</p>
+          <p className="mt-1 text-sm text-zinc-600">{t("tryFilters")}</p>
         </div>
       ) : (
         <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">

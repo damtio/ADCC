@@ -4,6 +4,7 @@ import type { Event } from "@/types/event";
 
 interface GoogleCalendarButtonProps {
   event: Event;
+  label: string;
 }
 
 function buildGoogleCalendarUrl(event: Event): string {
@@ -26,7 +27,10 @@ function buildGoogleCalendarUrl(event: Event): string {
   return `https://calendar.google.com/calendar/render?${params.toString()}`;
 }
 
-export function GoogleCalendarButton({ event }: GoogleCalendarButtonProps) {
+export function GoogleCalendarButton({
+  event,
+  label,
+}: GoogleCalendarButtonProps) {
   return (
     <Button asChild variant="outline" size="sm">
       <a
@@ -35,7 +39,7 @@ export function GoogleCalendarButton({ event }: GoogleCalendarButtonProps) {
         rel="noopener noreferrer"
       >
         <CalendarPlus className="h-4 w-4" />
-        Add to Calendar
+        {label}
       </a>
     </Button>
   );

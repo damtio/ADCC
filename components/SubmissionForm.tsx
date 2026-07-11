@@ -1,5 +1,6 @@
 "use client";
 
+import { useTranslations } from "next-intl";
 import { useActionState } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -17,15 +18,14 @@ interface SubmissionFormProps {
 }
 
 export function SubmissionForm({ action }: SubmissionFormProps) {
+  const t = useTranslations("submitEvent");
   const [state, formAction, isPending] = useActionState(action, null);
 
   if (state?.success) {
     return (
       <div className="rounded-xl border border-[#2B2B2B] bg-[#151515] p-8 text-center">
-        <h2 className="text-xl font-semibold text-white">Thank you!</h2>
-        <p className="mt-2 text-zinc-400">
-          Your event has been submitted and is awaiting review.
-        </p>
+        <h2 className="text-xl font-semibold text-white">{t("thankYou")}</h2>
+        <p className="mt-2 text-zinc-400">{t("successMessage")}</p>
       </div>
     );
   }
@@ -42,7 +42,6 @@ export function SubmissionForm({ action }: SubmissionFormProps) {
         </div>
       )}
 
-      {/* Honeypot — hidden from users */}
       <input
         type="text"
         name="website"
@@ -54,23 +53,23 @@ export function SubmissionForm({ action }: SubmissionFormProps) {
 
       <div className="grid gap-6 sm:grid-cols-2">
         <div className="space-y-2 sm:col-span-2">
-          <Label htmlFor="title">Title *</Label>
+          <Label htmlFor="title">{t("titleLabel")}</Label>
           <Input id="title" name="title" required />
         </div>
 
         <div className="space-y-2 sm:col-span-2">
-          <Label htmlFor="contact_email">Your Email *</Label>
+          <Label htmlFor="contact_email">{t("emailLabel")}</Label>
           <Input
             id="contact_email"
             name="contact_email"
             type="email"
             required
-            placeholder="contact@academy.com"
+            placeholder={t("emailPlaceholder")}
           />
         </div>
 
         <div className="space-y-2">
-          <Label htmlFor="category">Category *</Label>
+          <Label htmlFor="category">{t("categoryLabel")}</Label>
           <select
             id="category"
             name="category"
@@ -87,86 +86,84 @@ export function SubmissionForm({ action }: SubmissionFormProps) {
         </div>
 
         <div className="space-y-2">
-          <Label htmlFor="instructor">Instructor</Label>
+          <Label htmlFor="instructor">{t("instructorLabel")}</Label>
           <Input id="instructor" name="instructor" />
         </div>
 
         <div className="space-y-2">
-          <Label htmlFor="academy">Academy</Label>
+          <Label htmlFor="academy">{t("academyLabel")}</Label>
           <Input id="academy" name="academy" />
         </div>
 
         <div className="space-y-2">
-          <Label htmlFor="city">City</Label>
+          <Label htmlFor="city">{t("cityLabel")}</Label>
           <Input id="city" name="city" />
         </div>
 
         <div className="space-y-2 sm:col-span-2">
-          <Label htmlFor="address">Address</Label>
+          <Label htmlFor="address">{t("addressLabel")}</Label>
           <Input id="address" name="address" />
         </div>
 
         <div className="space-y-2">
-          <Label htmlFor="date">Date *</Label>
+          <Label htmlFor="date">{t("dateLabel")}</Label>
           <Input id="date" name="date" type="date" required />
         </div>
 
         <div className="space-y-2">
-          <Label htmlFor="start_time">Start Time</Label>
+          <Label htmlFor="start_time">{t("startTimeLabel")}</Label>
           <Input id="start_time" name="start_time" type="time" />
         </div>
 
         <div className="space-y-2">
-          <Label htmlFor="end_time">End Time</Label>
+          <Label htmlFor="end_time">{t("endTimeLabel")}</Label>
           <Input id="end_time" name="end_time" type="time" />
         </div>
 
         <div className="space-y-2">
-          <Label htmlFor="price">Price</Label>
+          <Label htmlFor="price">{t("priceLabel")}</Label>
           <Input id="price" name="price" type="number" step="0.01" min="0" />
         </div>
 
         <div className="space-y-2">
-          <Label htmlFor="currency">Currency</Label>
+          <Label htmlFor="currency">{t("currencyLabel")}</Label>
           <Input id="currency" name="currency" defaultValue="PLN" />
         </div>
 
         <div className="space-y-2 sm:col-span-2">
-          <Label htmlFor="registration_url">Registration URL</Label>
+          <Label htmlFor="registration_url">{t("registrationUrlLabel")}</Label>
           <Input id="registration_url" name="registration_url" type="url" />
         </div>
 
         <div className="space-y-2">
-          <Label htmlFor="facebook_url">Facebook URL</Label>
+          <Label htmlFor="facebook_url">{t("facebookUrlLabel")}</Label>
           <Input id="facebook_url" name="facebook_url" type="url" />
         </div>
 
         <div className="space-y-2">
-          <Label htmlFor="instagram_url">Instagram URL</Label>
+          <Label htmlFor="instagram_url">{t("instagramUrlLabel")}</Label>
           <Input id="instagram_url" name="instagram_url" type="url" />
         </div>
 
         <div className="space-y-2 sm:col-span-2">
-          <Label htmlFor="image">Event Image</Label>
+          <Label htmlFor="image">{t("imageLabel")}</Label>
           <Input
             id="image"
             name="image"
             type="file"
             accept="image/jpeg,image/png,image/webp,image/gif"
           />
-          <p className="text-xs text-zinc-500">
-            JPEG, PNG, WebP or GIF. Max 5 MB.
-          </p>
+          <p className="text-xs text-zinc-500">{t("imageHint")}</p>
         </div>
 
         <div className="space-y-2 sm:col-span-2">
-          <Label htmlFor="description">Description</Label>
+          <Label htmlFor="description">{t("descriptionLabel")}</Label>
           <Textarea id="description" name="description" rows={6} />
         </div>
       </div>
 
       <Button type="submit" disabled={isPending} className="w-full sm:w-auto">
-        {isPending ? "Submitting..." : "Submit Event"}
+        {isPending ? t("submitting") : t("submit")}
       </Button>
     </form>
   );

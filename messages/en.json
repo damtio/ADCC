@@ -1,0 +1,231 @@
+{
+  "metadata": {
+    "title": "ADCC 2026 Kraków - Seminars and Events",
+    "description": "Find seminars, open mats and camps happening during ADCC weekend in Poland."
+  },
+  "nav": {
+    "brand": "BJJ<highlight>Seminars & Events</highlight>",
+    "events": "Events",
+    "academies": "Academies",
+    "orientation": "Orientation",
+    "submitEvent": "Submit Event",
+    "openMenu": "Open menu",
+    "closeMenu": "Close menu"
+  },
+  "footer": {
+    "copyright": "BJJ Around ADCC Poland",
+    "tagline": "Find seminars, open mats and camps during ADCC weekend."
+  },
+  "home": {
+    "title": "BJJ Seminars <highlight>ADCC2026</highlight> Kraków, Poland",
+    "subtitle": "Find seminars, open mats and after parties during ADCC weekend.",
+    "countdownLabel": "Countdown to ADCC 2026 — 12 September",
+    "upcomingEvents": "Upcoming Events"
+  },
+  "events": {
+    "noResults": "No events found.",
+    "tryFilters": "Try adjusting your filters.",
+    "searchPlaceholder": "Search by title, instructor or academy...",
+    "category": "Category",
+    "allCategories": "All categories",
+    "city": "City",
+    "allCities": "All cities",
+    "date": "Date",
+    "allDates": "All dates",
+    "details": "Details"
+  },
+  "eventPage": {
+    "notFound": "Event Not Found",
+    "backToEvents": "Back to events",
+    "instructor": "Instructor",
+    "organizer": "Organizer",
+    "date": "Date",
+    "time": "Time",
+    "location": "Location",
+    "price": "Price",
+    "about": "About",
+    "register": "Register",
+    "openInMaps": "Open in Maps",
+    "addToCalendar": "Add to Calendar",
+    "share": "Share"
+  },
+  "academies": {
+    "title": "BJJ Academies in <highlight>Kraków</highlight>",
+    "subtitle": "Find academies, contact details and locations around the city.",
+    "empty": "No academies listed yet.",
+    "openInMaps": "Open in Maps"
+  },
+  "orientation": {
+    "title": "Kraków <highlight>Orientation</highlight>",
+    "subtitle": "A quick guide for visitors — how to move around the city, reach academies and make the most of ADCC weekend.",
+    "onThisPage": "On this page",
+    "tipLabel": "Tip:",
+    "sections": [
+      {
+        "id": "overview",
+        "title": "Overview",
+        "blocks": [
+          {
+            "type": "paragraph",
+            "text": "Kraków is compact and visitor-friendly. Most seminars and academies are spread across Podgórze, Kazimierz and districts south of the centre — all reachable by tram, bus or a short taxi ride from the Old Town."
+          },
+          {
+            "type": "paragraph",
+            "text": "During ADCC weekend, plan extra travel time on Friday evening and Saturday morning. Major venues and training spots are rarely in the strict city centre, so check addresses before you leave."
+          },
+          {
+            "type": "tip",
+            "text": "Save offline maps and your academy or event address in Google Maps before heading out — mobile signal can be weak in basements and sports halls."
+          }
+        ]
+      },
+      {
+        "id": "airport",
+        "title": "From the airport",
+        "blocks": [
+          {
+            "type": "paragraph",
+            "text": "John Paul II Kraków-Balice Airport (KRK) is about 12 km west of the city centre. Trains and buses run regularly; taxis and ride apps are available at the terminal."
+          },
+          {
+            "type": "list",
+            "items": [
+              "Train (Koleje Małopolskie): Balice → Kraków Główny, ~20 min, tickets at station or via Jakdojade / MDA.",
+              "Bus 208 / 209 / 902: to centre or Dworzec Główny — check current weekend timetable.",
+              "Taxi / Bolt / Uber: ~15–25 min to centre, typically 50–80 PLN depending on traffic."
+            ]
+          },
+          {
+            "type": "tip",
+            "text": "Official airport taxis use a fixed zone fare. Avoid unlicensed drivers in the arrivals hall."
+          }
+        ]
+      },
+      {
+        "id": "public-transport",
+        "title": "Trams & buses",
+        "blocks": [
+          {
+            "type": "paragraph",
+            "text": "MPK Kraków runs trams and buses across the city. Lines 6, 8, 10, 11 and 13 are useful for reaching Podgórze and Kazimierz from the centre."
+          },
+          {
+            "type": "list",
+            "items": [
+              "Use Jakdojade (app or jakdojade.pl) for live routes — it works well in Kraków.",
+              "Validate every ticket immediately after boarding (yellow or orange validators).",
+              "Night buses (prefix N) run when trams stop, mainly on weekends.",
+              "Last tram times vary by line — plan your return if seminars run late."
+            ]
+          }
+        ]
+      },
+      {
+        "id": "tickets",
+        "title": "Tickets & payment",
+        "blocks": [
+          {
+            "type": "paragraph",
+            "text": "Single and short-term tickets cover trams and buses within the city. Buy at machines (card/cash), kiosks, or in the Jakdojade app."
+          },
+          {
+            "type": "list",
+            "items": [
+              "20-min / 40-min / 60-min tickets — choose based on transfers.",
+              "24h / 48h / 72h city passes — good value if you ride often.",
+              "Reduced fares apply for students with valid ISIC — carry ID.",
+              "Inspectors check tickets; fines are high for travelling without one."
+            ]
+          }
+        ]
+      },
+      {
+        "id": "taxis",
+        "title": "Taxis & ride apps",
+        "blocks": [
+          {
+            "type": "paragraph",
+            "text": "Bolt and Uber operate widely. Licensed street taxis (e.g. iTaxi, Radio Taxi) are also reliable if you call or use their apps."
+          },
+          {
+            "type": "list",
+            "items": [
+              "Always confirm the car plate matches the app before getting in.",
+              "Cash and card are usually accepted in apps; ask for card if paying a street taxi.",
+              "Peak times around Kazimierz and the Main Square can mean surge pricing."
+            ]
+          },
+          {
+            "type": "tip",
+            "text": "For early-morning seminars, pre-book a ride — fewer trams run before 5:00."
+          }
+        ]
+      },
+      {
+        "id": "districts",
+        "title": "Key districts",
+        "blocks": [
+          {
+            "type": "paragraph",
+            "text": "Most BJJ visitors spend time in these areas. Distances look small on a map but account for hills, one-way streets and tram detours."
+          },
+          {
+            "type": "list",
+            "items": [
+              "Stare Miasto / Kazimierz — hotels, food, evening social scene.",
+              "Podgórze & Zabłocie — many academies, creative district, walkable from Kazimierz.",
+              "Prokocim / Płaszów / Bieżanów — southern clubs; tram or taxi from centre.",
+              "Prądnik Czerwony — north-east; tram lines 4, 14, 15 from centre."
+            ]
+          }
+        ]
+      },
+      {
+        "id": "essentials",
+        "title": "Essentials",
+        "blocks": [
+          {
+            "type": "list",
+            "items": [
+              "Emergency: 112 (EU) · Police: 997 · Ambulance: 999",
+              "Currency: PLN (złoty) — cards widely accepted; carry some cash for small shops.",
+              "Language: English works in gyms and tourist areas; a few Polish phrases help.",
+              "Power: Type C/E plugs, 230 V — same as most of continental Europe."
+            ]
+          },
+          {
+            "type": "tip",
+            "text": "See our Academies page for club addresses and maps once you know which area you are training in."
+          }
+        ]
+      }
+    ]
+  },
+  "submitEvent": {
+    "title": "Submit an Event",
+    "subtitle": "Propose a seminar, open mat or afterparty for ADCC 2026 weekend. Submissions are reviewed before publishing.",
+    "thankYou": "Thank you!",
+    "successMessage": "Your event has been submitted and is awaiting review.",
+    "titleLabel": "Title *",
+    "emailLabel": "Your Email *",
+    "emailPlaceholder": "contact@academy.com",
+    "categoryLabel": "Category *",
+    "instructorLabel": "Instructor",
+    "academyLabel": "Academy",
+    "cityLabel": "City",
+    "addressLabel": "Address",
+    "dateLabel": "Date *",
+    "startTimeLabel": "Start Time",
+    "endTimeLabel": "End Time",
+    "priceLabel": "Price",
+    "currencyLabel": "Currency",
+    "registrationUrlLabel": "Registration URL",
+    "facebookUrlLabel": "Facebook URL",
+    "instagramUrlLabel": "Instagram URL",
+    "imageLabel": "Event Image",
+    "imageHint": "JPEG, PNG, WebP or GIF. Max 5 MB.",
+    "descriptionLabel": "Description",
+    "submitting": "Submitting...",
+    "submit": "Submit Event"
+  }
+}

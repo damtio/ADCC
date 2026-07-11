@@ -1,6 +1,12 @@
-import type { OrientationBlock } from "@/data/krakow-orientation";
+import type { OrientationBlock } from "@/types/orientation";
 
-function OrientationBlockView({ block }: { block: OrientationBlock }) {
+function OrientationBlockView({
+  block,
+  tipLabel,
+}: {
+  block: OrientationBlock;
+  tipLabel: string;
+}) {
   if (block.type === "paragraph" && block.text) {
     return <p className="leading-relaxed text-zinc-400">{block.text}</p>;
   }
@@ -20,7 +26,7 @@ function OrientationBlockView({ block }: { block: OrientationBlock }) {
   if (block.type === "tip" && block.text) {
     return (
       <div className="rounded-lg border border-red-900/40 bg-red-950/20 px-4 py-3 text-sm text-red-200/90">
-        <span className="font-medium text-red-400">Tip: </span>
+        <span className="font-medium text-red-400">{tipLabel} </span>
         {block.text}
       </div>
     );
@@ -33,19 +39,25 @@ interface OrientationSectionViewProps {
   id: string;
   title: string;
   blocks: OrientationBlock[];
+  tipLabel: string;
 }
 
 export function OrientationSectionView({
   id,
   title,
   blocks,
+  tipLabel,
 }: OrientationSectionViewProps) {
   return (
     <section id={id} className="scroll-mt-28 space-y-4 lg:scroll-mt-24">
       <h2 className="text-xl font-semibold text-white">{title}</h2>
       <div className="space-y-4">
         {blocks.map((block, index) => (
-          <OrientationBlockView key={`${id}-${index}`} block={block} />
+          <OrientationBlockView
+            key={`${id}-${index}`}
+            block={block}
+            tipLabel={tipLabel}
+          />
         ))}
       </div>
     </section>

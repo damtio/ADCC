@@ -1,4 +1,7 @@
+"use client";
+
 import { ExternalLink, Globe, Mail, MapPin, Phone } from "lucide-react";
+import { useTranslations } from "next-intl";
 import { MapPreview } from "@/components/MapPreview";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
@@ -20,6 +23,8 @@ function hasCoordinates(academy: Academy): academy is Academy & {
 }
 
 export function AcademyCard({ academy }: AcademyCardProps) {
+  const t = useTranslations("academies");
+
   return (
     <Card className="group overflow-hidden transition-all duration-300 hover:-translate-y-1 hover:border-red-600/40 hover:shadow-lg hover:shadow-red-900/10">
       <CardContent className="space-y-4 p-5">
@@ -85,7 +90,7 @@ export function AcademyCard({ academy }: AcademyCardProps) {
                 rel="noopener noreferrer"
               >
                 <ExternalLink className="h-4 w-4" />
-                Open in Maps
+                {t("openInMaps")}
               </a>
             </Button>
           </>

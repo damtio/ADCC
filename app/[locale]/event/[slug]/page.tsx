@@ -8,20 +8,21 @@ import {
 } from "lucide-react";
 import type { Metadata } from "next";
 import Image from "next/image";
-import Link from "next/link";
 import { notFound } from "next/navigation";
+import { getTranslations } from "next-intl/server";
 import { GoogleCalendarButton } from "@/components/GoogleCalendarButton";
 import { MapPreview } from "@/components/MapPreview";
 import { ShareButton } from "@/components/ShareButton";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
+import { Link } from "@/i18n/navigation";
 import { getEventBySlug } from "@/lib/supabase";
 import { formatDate, formatPrice, formatTime } from "@/lib/utils";
 
 export const dynamic = "force-dynamic";
 
 interface EventPageProps {
-  params: Promise<{ slug: string }>;
+  params: Promise<{ locale: string; slug: string }>;
 }
 
 export async function generateMetadata({
@@ -29,9 +30,10 @@ export async function generateMetadata({
 }: EventPageProps): Promise<Metadata> {
   const { slug } = await params;
   const event = await getEventBySlug(slug);
+  const t = await getTranslations("eventPage");
 
   if (!event) {
-    return { title: "Event Not Found" };
+    return { title: t("notFound") };
   }
 
   return {
@@ -60,13 +62,14 @@ function buildMapsUrl(event: {
 }
 
 export default async function EventPage({ params }: EventPageProps) {
-  const { slug } = await params;
+  const { locale, slug } = await params;
   const event = await getEventBySlug(slug);
+  const t = await getTranslations("eventPage");
 
   if (!event) notFound();
 
   const siteUrl = process.env.URL || "https://bjj-around-adcc.netlify.app";
-  const eventUrl = `${siteUrl}/event/${event.slug}`;
+  const eventUrl = `${siteUrl}/${locale}/event/${event.slug}`;
 
   const jsonLd = {
     "@context": "https://schema.org",
@@ -118,7 +121,7 @@ export default async function EventPage({ params }: EventPageProps) {
           href="/"
           className="mb-6 inline-block text-sm text-zinc-500 transition-colors hover:text-red-500"
         >
-          &larr; Back to events
+          &larr; {t("backToEvents")}
         </Link>
 
         <div className="relative mb-8 aspect-[16/9] overflow-hidden rounded-xl border border-[#2B2B2B] bg-[#151515]">
@@ -152,7 +155,7 @@ export default async function EventPage({ params }: EventPageProps) {
                 <User className="mt-0.5 h-5 w-5 shrink-0 text-red-500" />
                 <div>
                   <p className="text-xs tracking-wider text-zinc-500 uppercase">
-                    Instructor
+                    {t("instructor")}
                   </p>
                   <p className="text-white">{event.instructor}</p>
                 </div>
@@ -163,7 +166,7 @@ export default async function EventPage({ params }: EventPageProps) {
                 <Users className="mt-0.5 h-5 w-5 shrink-0 text-red-500" />
                 <div>
                   <p className="text-xs tracking-wider text-zinc-500 uppercase">
-                    Organizer
+                    {t("organizer")}
                   </p>
                   <p className="text-white">{event.organizer}</p>
                 </div>
@@ -173,7 +176,7 @@ export default async function EventPage({ params }: EventPageProps) {
               <Calendar className="mt-0.5 h-5 w-5 shrink-0 text-red-500" />
               <div>
                 <p className="text-xs tracking-wider text-zinc-500 uppercase">
-                  Date
+                  {t("date")}
                 </p>
                 <p className="text-white">{formatDate(event.date)}</p>
               </div>
@@ -183,7 +186,7 @@ export default async function EventPage({ params }: EventPageProps) {
                 <Clock className="mt-0.5 h-5 w-5 shrink-0 text-red-500" />
                 <div>
                   <p className="text-xs tracking-wider text-zinc-500 uppercase">
-                    Time
+                    {t("time")}
                   </p>
                   <p className="text-white">
                     {formatTime(event.start_time)}
@@ -197,7 +200,7 @@ export default async function EventPage({ params }: EventPageProps) {
                 <MapPin className="mt-0.5 h-5 w-5 shrink-0 text-red-500" />
                 <div>
                   <p className="text-xs tracking-wider text-zinc-500 uppercase">
-                    Location
+                    {t("location")}
                   </p>
                   <p className="text-white">
                     {[event.academy, event.address, event.city]
@@ -213,7 +216,7 @@ export default async function EventPage({ params }: EventPageProps) {
               </div>
               <div>
                 <p className="text-xs tracking-wider text-zinc-500 uppercase">
-                  Price
+                  {t("price")}
                 </p>
                 <p className="text-lg font-semibold text-red-400">
                   {formatPrice(event.price, event.currency)}
@@ -224,7 +227,7 @@ export default async function EventPage({ params }: EventPageProps) {
 
           {event.description && (
             <div className="prose prose-invert max-w-none">
-              <h2 className="text-xl font-semibold text-white">About</h2>
+              <h2 className="text-xl font-semibold text-white">{t("about")}</h2>
               <p className="whitespace-pre-wrap text-zinc-300">
                 {event.description}
               </p>
@@ -248,7 +251,7 @@ export default async function EventPage({ params }: EventPageProps) {
                   rel="noopener noreferrer"
                 >
                   <ExternalLink className="h-4 w-4" />
-                  Register
+                  {t("register")}
                 </a>
               </Button>
             )}
@@ -259,11 +262,15 @@ export default async function EventPage({ params }: EventPageProps) {
                 rel="noopener noreferrer"
               >
                 <MapPin className="h-4 w-4" />
-                Open in Maps
+                {t("openInMaps")}
               </a>
             </Button>
-            <GoogleCalendarButton event={event} />
-            <ShareButton title={event.title} url={eventUrl} />
+            <GoogleCalendarButton event={event} label={t("addToCalendar")} />
+            <ShareButton
+              title={event.title}
+              url={eventUrl}
+              label={t("share")}
+            />
             {event.facebook_url && (
               <Button asChild variant="outline" size="sm">
                 <a

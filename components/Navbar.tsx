@@ -1,22 +1,26 @@
 "use client";
 
 import { Menu, X } from "lucide-react";
-import Link from "next/link";
+import { useTranslations } from "next-intl";
 import { useState } from "react";
+import { LanguageSwitcher } from "@/components/LanguageSwitcher";
 import { Button } from "@/components/ui/button";
+import { Link } from "@/i18n/navigation";
+import { highlightTag } from "@/lib/i18n-rich";
 import { cn } from "@/lib/utils";
 
 const NAV_LINKS = [
-  { href: "/", label: "Events" },
-  { href: "/academies", label: "Academies" },
-  { href: "/krakow-orientation", label: "Orientation" },
-  { href: "/submit-event", label: "Submit Event" },
-] as const;
+  { href: "/", labelKey: "events" as const },
+  { href: "/academies", labelKey: "academies" as const },
+  { href: "/krakow-orientation", labelKey: "orientation" as const },
+  { href: "/submit-event", labelKey: "submitEvent" as const },
+];
 
 const linkClassName =
   "text-sm text-zinc-400 transition-colors hover:text-white";
 
 export function Navbar() {
+  const t = useTranslations("nav");
   const [open, setOpen] = useState(false);
 
   return (
@@ -24,36 +28,39 @@ export function Navbar() {
       <div className="mx-auto flex h-16 max-w-7xl items-center justify-between px-4 sm:px-6 lg:px-8">
         <Link href="/" className="group flex items-center gap-2">
           <span className="text-lg font-bold tracking-tight text-white transition-colors group-hover:text-red-500">
-            BJJ<span className="text-red-500">Seminars & Events</span>
+            {t.rich("brand", highlightTag)}
           </span>
         </Link>
 
         <nav className="hidden items-center gap-4 md:flex">
           {NAV_LINKS.map((link) => (
             <Link key={link.href} href={link.href} className={linkClassName}>
-              {link.label}
+              {t(link.labelKey)}
             </Link>
           ))}
+          <LanguageSwitcher />
         </nav>
 
-        <Button
-          type="button"
-          variant="ghost"
-          size="icon"
-          className="md:hidden"
-          onClick={() => setOpen((prev) => !prev)}
-          aria-expanded={open}
-          aria-label={open ? "Close menu" : "Open menu"}
-        >
-          {open ? <X /> : <Menu />}
-        </Button>
+        <div className="flex items-center gap-2 md:hidden">
+          <LanguageSwitcher />
+          <Button
+            type="button"
+            variant="ghost"
+            size="icon"
+            onClick={() => setOpen((prev) => !prev)}
+            aria-expanded={open}
+            aria-label={open ? t("closeMenu") : t("openMenu")}
+          >
+            {open ? <X /> : <Menu />}
+          </Button>
+        </div>
       </div>
 
       <nav
         className={cn(
           "overflow-hidden border-t border-[#2B2B2B] transition-all duration-200 md:hidden",
           open
-            ? "max-h-56 opacity-100"
+            ? "max-h-64 opacity-100"
             : "max-h-0 border-t-transparent opacity-0",
         )}
         aria-hidden={!open}
@@ -69,7 +76,7 @@ export function Navbar() {
               )}
               onClick={() => setOpen(false)}
             >
-              {link.label}
+              {t(link.labelKey)}
             </Link>
           ))}
         </div>

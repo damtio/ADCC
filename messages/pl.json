@@ -1,0 +1,231 @@
+{
+  "metadata": {
+    "title": "ADCC 2026 Kraków - Seminaria i wydarzenia",
+    "description": "Znajdź seminaria, open maty i obozy podczas weekendu ADCC w Polsce."
+  },
+  "nav": {
+    "brand": "BJJ<highlight>Seminaria i wydarzenia</highlight>",
+    "events": "Wydarzenia",
+    "academies": "Akademie",
+    "orientation": "Orientacja",
+    "submitEvent": "Zgłoś wydarzenie",
+    "openMenu": "Otwórz menu",
+    "closeMenu": "Zamknij menu"
+  },
+  "footer": {
+    "copyright": "BJJ Around ADCC Poland",
+    "tagline": "Seminaria, open maty i obozy podczas weekendu ADCC."
+  },
+  "home": {
+    "title": "Seminaria BJJ <highlight>ADCC2026</highlight> Kraków, Polska",
+    "subtitle": "Znajdź seminaria, open maty i after party podczas weekendu ADCC.",
+    "countdownLabel": "Odliczanie do ADCC 2026 — 12 września",
+    "upcomingEvents": "Nadchodzące wydarzenia"
+  },
+  "events": {
+    "noResults": "Nie znaleziono wydarzeń.",
+    "tryFilters": "Spróbuj zmienić filtry.",
+    "searchPlaceholder": "Szukaj po tytule, instruktorze lub akademii...",
+    "category": "Kategoria",
+    "allCategories": "Wszystkie kategorie",
+    "city": "Miasto",
+    "allCities": "Wszystkie miasta",
+    "date": "Data",
+    "allDates": "Wszystkie daty",
+    "details": "Szczegóły"
+  },
+  "eventPage": {
+    "notFound": "Nie znaleziono wydarzenia",
+    "backToEvents": "Wróć do wydarzeń",
+    "instructor": "Instruktor",
+    "organizer": "Organizator",
+    "date": "Data",
+    "time": "Godzina",
+    "location": "Lokalizacja",
+    "price": "Cena",
+    "about": "Opis",
+    "register": "Rejestracja",
+    "openInMaps": "Otwórz w Mapach",
+    "addToCalendar": "Dodaj do kalendarza",
+    "share": "Udostępnij"
+  },
+  "academies": {
+    "title": "Akademie BJJ w <highlight>Krakowie</highlight>",
+    "subtitle": "Adresy, kontakt i lokalizacje akademii w mieście.",
+    "empty": "Brak akademii na liście.",
+    "openInMaps": "Otwórz w Mapach"
+  },
+  "orientation": {
+    "title": "Orientacja — <highlight>Kraków</highlight>",
+    "subtitle": "Krótki przewodnik dla gości — jak poruszać się po mieście, dojechać na treningi i wykorzystać weekend ADCC.",
+    "onThisPage": "Na tej stronie",
+    "tipLabel": "Wskazówka:",
+    "sections": [
+      {
+        "id": "overview",
+        "title": "Wprowadzenie",
+        "blocks": [
+          {
+            "type": "paragraph",
+            "text": "Kraków jest kompaktowy i przyjazny turystom. Większość seminariów i akademii leży na Podgórzu, Kazimierzu i w południowych dzielnicach — wszystko w zasięgu tramwaju, autobusu lub krótkiej taksówki ze Starego Miasta."
+          },
+          {
+            "type": "paragraph",
+            "text": "W weekend ADCC zaplanuj więcej czasu na dojazdy w piątkowy wieczór i sobotni poranek. Sale treningowe rzadko są w samym centrum — sprawdź adres przed wyjściem."
+          },
+          {
+            "type": "tip",
+            "text": "Zapisz mapy offline i adres akademii lub wydarzenia w Google Maps — w piwnicach i halach zasięg bywa słaby."
+          }
+        ]
+      },
+      {
+        "id": "airport",
+        "title": "Z lotniska",
+        "blocks": [
+          {
+            "type": "paragraph",
+            "text": "Port Lotniczy Kraków-Balice im. Jana Pawła II (KRK) leży ok. 12 km na zachód od centrum. Kursują pociągi i autobusy; przy terminalu są taksówki i aplikacje."
+          },
+          {
+            "type": "list",
+            "items": [
+              "Pociąg (Koleje Małopolskie): Balice → Kraków Główny, ~20 min, bilety na stacji lub w Jakdojade / MDA.",
+              "Autobus 208 / 209 / 902: do centrum lub Dworca Głównego — sprawdź rozkład na weekend.",
+              "Taxi / Bolt / Uber: ~15–25 min do centrum, zwykle 50–80 PLN w zależności od korków."
+            ]
+          },
+          {
+            "type": "tip",
+            "text": "Oficjalne taksówki lotniskowe mają strefowe stawki. Unikaj nielegalnych kierowców w hali przylotów."
+          }
+        ]
+      },
+      {
+        "id": "public-transport",
+        "title": "Tramwaje i autobusy",
+        "blocks": [
+          {
+            "type": "paragraph",
+            "text": "MPK Kraków obsługuje tramwaje i autobusy w całym mieście. Linie 6, 8, 10, 11 i 13 są przydatne na Podgórze i Kazimierz z centrum."
+          },
+          {
+            "type": "list",
+            "items": [
+              "Używaj Jakdojade (aplikacja lub jakdojade.pl) — działa bardzo dobrze w Krakowie.",
+              "Kasuj bilet zaraz po wejściu (żółte lub pomarańczowe kasowniki).",
+              "Autobusy nocne (prefiks N) jeżdżą, gdy tramwaje nie — głównie w weekendy.",
+              "Ostatnie tramwaje zależą od linii — zaplanuj powrót, jeśli seminarium kończy się późno."
+            ]
+          }
+        ]
+      },
+      {
+        "id": "tickets",
+        "title": "Bilety i płatności",
+        "blocks": [
+          {
+            "type": "paragraph",
+            "text": "Bilety jednorazowe i czasowe obejmują tramwaje i autobusy w granicach miasta. Kupisz w automatach (karta/gotówka), kioskach lub w aplikacji Jakdojade."
+          },
+          {
+            "type": "list",
+            "items": [
+              "Bilety 20 / 40 / 60 min — wybierz według liczby przesiadek.",
+              "Karnety 24h / 48h / 72h — opłacalne przy częstych przejazdach.",
+              "Ulgi dla studentów z ważną ISIC — miej przy sobie dokument.",
+              "Kontrolerzy sprawdzają bilety; mandaty za jazdę bez ważnego biletu są wysokie."
+            ]
+          }
+        ]
+      },
+      {
+        "id": "taxis",
+        "title": "Taksówki i aplikacje",
+        "blocks": [
+          {
+            "type": "paragraph",
+            "text": "Bolt i Uber działają szeroko. Licencjonowane taksówki (np. iTaxi, Radio Taxi) też są niezawodne przez aplikację lub telefon."
+          },
+          {
+            "type": "list",
+            "items": [
+              "Sprawdź numer rejestracyjny auta z aplikacją przed wsiadaniem.",
+              "W aplikacjach zwykle płacisz kartą lub gotówką; w taksówce ulicznej poproś o kartę.",
+              "Szczyt w okolicach Kazimierza i Rynku może podnieść ceny w aplikacjach."
+            ]
+          },
+          {
+            "type": "tip",
+            "text": "Na poranne seminaria zamów przejazd z wyprzedzeniem — przed 5:00 jeździ mało tramwajów."
+          }
+        ]
+      },
+      {
+        "id": "districts",
+        "title": "Kluczowe dzielnice",
+        "blocks": [
+          {
+            "type": "paragraph",
+            "text": "Większość gości BJJ spędza czas w tych rejonach. Odległości na mapie wyglądają na małe, ale licz się ze wzniesieniami, ulicami jednokierunkowymi i objazdami tramwajów."
+          },
+          {
+            "type": "list",
+            "items": [
+              "Stare Miasto / Kazimierz — hotele, jedzenie, wieczorne spotkania.",
+              "Podgórze i Zabłocie — wiele akademii, dzielnica kreatywna, spacer z Kazimierza.",
+              "Prokocim / Płaszów / Bieżanów — kluby na południu; tramwaj lub taxi z centrum.",
+              "Prądnik Czerwony — północny wschód; tramwaje 4, 14, 15 z centrum."
+            ]
+          }
+        ]
+      },
+      {
+        "id": "essentials",
+        "title": "Podstawy",
+        "blocks": [
+          {
+            "type": "list",
+            "items": [
+              "Pogotowie: 112 (UE) · Policja: 997 · Pogotowie ratunkowe: 999",
+              "Waluta: PLN (złoty) — karty powszechne; miej trochę gotówki na małe sklepy.",
+              "Język: w siłowniach i turystycznych miejscach angielski wystarczy; kilka polskich zwrotów się przyda.",
+              "Gniazdka: typ C/E, 230 V — jak w większości Europy."
+            ]
+          },
+          {
+            "type": "tip",
+            "text": "Zobacz stronę Akademie — adresy klubów i mapy, gdy wiesz już, w której części miasta trenujesz."
+          }
+        ]
+      }
+    ]
+  },
+  "submitEvent": {
+    "title": "Zgłoś wydarzenie",
+    "subtitle": "Zaproponuj seminarium, open mat lub after party na weekend ADCC 2026. Zgłoszenia są weryfikowane przed publikacją.",
+    "thankYou": "Dziękujemy!",
+    "successMessage": "Wydarzenie zostało zgłoszone i oczekuje na weryfikację.",
+    "titleLabel": "Tytuł *",
+    "emailLabel": "Twój e-mail *",
+    "emailPlaceholder": "kontakt@akademia.pl",
+    "categoryLabel": "Kategoria *",
+    "instructorLabel": "Instruktor",
+    "academyLabel": "Akademia",
+    "cityLabel": "Miasto",
+    "addressLabel": "Adres",
+    "dateLabel": "Data *",
+    "startTimeLabel": "Godzina rozpoczęcia",
+    "endTimeLabel": "Godzina zakończenia",
+    "priceLabel": "Cena",
+    "currencyLabel": "Waluta",
+    "registrationUrlLabel": "Link do rejestracji",
+    "facebookUrlLabel": "Link Facebook",
+    "instagramUrlLabel": "Link Instagram",
+    "imageLabel": "Zdjęcie wydarzenia",
+    "imageHint": "JPEG, PNG, WebP lub GIF. Maks. 5 MB.",
+    "descriptionLabel": "Opis",
+    "submitting": "Wysyłanie...",
+    "submit": "Wyślij zgłoszenie"
+  }
+}
