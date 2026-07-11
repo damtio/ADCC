@@ -29,21 +29,26 @@ export function LanguageSwitcher({ className }: { className?: string }) {
         className,
       )}
     >
-      {routing.locales.map((loc) => (
-        <Link
-          key={loc}
-          href={buildLocalizedHref(pathname, loc)}
-          className={cn(
-            "rounded-md px-2.5 py-1 text-xs font-medium uppercase transition-colors",
-            locale === loc
-              ? "bg-red-600 text-white"
-              : "text-zinc-400 hover:text-white",
-          )}
-          aria-current={locale === loc ? "page" : undefined}
-        >
-          {loc}
-        </Link>
-      ))}
+      {routing.locales.map((loc) => {
+        const isActive = locale === loc;
+
+        return (
+          <Link
+            key={loc}
+            href={buildLocalizedHref(pathname, loc)}
+            prefetch={false}
+            className={cn(
+              "rounded-md px-2.5 py-1 text-xs font-medium uppercase transition-colors",
+              isActive
+                ? "bg-red-600 text-white"
+                : "text-zinc-400 hover:text-white",
+            )}
+            aria-current={isActive ? "page" : undefined}
+          >
+            {loc}
+          </Link>
+        );
+      })}
     </div>
   );
 }
