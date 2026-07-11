@@ -1,18 +1,23 @@
 "use client";
 
+import { useParams } from "next/navigation";
 import { useLocale } from "next-intl";
-import { usePathname, useRouter } from "@/i18n/navigation";
-import { routing, type Locale } from "@/i18n/routing";
+import { Link, usePathname } from "@/i18n/navigation";
+import { routing } from "@/i18n/routing";
 import { cn } from "@/lib/utils";
 
 export function LanguageSwitcher({ className }: { className?: string }) {
   const locale = useLocale();
-  const router = useRouter();
   const pathname = usePathname();
+  const params = useParams();
 
-  function switchLocale(nextLocale: Locale) {
-    router.replace(pathname, { locale: nextLocale });
-  }
+  const routeParams = { ...params };
+  delete routeParams.locale;
+  const href =
+    Object.keys(routeParams).length > 0
+      ? // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        ({ pathname, params: routeParams } as any)
+      : pathname;
 
   return (
     <div
@@ -22,19 +27,20 @@ export function LanguageSwitcher({ className }: { className?: string }) {
       )}
     >
       {routing.locales.map((loc) => (
-        <button
+        <Link
           key={loc}
-          type="button"
-          onClick={() => switchLocale(loc)}
+          href={href}
+          locale={loc}
           className={cn(
             "rounded-md px-2.5 py-1 text-xs font-medium uppercase transition-colors",
             locale === loc
               ? "bg-red-600 text-white"
               : "text-zinc-400 hover:text-white",
           )}
+          aria-current={locale === loc ? "page" : undefined}
         >
           {loc}
-        </button>
+        </Link>
       ))}
     </div>
   );
