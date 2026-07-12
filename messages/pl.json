@@ -227,5 +227,14 @@
     "descriptionLabel": "Opis",
     "submitting": "Wysyłanie...",
     "submit": "Wyślij zgłoszenie"
+  },
+  "whatsappPopup": {
+    "title": "Społeczność ADCC 2026",
+    "description": "Bądź w kontakcie z innymi uczestnikami ADCC 2026 — dziel się wiedzą o seminarach, umawiaj treningi albo po prostu spotykajcie się w Krakowie po wydarzeniu.",
+    "scanHint": "Zeskanuj, aby dołączyć na WhatsApp",
+    "joinButton": "Dołącz do grupy WhatsApp",
+    "laterButton": "Może później",
+    "close": "Zamknij",
+    "reopen": "Otwórz popup społeczności WhatsApp"
   }
 }

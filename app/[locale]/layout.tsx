@@ -8,6 +8,7 @@ import {
 import { notFound } from "next/navigation";
 import { Footer } from "@/components/Footer";
 import { Navbar } from "@/components/Navbar";
+import { WhatsAppCommunityPopup } from "@/components/WhatsAppCommunityPopup";
 import { routing } from "@/i18n/routing";
 
 interface LocaleLayoutProps {
@@ -70,6 +71,7 @@ export default async function LocaleLayout({
       <Navbar />
       <main className="flex-1">{children}</main>
       <Footer />
+      <WhatsAppCommunityPopup />
     </NextIntlClientProvider>
   );
 }
