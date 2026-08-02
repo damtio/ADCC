@@ -68,7 +68,7 @@ export default async function EventPage({ params }: EventPageProps) {
 
   if (!event) notFound();
 
-  const siteUrl = process.env.URL || "https://bjj-around-adcc.netlify.app";
+  const siteUrl = process.env.URL || "https://wolnamata.pl";
   const eventUrl = `${siteUrl}/${locale}/event/${event.slug}`;
 
   const jsonLd = {

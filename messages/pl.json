@@ -4,7 +4,7 @@
     "description": "Znajdź seminaria, open maty i obozy podczas weekendu ADCC w Polsce."
   },
   "nav": {
-    "brand": "BJJ<highlight>Seminaria</highlight>",
+    "brand": "wolna<highlight>mata</highlight>.pl",
     "events": "Wydarzenia",
     "academies": "Akademie",
     "orientation": "Orientacja",
@@ -13,7 +13,7 @@
     "closeMenu": "Zamknij menu"
   },
   "footer": {
-    "copyright": "BJJ Around ADCC Poland",
+    "copyright": "wolnamata.pl",
     "tagline": "Seminaria, open maty i obozy podczas weekendu ADCC."
   },
   "home": {

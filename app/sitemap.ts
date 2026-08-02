@@ -3,7 +3,7 @@ import { routing } from "@/i18n/routing";
 import { getAllEventSlugs } from "@/lib/supabase";
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
-  const siteUrl = process.env.URL || "https://bjj-around-adcc.netlify.app";
+  const siteUrl = process.env.URL || "https://wolnamata.pl";
   const slugs = await getAllEventSlugs();
 
   const staticPaths = [

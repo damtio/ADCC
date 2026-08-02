@@ -1,7 +1,7 @@
 import type { MetadataRoute } from "next";
 
 export default function robots(): MetadataRoute.Robots {
-  const siteUrl = process.env.URL || "https://bjj-around-adcc.netlify.app";
+  const siteUrl = process.env.URL || "https://wolnamata.pl";
 
   return {
     rules: {

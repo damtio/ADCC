@@ -4,7 +4,7 @@
     "description": "Find seminars, open mats and camps happening during ADCC weekend in Poland."
   },
   "nav": {
-    "brand": "BJJ<highlight>Seminars</highlight>",
+    "brand": "wolna<highlight>mata</highlight>.pl",
     "events": "Events",
     "academies": "Academies",
     "orientation": "Orientation",
@@ -13,7 +13,7 @@
     "closeMenu": "Close menu"
   },
   "footer": {
-    "copyright": "Find BJJ events around ADCC Kraków, Poland",
+    "copyright": "wolnamata.pl",
     "tagline": "Find seminars, open mats and camps during ADCC weekend."
   },
   "home": {
