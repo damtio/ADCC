@@ -31,13 +31,14 @@ export interface Event {
   instagram_url: string | null;
   image_url: string | null;
   published: boolean;
+  user_id: string | null;
   created_at: string;
   updated_at: string;
 }
 
 export type EventFormData = Omit<
   Event,
-  "id" | "slug" | "created_at" | "updated_at"
+  "id" | "slug" | "user_id" | "created_at" | "updated_at"
 >;
 
 export interface EventFilters {

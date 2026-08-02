@@ -3,6 +3,7 @@
 import { Menu, X } from "lucide-react";
 import { useTranslations } from "next-intl";
 import { useState } from "react";
+import { AuthNav } from "@/components/AuthNav";
 import { LanguageSwitcher } from "@/components/LanguageSwitcher";
 import { Button } from "@/components/ui/button";
 import { Link } from "@/i18n/navigation";
@@ -38,6 +39,7 @@ export function Navbar() {
               {t(link.labelKey)}
             </Link>
           ))}
+          <AuthNav linkClassName={linkClassName} />
           <LanguageSwitcher />
         </nav>
 
@@ -60,7 +62,7 @@ export function Navbar() {
         className={cn(
           "overflow-hidden border-t border-[#2B2B2B] transition-all duration-200 md:hidden",
           open
-            ? "max-h-64 opacity-100"
+            ? "max-h-96 opacity-100"
             : "max-h-0 border-t-transparent opacity-0",
         )}
         aria-hidden={!open}
@@ -79,6 +81,15 @@ export function Navbar() {
               {t(link.labelKey)}
             </Link>
           ))}
+          <div className="flex flex-col gap-1 border-t border-[#2B2B2B] pt-2">
+            <AuthNav
+              linkClassName={cn(
+                linkClassName,
+                "rounded-lg px-3 py-2.5 hover:bg-[#151515]",
+              )}
+              onNavigate={() => setOpen(false)}
+            />
+          </div>
         </div>
       </nav>
     </header>

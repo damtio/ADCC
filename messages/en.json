@@ -9,6 +9,9 @@
     "academies": "Academies",
     "orientation": "Orientation",
     "submitEvent": "Submit Event",
+    "login": "Log in",
+    "logout": "Log out",
+    "myEvents": "My events",
     "openMenu": "Open menu",
     "closeMenu": "Close menu"
   },
@@ -236,5 +239,41 @@
     "laterButton": "Maybe later",
     "close": "Close",
     "reopen": "Open WhatsApp community popup"
+  },
+  "auth": {
+    "loginTitle": "Log in",
+    "loginSubtitle": "Manage your events on wolnamata.pl",
+    "registerTitle": "Create an account",
+    "registerSubtitle": "Add and publish your own BJJ events",
+    "email": "Email",
+    "password": "Password",
+    "login": "Log in",
+    "register": "Sign up",
+    "continueWithGoogle": "Continue with Google",
+    "orEmail": "or email",
+    "pleaseWait": "Please wait...",
+    "noAccount": "Don't have an account?",
+    "hasAccount": "Already have an account?",
+    "confirmEmail": "Check your inbox — we sent a confirmation link.",
+    "genericError": "Something went wrong. Please try again."
+  },
+  "myEvents": {
+    "title": "My events",
+    "subtitle": "Add, edit and publish your events.",
+    "addEvent": "Add event",
+    "empty": "You don't have any events yet.",
+    "back": "Back to list",
+    "createTitle": "New event",
+    "editTitle": "Edit event",
+    "colTitle": "Title",
+    "colCategory": "Category",
+    "colDate": "Date",
+    "colStatus": "Status",
+    "colActions": "Actions",
+    "published": "Published",
+    "draft": "Draft",
+    "publish": "Publish",
+    "unpublish": "Unpublish",
+    "deleteConfirm": "Delete \"{title}\"?"
   }
 }

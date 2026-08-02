@@ -9,6 +9,9 @@
     "academies": "Akademie",
     "orientation": "Orientacja",
     "submitEvent": "Zgłoś wydarzenie",
+    "login": "Zaloguj się",
+    "logout": "Wyloguj",
+    "myEvents": "Moje wydarzenia",
     "openMenu": "Otwórz menu",
     "closeMenu": "Zamknij menu"
   },
@@ -236,5 +239,41 @@
     "laterButton": "Może później",
     "close": "Zamknij",
     "reopen": "Otwórz popup społeczności WhatsApp"
+  },
+  "auth": {
+    "loginTitle": "Zaloguj się",
+    "loginSubtitle": "Zarządzaj swoimi wydarzeniami na wolnamata.pl",
+    "registerTitle": "Utwórz konto",
+    "registerSubtitle": "Dodawaj i publikuj własne wydarzenia BJJ",
+    "email": "E-mail",
+    "password": "Hasło",
+    "login": "Zaloguj się",
+    "register": "Zarejestruj się",
+    "continueWithGoogle": "Kontynuuj z Google",
+    "orEmail": "lub e-mail",
+    "pleaseWait": "Proszę czekać...",
+    "noAccount": "Nie masz konta?",
+    "hasAccount": "Masz już konto?",
+    "confirmEmail": "Sprawdź skrzynkę — wysłaliśmy link potwierdzający.",
+    "genericError": "Coś poszło nie tak. Spróbuj ponownie."
+  },
+  "myEvents": {
+    "title": "Moje wydarzenia",
+    "subtitle": "Dodawaj, edytuj i publikuj swoje wydarzenia.",
+    "addEvent": "Dodaj wydarzenie",
+    "empty": "Nie masz jeszcze żadnych wydarzeń.",
+    "back": "Wróć do listy",
+    "createTitle": "Nowe wydarzenie",
+    "editTitle": "Edytuj wydarzenie",
+    "colTitle": "Tytuł",
+    "colCategory": "Kategoria",
+    "colDate": "Data",
+    "colStatus": "Status",
+    "colActions": "Akcje",
+    "published": "Opublikowane",
+    "draft": "Szkic",
+    "publish": "Opublikuj",
+    "unpublish": "Cofnij publikację",
+    "deleteConfirm": "Usunąć „{title}”?"
   }
 }

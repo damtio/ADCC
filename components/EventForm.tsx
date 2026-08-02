@@ -1,12 +1,13 @@
 "use client";
 
 import Image from "next/image";
-import { useRouter } from "next/navigation";
+import { useRouter as useNextRouter } from "next/navigation";
 import { useActionState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
+import { useRouter as useIntlRouter } from "@/i18n/navigation";
 import { EVENT_CATEGORIES, type Event } from "@/types/event";
 
 type FormAction = (
@@ -17,17 +18,28 @@ type FormAction = (
 interface EventFormProps {
   event?: Event;
   action: FormAction;
+  successHref?: string;
 }
 
-export function EventForm({ event, action }: EventFormProps) {
-  const router = useRouter();
+export function EventForm({
+  event,
+  action,
+  successHref = "/admin",
+}: EventFormProps) {
+  const nextRouter = useNextRouter();
+  const intlRouter = useIntlRouter();
   const [state, formAction, isPending] = useActionState(action, null);
 
   useEffect(() => {
-    if (state?.success) {
-      router.push("/admin");
+    if (!state?.success) return;
+    if (successHref.startsWith("/admin")) {
+      nextRouter.push(successHref);
+      nextRouter.refresh();
+    } else {
+      intlRouter.push(successHref);
+      intlRouter.refresh();
     }
-  }, [state?.success, router]);
+  }, [state?.success, nextRouter, intlRouter, successHref]);
 
   return (
     <form
