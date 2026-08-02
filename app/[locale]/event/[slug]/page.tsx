@@ -225,36 +225,7 @@ export default async function EventPage({ params }: EventPageProps) {
             </div>
           </div>
 
-          {event.description && (
-            <div className="prose prose-invert max-w-none">
-              <h2 className="text-xl font-semibold text-white">{t("about")}</h2>
-              <p className="whitespace-pre-wrap text-zinc-300">
-                {event.description}
-              </p>
-            </div>
-          )}
-
-          {event.latitude && event.longitude && (
-            <MapPreview
-              latitude={event.latitude}
-              longitude={event.longitude}
-              title={event.title}
-            />
-          )}
-
           <div className="flex flex-wrap gap-3">
-            {event.registration_url && (
-              <Button asChild>
-                <a
-                  href={event.registration_url}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                >
-                  <ExternalLink className="h-4 w-4" />
-                  {t("register")}
-                </a>
-              </Button>
-            )}
             <Button asChild variant="outline">
               <a
                 href={buildMapsUrl(event)}
@@ -265,12 +236,6 @@ export default async function EventPage({ params }: EventPageProps) {
                 {t("openInMaps")}
               </a>
             </Button>
-            <GoogleCalendarButton event={event} label={t("addToCalendar")} />
-            <ShareButton
-              title={event.title}
-              url={eventUrl}
-              label={t("share")}
-            />
             {event.facebook_url && (
               <Button asChild variant="outline" size="sm">
                 <a
@@ -293,6 +258,44 @@ export default async function EventPage({ params }: EventPageProps) {
                 </a>
               </Button>
             )}
+          </div>
+
+          {event.latitude && event.longitude && (
+            <MapPreview
+              latitude={event.latitude}
+              longitude={event.longitude}
+              title={event.title}
+            />
+          )}
+
+          {event.description && (
+            <div className="prose prose-invert max-w-none">
+              <h2 className="text-xl font-semibold text-white">{t("about")}</h2>
+              <p className="whitespace-pre-wrap text-zinc-300">
+                {event.description}
+              </p>
+            </div>
+          )}
+
+          <div className="flex flex-wrap gap-3">
+            {event.registration_url && (
+              <Button asChild>
+                <a
+                  href={event.registration_url}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  <ExternalLink className="h-4 w-4" />
+                  {t("register")}
+                </a>
+              </Button>
+            )}
+            <GoogleCalendarButton event={event} label={t("addToCalendar")} />
+            <ShareButton
+              title={event.title}
+              url={eventUrl}
+              label={t("share")}
+            />
           </div>
         </div>
       </article>

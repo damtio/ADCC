@@ -20,6 +20,11 @@ export function EventCard({ event }: EventCardProps) {
   return (
     <Card className="group overflow-hidden transition-all duration-300 hover:-translate-y-1 hover:border-red-600/40 hover:shadow-lg hover:shadow-red-900/10">
       <div className="relative aspect-[16/10] overflow-hidden bg-[#1a1a1a]">
+        <Link
+          href={`/event/${event.slug}`}
+          className="absolute inset-0 z-10 hidden md:block"
+          aria-label={event.title}
+        />
         {event.image_url ? (
           <Image
             src={event.image_url}
@@ -33,7 +38,7 @@ export function EventCard({ event }: EventCardProps) {
             <span className="text-4xl font-bold text-red-600/30">BJJ</span>
           </div>
         )}
-        <div className="absolute top-3 left-3">
+        <div className="absolute top-3 left-3 z-20">
           <Badge>{event.category}</Badge>
         </div>
       </div>
