@@ -12,6 +12,8 @@ export interface Academy {
   phone: string | null;
   email: string | null;
   website: string | null;
+  facebook_url: string | null;
+  instagram_url: string | null;
   image_url: string | null;
   latitude: number | null;
   longitude: number | null;

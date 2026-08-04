@@ -33,6 +33,8 @@ export function parseAcademyFormData(formData: FormData): AcademyFormData {
     phone: (formData.get("phone") as string)?.trim() || null,
     email: (formData.get("email") as string)?.trim() || null,
     website: (formData.get("website") as string)?.trim() || null,
+    facebook_url: (formData.get("facebook_url") as string)?.trim() || null,
+    instagram_url: (formData.get("instagram_url") as string)?.trim() || null,
     image_url: (formData.get("image_url") as string)?.trim() || null,
     latitude: parseOptionalNumber(formData.get("latitude")),
     longitude: parseOptionalNumber(formData.get("longitude")),

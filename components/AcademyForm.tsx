@@ -142,6 +142,28 @@ export function AcademyForm({
         </div>
 
         <div className="space-y-2">
+          <Label htmlFor="facebook_url">Facebook URL</Label>
+          <Input
+            id="facebook_url"
+            name="facebook_url"
+            type="url"
+            placeholder="https://"
+            defaultValue={academy?.facebook_url ?? ""}
+          />
+        </div>
+
+        <div className="space-y-2">
+          <Label htmlFor="instagram_url">Instagram URL</Label>
+          <Input
+            id="instagram_url"
+            name="instagram_url"
+            type="url"
+            placeholder="https://"
+            defaultValue={academy?.instagram_url ?? ""}
+          />
+        </div>
+
+        <div className="space-y-2">
           <Label htmlFor="latitude">Latitude</Label>
           <Input
             id="latitude"

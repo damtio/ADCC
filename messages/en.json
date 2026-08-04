@@ -58,6 +58,7 @@
     "subtitle": "Find academies by city and specialization (Gi, NoGi, Gi + NoGi).",
     "empty": "No academies listed yet.",
     "openInMaps": "Open in Maps",
+    "website": "Website",
     "searchPlaceholder": "Search by name, city or address...",
     "city": "City",
     "allCities": "All cities",

@@ -64,6 +64,8 @@ export async function updateUserAcademyAction(
         phone: parsed.phone,
         email: parsed.email,
         website: parsed.website,
+        facebook_url: parsed.facebook_url,
+        instagram_url: parsed.instagram_url,
         image_url: parsed.image_url,
         latitude: parsed.latitude,
         longitude: parsed.longitude,

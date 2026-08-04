@@ -2,7 +2,6 @@
 
 import { ExternalLink, Globe, Mail, MapPin, Phone } from "lucide-react";
 import { useTranslations } from "next-intl";
-import { MapPreview } from "@/components/MapPreview";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
@@ -13,14 +12,12 @@ interface AcademyCardProps {
 }
 
 function buildMapsUrl(academy: Academy): string {
-  return `https://www.google.com/maps/search/?api=1&query=${academy.latitude},${academy.longitude}`;
-}
+  if (academy.latitude != null && academy.longitude != null) {
+    return `https://www.google.com/maps/search/?api=1&query=${academy.latitude},${academy.longitude}`;
+  }
 
-function hasCoordinates(academy: Academy): academy is Academy & {
-  latitude: number;
-  longitude: number;
-} {
-  return academy.latitude != null && academy.longitude != null;
+  const query = [academy.address, academy.city].filter(Boolean).join(", ");
+  return `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(query)}`;
 }
 
 function locationLabel(academy: Academy): string {
@@ -30,6 +27,9 @@ function locationLabel(academy: Academy): string {
 
 export function AcademyCard({ academy }: AcademyCardProps) {
   const t = useTranslations("academies");
+  const hasMapsTarget =
+    (academy.latitude != null && academy.longitude != null) ||
+    Boolean(academy.address);
 
   return (
     <Card className="group overflow-hidden transition-all duration-300 hover:-translate-y-1 hover:border-red-600/40 hover:shadow-lg hover:shadow-red-900/10">
@@ -71,30 +71,11 @@ export function AcademyCard({ academy }: AcademyCardProps) {
               </a>
             </div>
           )}
-          {academy.website && (
-            <div className="flex items-center gap-2">
-              <Globe className="h-4 w-4 shrink-0 text-red-500" />
-              <a
-                href={academy.website}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="truncate transition-colors hover:text-white"
-              >
-                {academy.website.replace(/^https?:\/\//, "")}
-              </a>
-            </div>
-          )}
         </div>
 
-        {hasCoordinates(academy) && (
-          <>
-            <MapPreview
-              latitude={academy.latitude}
-              longitude={academy.longitude}
-              title={academy.name}
-            />
-
-            <Button asChild variant="outline" size="sm" className="w-full">
+        <div className="flex flex-wrap gap-2">
+          {hasMapsTarget && (
+            <Button asChild variant="outline" size="sm">
               <a
                 href={buildMapsUrl(academy)}
                 target="_blank"
@@ -104,8 +85,42 @@ export function AcademyCard({ academy }: AcademyCardProps) {
                 {t("openInMaps")}
               </a>
             </Button>
-          </>
-        )}
+          )}
+          {academy.website && (
+            <Button asChild variant="outline" size="sm">
+              <a
+                href={academy.website}
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                <Globe className="h-4 w-4" />
+                {t("website")}
+              </a>
+            </Button>
+          )}
+          {academy.facebook_url && (
+            <Button asChild variant="outline" size="sm">
+              <a
+                href={academy.facebook_url}
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                Facebook
+              </a>
+            </Button>
+          )}
+          {academy.instagram_url && (
+            <Button asChild variant="outline" size="sm">
+              <a
+                href={academy.instagram_url}
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                Instagram
+              </a>
+            </Button>
+          )}
+        </div>
       </CardContent>
     </Card>
   );
