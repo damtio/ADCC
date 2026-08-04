@@ -1,3 +1,4 @@
+import type { Academy, AcademyFilters } from "@/types/academy";
 import type { Event, EventFilters } from "@/types/event";
 
 export function filterEvents(events: Event[], filters: EventFilters): Event[] {
@@ -36,4 +37,44 @@ export function getUniqueCities(events: Event[]): string[] {
 export function getUniqueDates(events: Event[]): string[] {
   const dates = events.map((e) => e.date);
   return [...new Set(dates)].sort();
+}
+
+export function filterAcademies(
+  academies: Academy[],
+  filters: AcademyFilters,
+): Academy[] {
+  return academies.filter((academy) => {
+    if (filters.search) {
+      const query = filters.search.toLowerCase();
+      const fields = [
+        academy.name,
+        academy.city,
+        academy.district,
+        academy.address,
+      ]
+        .filter(Boolean)
+        .map((f) => f.toLowerCase());
+      if (!fields.some((f) => f.includes(query))) return false;
+    }
+
+    if (filters.city && academy.city !== filters.city) {
+      return false;
+    }
+
+    if (
+      filters.specialization &&
+      academy.specialization !== filters.specialization
+    ) {
+      return false;
+    }
+
+    return true;
+  });
+}
+
+export function getUniqueAcademyCities(academies: Academy[]): string[] {
+  const cities = academies
+    .map((a) => a.city)
+    .filter((c): c is string => Boolean(c));
+  return [...new Set(cities)].sort();
 }

@@ -12,6 +12,7 @@
     "login": "Log in",
     "logout": "Log out",
     "myEvents": "My events",
+    "myAcademies": "My academies",
     "openMenu": "Open menu",
     "closeMenu": "Close menu"
   },
@@ -53,10 +54,17 @@
     "share": "Share"
   },
   "academies": {
-    "title": "BJJ Academies in <highlight>Kraków</highlight>",
-    "subtitle": "Find academies, contact details and locations around the city.",
+    "title": "BJJ <highlight>Academies</highlight>",
+    "subtitle": "Find academies by city and specialization (Gi, NoGi, Gi + NoGi).",
     "empty": "No academies listed yet.",
-    "openInMaps": "Open in Maps"
+    "openInMaps": "Open in Maps",
+    "searchPlaceholder": "Search by name, city or address...",
+    "city": "City",
+    "allCities": "All cities",
+    "specialization": "Specialization",
+    "allSpecializations": "All specializations",
+    "noResults": "No academies found.",
+    "tryFilters": "Try adjusting your filters."
   },
   "orientation": {
     "title": "Kraków <highlight>Orientation</highlight>",
@@ -275,5 +283,24 @@
     "publish": "Publish",
     "unpublish": "Unpublish",
     "deleteConfirm": "Delete \"{title}\"?"
+  },
+  "myAcademies": {
+    "title": "My academies",
+    "subtitle": "Add, edit and publish your academies.",
+    "addAcademy": "Add academy",
+    "empty": "You don't have any academies yet.",
+    "back": "Back to list",
+    "createTitle": "New academy",
+    "editTitle": "Edit academy",
+    "colName": "Name",
+    "colCity": "City",
+    "colSpecialization": "Specialization",
+    "colStatus": "Status",
+    "colActions": "Actions",
+    "published": "Published",
+    "draft": "Draft",
+    "publish": "Publish",
+    "unpublish": "Unpublish",
+    "deleteConfirm": "Delete \"{name}\"?"
   }
 }

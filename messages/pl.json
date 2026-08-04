@@ -12,6 +12,7 @@
     "login": "Zaloguj się",
     "logout": "Wyloguj",
     "myEvents": "Moje wydarzenia",
+    "myAcademies": "Moje akademie",
     "openMenu": "Otwórz menu",
     "closeMenu": "Zamknij menu"
   },
@@ -53,10 +54,17 @@
     "share": "Udostępnij"
   },
   "academies": {
-    "title": "Akademie BJJ w <highlight>Krakowie</highlight>",
-    "subtitle": "Adresy, kontakt i lokalizacje akademii w mieście.",
+    "title": "Akademie <highlight>BJJ</highlight>",
+    "subtitle": "Znajdź akademie po mieście i specjalizacji (Gi, NoGi, Gi + NoGi).",
     "empty": "Brak akademii na liście.",
-    "openInMaps": "Otwórz w Mapach"
+    "openInMaps": "Otwórz w Mapach",
+    "searchPlaceholder": "Szukaj po nazwie, mieście lub adresie...",
+    "city": "Miasto",
+    "allCities": "Wszystkie miasta",
+    "specialization": "Specjalizacja",
+    "allSpecializations": "Wszystkie specjalizacje",
+    "noResults": "Nie znaleziono akademii.",
+    "tryFilters": "Spróbuj zmienić filtry."
   },
   "orientation": {
     "title": "Orientacja — <highlight>Kraków</highlight>",
@@ -275,5 +283,24 @@
     "publish": "Opublikuj",
     "unpublish": "Cofnij publikację",
     "deleteConfirm": "Usunąć „{title}”?"
+  },
+  "myAcademies": {
+    "title": "Moje akademie",
+    "subtitle": "Dodawaj, edytuj i publikuj swoje akademie.",
+    "addAcademy": "Dodaj akademię",
+    "empty": "Nie masz jeszcze żadnych akademii.",
+    "back": "Wróć do listy",
+    "createTitle": "Nowa akademia",
+    "editTitle": "Edytuj akademię",
+    "colName": "Nazwa",
+    "colCity": "Miasto",
+    "colSpecialization": "Specjalizacja",
+    "colStatus": "Status",
+    "colActions": "Akcje",
+    "published": "Opublikowane",
+    "draft": "Szkic",
+    "publish": "Opublikuj",
+    "unpublish": "Cofnij publikację",
+    "deleteConfirm": "Usunąć „{name}”?"
   }
 }

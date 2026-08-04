@@ -3,6 +3,7 @@
 import { ExternalLink, Globe, Mail, MapPin, Phone } from "lucide-react";
 import { useTranslations } from "next-intl";
 import { MapPreview } from "@/components/MapPreview";
+import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import type { Academy } from "@/types/academy";
@@ -22,6 +23,11 @@ function hasCoordinates(academy: Academy): academy is Academy & {
   return academy.latitude != null && academy.longitude != null;
 }
 
+function locationLabel(academy: Academy): string {
+  const parts = [academy.address, academy.city].filter(Boolean);
+  return parts.join(", ");
+}
+
 export function AcademyCard({ academy }: AcademyCardProps) {
   const t = useTranslations("academies");
 
@@ -29,14 +35,19 @@ export function AcademyCard({ academy }: AcademyCardProps) {
     <Card className="group overflow-hidden transition-all duration-300 hover:-translate-y-1 hover:border-red-600/40 hover:shadow-lg hover:shadow-red-900/10">
       <CardContent className="space-y-4 p-5">
         <div>
+          <div className="mb-2 flex flex-wrap items-center gap-2">
+            <Badge variant="secondary">{academy.specialization}</Badge>
+          </div>
           <h3 className="text-lg font-semibold text-white">{academy.name}</h3>
-          <p className="text-sm text-zinc-500">{academy.district}</p>
+          <p className="text-sm text-zinc-500">
+            {[academy.district, academy.city].filter(Boolean).join(" · ")}
+          </p>
         </div>
 
         <div className="space-y-2 text-sm text-zinc-400">
           <div className="flex items-start gap-2">
             <MapPin className="mt-0.5 h-4 w-4 shrink-0 text-red-500" />
-            <span>{academy.address}, Kraków</span>
+            <span>{locationLabel(academy)}</span>
           </div>
           {academy.phone && (
             <div className="flex items-center gap-2">

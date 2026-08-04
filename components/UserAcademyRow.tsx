@@ -1,31 +1,33 @@
 "use client";
 
 import { Eye, EyeOff, Pencil, Trash2 } from "lucide-react";
-import Link from "next/link";
+import { useTranslations } from "next-intl";
 import { useTransition } from "react";
 import {
-  deleteAcademyAction,
-  toggleAcademyPublishAction,
-} from "@/app/admin/actions";
+  deleteUserAcademyAction,
+  toggleUserAcademyPublishAction,
+} from "@/app/[locale]/my-academies/actions";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
+import { Link } from "@/i18n/navigation";
 import type { Academy } from "@/types/academy";
 
-interface AdminAcademyRowProps {
+interface UserAcademyRowProps {
   academy: Academy;
 }
 
-export function AdminAcademyRow({ academy }: AdminAcademyRowProps) {
+export function UserAcademyRow({ academy }: UserAcademyRowProps) {
+  const t = useTranslations("myAcademies");
   const [isPending, startTransition] = useTransition();
 
   function handleDelete() {
-    if (!confirm(`Delete "${academy.name}"?`)) return;
-    startTransition(() => deleteAcademyAction(academy.id));
+    if (!confirm(t("deleteConfirm", { name: academy.name }))) return;
+    startTransition(() => deleteUserAcademyAction(academy.id));
   }
 
   function handleTogglePublish() {
     startTransition(() =>
-      toggleAcademyPublishAction(academy.id, !academy.published),
+      toggleUserAcademyPublishAction(academy.id, !academy.published),
     );
   }
 
@@ -36,10 +38,9 @@ export function AdminAcademyRow({ academy }: AdminAcademyRowProps) {
       <td className="px-4 py-3 text-sm text-zinc-400">
         {academy.specialization}
       </td>
-      <td className="px-4 py-3 text-sm text-zinc-400">{academy.sort_order}</td>
       <td className="px-4 py-3">
         <Badge variant={academy.published ? "default" : "secondary"}>
-          {academy.published ? "Published" : "Draft"}
+          {academy.published ? t("published") : t("draft")}
         </Badge>
       </td>
       <td className="px-4 py-3">
@@ -49,7 +50,7 @@ export function AdminAcademyRow({ academy }: AdminAcademyRowProps) {
             size="icon"
             onClick={handleTogglePublish}
             disabled={isPending}
-            title={academy.published ? "Unpublish" : "Publish"}
+            title={academy.published ? t("unpublish") : t("publish")}
           >
             {academy.published ? (
               <EyeOff className="h-4 w-4" />
@@ -58,7 +59,7 @@ export function AdminAcademyRow({ academy }: AdminAcademyRowProps) {
             )}
           </Button>
           <Button variant="ghost" size="icon" asChild>
-            <Link href={`/admin/academies/edit/${academy.id}`}>
+            <Link href={`/my-academies/edit/${academy.id}`}>
               <Pencil className="h-4 w-4" />
             </Link>
           </Button>

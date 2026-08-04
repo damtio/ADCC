@@ -57,7 +57,10 @@ export default async function AdminAcademiesPage() {
                 Name
               </th>
               <th className="px-4 py-3 text-left text-xs font-medium tracking-wider text-zinc-500 uppercase">
-                District
+                City
+              </th>
+              <th className="px-4 py-3 text-left text-xs font-medium tracking-wider text-zinc-500 uppercase">
+                Specialization
               </th>
               <th className="px-4 py-3 text-left text-xs font-medium tracking-wider text-zinc-500 uppercase">
                 Order
@@ -74,7 +77,7 @@ export default async function AdminAcademiesPage() {
             {academies.length === 0 ? (
               <tr>
                 <td
-                  colSpan={5}
+                  colSpan={6}
                   className="px-4 py-12 text-center text-zinc-500"
                 >
                   No academies yet.{" "}

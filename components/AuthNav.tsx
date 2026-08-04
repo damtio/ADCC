@@ -60,6 +60,13 @@ export function AuthNav({ linkClassName, onNavigate }: AuthNavProps) {
         <Link href="/my-events" className={linkClassName} onClick={onNavigate}>
           {t("myEvents")}
         </Link>
+        <Link
+          href="/my-academies"
+          className={linkClassName}
+          onClick={onNavigate}
+        >
+          {t("myAcademies")}
+        </Link>
         <Button
           type="button"
           variant="ghost"

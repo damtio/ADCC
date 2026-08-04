@@ -1,11 +1,12 @@
 "use client";
 
-import { useRouter } from "next/navigation";
+import { useRouter as useNextRouter } from "next/navigation";
 import { useActionState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import type { Academy } from "@/types/academy";
+import { useRouter as useIntlRouter } from "@/i18n/navigation";
+import { ACADEMY_SPECIALIZATIONS, type Academy } from "@/types/academy";
 
 type FormAction = (
   prevState: { error?: string; success?: boolean } | null,
@@ -15,17 +16,30 @@ type FormAction = (
 interface AcademyFormProps {
   academy?: Academy;
   action: FormAction;
+  successHref?: string;
+  showAdminFields?: boolean;
 }
 
-export function AcademyForm({ academy, action }: AcademyFormProps) {
-  const router = useRouter();
+export function AcademyForm({
+  academy,
+  action,
+  successHref = "/admin/academies",
+  showAdminFields = true,
+}: AcademyFormProps) {
+  const nextRouter = useNextRouter();
+  const intlRouter = useIntlRouter();
   const [state, formAction, isPending] = useActionState(action, null);
 
   useEffect(() => {
-    if (state?.success) {
-      router.push("/admin/academies");
+    if (!state?.success) return;
+    if (successHref.startsWith("/admin")) {
+      nextRouter.push(successHref);
+      nextRouter.refresh();
+    } else {
+      intlRouter.push(successHref);
+      intlRouter.refresh();
     }
-  }, [state?.success, router]);
+  }, [state?.success, nextRouter, intlRouter, successHref]);
 
   return (
     <form action={formAction} className="space-y-6">
@@ -44,24 +58,52 @@ export function AcademyForm({ academy, action }: AcademyFormProps) {
         </div>
 
         <div className="space-y-2">
-          <Label htmlFor="district">District *</Label>
+          <Label htmlFor="city">City *</Label>
           <Input
-            id="district"
-            name="district"
-            defaultValue={academy?.district}
+            id="city"
+            name="city"
+            defaultValue={academy?.city ?? "Kraków"}
             required
           />
         </div>
 
         <div className="space-y-2">
-          <Label htmlFor="sort_order">Sort order</Label>
+          <Label htmlFor="specialization">Specialization *</Label>
+          <select
+            id="specialization"
+            name="specialization"
+            defaultValue={academy?.specialization || "Gi + NoGi"}
+            required
+            className="flex h-10 w-full rounded-lg border border-[#2B2B2B] bg-[#151515] px-3 py-2 text-sm text-white focus-visible:ring-2 focus-visible:ring-red-500 focus-visible:outline-none"
+          >
+            {ACADEMY_SPECIALIZATIONS.map((spec) => (
+              <option key={spec} value={spec}>
+                {spec}
+              </option>
+            ))}
+          </select>
+        </div>
+
+        <div className="space-y-2">
+          <Label htmlFor="district">District</Label>
           <Input
-            id="sort_order"
-            name="sort_order"
-            type="number"
-            defaultValue={academy?.sort_order ?? 0}
+            id="district"
+            name="district"
+            defaultValue={academy?.district ?? ""}
           />
         </div>
+
+        {showAdminFields && (
+          <div className="space-y-2">
+            <Label htmlFor="sort_order">Sort order</Label>
+            <Input
+              id="sort_order"
+              name="sort_order"
+              type="number"
+              defaultValue={academy?.sort_order ?? 0}
+            />
+          </div>
+        )}
 
         <div className="space-y-2 sm:col-span-2">
           <Label htmlFor="address">Address *</Label>
@@ -141,7 +183,11 @@ export function AcademyForm({ academy, action }: AcademyFormProps) {
               ? "Update Academy"
               : "Create Academy"}
         </Button>
-        <Button type="button" variant="outline" onClick={() => router.back()}>
+        <Button
+          type="button"
+          variant="outline"
+          onClick={() => nextRouter.back()}
+        >
           Cancel
         </Button>
       </div>

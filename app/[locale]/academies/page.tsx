@@ -1,4 +1,4 @@
-import { AcademyCard } from "@/components/AcademyCard";
+import { AcademyList } from "@/components/AcademyList";
 import { highlightTag } from "@/lib/i18n-rich";
 import { getPublishedAcademies } from "@/lib/supabase";
 import { getTranslations } from "next-intl/server";
@@ -30,11 +30,7 @@ export default async function AcademiesPage() {
       {academies.length === 0 ? (
         <p className="text-center text-zinc-500">{t("empty")}</p>
       ) : (
-        <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-          {academies.map((academy) => (
-            <AcademyCard key={academy.id} academy={academy} />
-          ))}
-        </div>
+        <AcademyList academies={academies} />
       )}
     </div>
   );
