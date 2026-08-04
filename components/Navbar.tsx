@@ -14,7 +14,6 @@ const NAV_LINKS = [
   { href: "/", labelKey: "events" as const },
   { href: "/academies", labelKey: "academies" as const },
   { href: "/krakow-orientation", labelKey: "orientation" as const },
-  { href: "/submit-event", labelKey: "submitEvent" as const },
 ];
 
 const linkClassName =
