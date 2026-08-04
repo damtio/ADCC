@@ -12,7 +12,9 @@ interface AcademyCardProps {
 }
 
 function buildMapsUrl(academy: Academy): string {
-  const query = [academy.address, academy.city].filter(Boolean).join(", ");
+  const query = [academy.name, academy.address, academy.city]
+    .filter(Boolean)
+    .join(", ");
   return `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(query)}`;
 }
 
@@ -23,7 +25,9 @@ function locationLabel(academy: Academy): string {
 
 export function AcademyCard({ academy }: AcademyCardProps) {
   const t = useTranslations("academies");
-  const hasMapsTarget = Boolean(academy.address || academy.city);
+  const hasMapsTarget = Boolean(
+    academy.name || academy.address || academy.city,
+  );
 
   return (
     <Card className="group overflow-hidden transition-all duration-300 hover:-translate-y-1 hover:border-red-600/40 hover:shadow-lg hover:shadow-red-900/10">
