@@ -5,19 +5,40 @@ import { updateSession } from "./lib/supabase/middleware";
 
 const handleI18nRouting = createMiddleware(routing);
 
+function isLocaleRoot(pathname: string): boolean {
+  return (
+    pathname === "/" ||
+    routing.locales.some(
+      (locale) => pathname === `/${locale}` || pathname === `/${locale}/`,
+    )
+  );
+}
+
 export async function middleware(request: NextRequest) {
   const { pathname, searchParams } = request.nextUrl;
 
+  // Do not refresh the session on the OAuth callback — exchanging the
+  // auth code must own cookie writes on the redirect response.
+  if (pathname.startsWith("/auth/callback")) {
+    return NextResponse.next({ request });
+  }
+
   // Supabase may fall back to Site URL with ?code= on `/` when redirect
-  // allow-list is misconfigured — forward to the auth callback route.
+  // allow-list is misconfigured — forward only from site/locale roots.
   const code = searchParams.get("code");
-  if (code && !pathname.startsWith("/auth/callback")) {
+  if (code && isLocaleRoot(pathname)) {
     const url = request.nextUrl.clone();
     url.pathname = "/auth/callback";
     url.searchParams.set("code", code);
+
     if (!url.searchParams.get("next")) {
-      url.searchParams.set("next", "/en/my-events");
+      const locale =
+        routing.locales.find(
+          (item) => pathname === `/${item}` || pathname === `/${item}/`,
+        ) ?? routing.defaultLocale;
+      url.searchParams.set("next", `/${locale}/my-events`);
     }
+
     return NextResponse.redirect(url);
   }
 
