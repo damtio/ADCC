@@ -12,10 +12,6 @@ interface AcademyCardProps {
 }
 
 function buildMapsUrl(academy: Academy): string {
-  if (academy.latitude != null && academy.longitude != null) {
-    return `https://www.google.com/maps/search/?api=1&query=${academy.latitude},${academy.longitude}`;
-  }
-
   const query = [academy.address, academy.city].filter(Boolean).join(", ");
   return `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(query)}`;
 }
@@ -27,9 +23,7 @@ function locationLabel(academy: Academy): string {
 
 export function AcademyCard({ academy }: AcademyCardProps) {
   const t = useTranslations("academies");
-  const hasMapsTarget =
-    (academy.latitude != null && academy.longitude != null) ||
-    Boolean(academy.address);
+  const hasMapsTarget = Boolean(academy.address || academy.city);
 
   return (
     <Card className="group overflow-hidden transition-all duration-300 hover:-translate-y-1 hover:border-red-600/40 hover:shadow-lg hover:shadow-red-900/10">
