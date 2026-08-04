@@ -1,4 +1,4 @@
-import { EVENT_CATEGORIES, type EventCategory } from "@/types/event";
+import type { EventCategory } from "@/types/event";
 
 export const SUBMISSION_STATUSES = ["pending", "approved", "rejected"] as const;
 export type SubmissionStatus = (typeof SUBMISSION_STATUSES)[number];
