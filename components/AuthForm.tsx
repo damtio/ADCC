@@ -80,13 +80,13 @@ export function AuthForm({ mode }: AuthFormProps) {
         return;
       }
 
+      // Never keep a session after password signup — require email confirmation.
       if (data.session) {
-        router.push("/my-events");
-        router.refresh();
-        return;
+        await supabase.auth.signOut();
       }
 
       setMessage(t("confirmEmail"));
+      setPassword("");
     } catch (err) {
       setError(err instanceof Error ? err.message : t("genericError"));
     } finally {

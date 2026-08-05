@@ -263,7 +263,7 @@
     "pleaseWait": "Please wait...",
     "noAccount": "Don't have an account?",
     "hasAccount": "Already have an account?",
-    "confirmEmail": "Check your inbox — we sent a confirmation link.",
+    "confirmEmail": "Check your inbox — we sent a confirmation link. After you click it, you can log in.",
     "genericError": "Something went wrong. Please try again."
   },
   "myEvents": {

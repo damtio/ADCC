@@ -263,7 +263,7 @@
     "pleaseWait": "Proszę czekać...",
     "noAccount": "Nie masz konta?",
     "hasAccount": "Masz już konto?",
-    "confirmEmail": "Sprawdź skrzynkę — wysłaliśmy link potwierdzający.",
+    "confirmEmail": "Sprawdź skrzynkę — wysłaliśmy link potwierdzający. Po kliknięciu w mailu będziesz mógł się zalogować.",
     "genericError": "Coś poszło nie tak. Spróbuj ponownie."
   },
   "myEvents": {
