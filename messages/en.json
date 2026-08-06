@@ -264,6 +264,7 @@
     "noAccount": "Don't have an account?",
     "hasAccount": "Already have an account?",
     "confirmEmail": "Check your inbox — we sent a confirmation link. After you click it, you can log in.",
+    "emailSendFailed": "Could not send the confirmation email. Check Resend SMTP in Supabase (sender noreply@wolnamata.pl + API key).",
     "genericError": "Something went wrong. Please try again."
   },
   "myEvents": {

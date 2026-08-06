@@ -264,6 +264,7 @@
     "noAccount": "Nie masz konta?",
     "hasAccount": "Masz już konto?",
     "confirmEmail": "Sprawdź skrzynkę — wysłaliśmy link potwierdzający. Po kliknięciu w mailu będziesz mógł się zalogować.",
+    "emailSendFailed": "Nie udało się wysłać maila potwierdzającego. Sprawdź konfigurację Resend SMTP w Supabase (nadawca noreply@wolnamata.pl + API key).",
     "genericError": "Coś poszło nie tak. Spróbuj ponownie."
   },
   "myEvents": {

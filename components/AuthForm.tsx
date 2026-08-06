@@ -7,6 +7,27 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Link, useRouter } from "@/i18n/navigation";
 import { createSupabaseBrowserClient } from "@/lib/supabase/client";
+
+function authErrorMessage(
+  error: { message?: string; code?: string; status?: number } | null,
+  fallback: string,
+  emailSendFailed: string,
+): string {
+  if (!error) return fallback;
+
+  const raw = [error.message, (error as { msg?: string }).msg, error.code]
+    .filter((part): part is string => Boolean(part && String(part).trim()))
+    .join(" — ");
+
+  const text = raw.trim() || fallback;
+
+  if (/confirmation email|error sending|smtp|mailer/i.test(text)) {
+    return emailSendFailed;
+  }
+
+  return text;
+}
+
 function GoogleIcon() {
   return (
     <svg className="h-4 w-4" viewBox="0 0 24 24" aria-hidden="true">
@@ -59,7 +80,13 @@ export function AuthForm({ mode }: AuthFormProps) {
           password,
         });
         if (signInError) {
-          setError(signInError.message);
+          setError(
+            authErrorMessage(
+              signInError,
+              t("genericError"),
+              t("emailSendFailed"),
+            ),
+          );
           return;
         }
         router.push("/my-events");
@@ -76,7 +103,13 @@ export function AuthForm({ mode }: AuthFormProps) {
       });
 
       if (signUpError) {
-        setError(signUpError.message);
+        setError(
+          authErrorMessage(
+            signUpError,
+            t("genericError"),
+            t("emailSendFailed"),
+          ),
+        );
         return;
       }
 
@@ -105,7 +138,10 @@ export function AuthForm({ mode }: AuthFormProps) {
           redirectTo: `${window.location.origin}/auth/callback?next=/${locale}/my-events`,
         },
       });
-      if (oauthError) setError(oauthError.message);
+      if (oauthError)
+        setError(
+          authErrorMessage(oauthError, t("genericError"), t("emailSendFailed")),
+        );
     } catch (err) {
       setError(err instanceof Error ? err.message : t("genericError"));
       setPending(false);
