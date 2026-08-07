@@ -1,5 +1,6 @@
 import { Inter } from "next/font/google";
 import { getLocale } from "next-intl/server";
+import { GoogleAnalytics } from "@/components/GoogleAnalytics";
 import "./globals.css";
 
 const inter = Inter({
@@ -19,6 +20,7 @@ export default async function RootLayout({
       <body
         className={`${inter.variable} flex min-h-screen flex-col antialiased`}
       >
+        <GoogleAnalytics />
         {children}
       </body>
     </html>

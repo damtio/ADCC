@@ -225,8 +225,8 @@ export default async function EventPage({ params }: EventPageProps) {
             </div>
           </div>
 
-          <div className="flex flex-wrap gap-3">
-            <Button asChild variant="outline">
+          <div className="grid grid-cols-1 gap-3 sm:grid-cols-3">
+            <Button asChild variant="outline" className="w-full">
               <a
                 href={buildMapsUrl(event)}
                 target="_blank"
@@ -237,7 +237,7 @@ export default async function EventPage({ params }: EventPageProps) {
               </a>
             </Button>
             {event.facebook_url && (
-              <Button asChild variant="outline" size="sm">
+              <Button asChild variant="outline" className="w-full">
                 <a
                   href={event.facebook_url}
                   target="_blank"
@@ -248,7 +248,7 @@ export default async function EventPage({ params }: EventPageProps) {
               </Button>
             )}
             {event.instagram_url && (
-              <Button asChild variant="outline" size="sm">
+              <Button asChild variant="outline" className="w-full">
                 <a
                   href={event.instagram_url}
                   target="_blank"
