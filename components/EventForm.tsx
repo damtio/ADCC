@@ -109,7 +109,7 @@ export function EventForm({
         </div>
 
         <div className="space-y-2">
-          <Label htmlFor="date">Date *</Label>
+          <Label htmlFor="date">Start Date *</Label>
           <Input
             id="date"
             name="date"
@@ -117,6 +117,19 @@ export function EventForm({
             defaultValue={event?.date}
             required
           />
+        </div>
+
+        <div className="space-y-2">
+          <Label htmlFor="end_date">End Date</Label>
+          <Input
+            id="end_date"
+            name="end_date"
+            type="date"
+            defaultValue={event?.end_date ?? ""}
+          />
+          <p className="text-xs text-zinc-500">
+            Leave empty for a single-day event.
+          </p>
         </div>
 
         <div className="space-y-2">

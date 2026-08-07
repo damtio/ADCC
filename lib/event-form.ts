@@ -1,5 +1,17 @@
 import { EVENT_CATEGORIES, type EventCategory } from "@/types/event";
 
+function parseEndDate(
+  startDate: string,
+  endDateRaw: FormDataEntryValue | null,
+): string | null {
+  const endDate = (endDateRaw as string)?.trim() || null;
+  if (!endDate || endDate === startDate) return null;
+  if (endDate < startDate) {
+    throw new Error("End date must be on or after the start date");
+  }
+  return endDate;
+}
+
 export function parseEventFormData(formData: FormData) {
   const category = formData.get("category") as string;
   if (!EVENT_CATEGORIES.includes(category as EventCategory)) {
@@ -8,6 +20,7 @@ export function parseEventFormData(formData: FormData) {
 
   const published = formData.get("published") === "on";
   const priceStr = formData.get("price") as string;
+  const date = formData.get("date") as string;
 
   return {
     title: formData.get("title") as string,
@@ -16,7 +29,8 @@ export function parseEventFormData(formData: FormData) {
     academy: (formData.get("academy") as string) || null,
     city: (formData.get("city") as string) || null,
     address: (formData.get("address") as string) || null,
-    date: formData.get("date") as string,
+    date,
+    end_date: parseEndDate(date, formData.get("end_date")),
     start_time: (formData.get("start_time") as string) || null,
     end_time: (formData.get("end_time") as string) || null,
     price: priceStr ? parseFloat(priceStr) : null,
@@ -37,6 +51,7 @@ export function parseSubmissionFormData(formData: FormData) {
 
   const priceStr = formData.get("price") as string;
   const contactEmail = (formData.get("contact_email") as string)?.trim();
+  const date = formData.get("date") as string;
 
   if (!contactEmail) {
     throw new Error("Contact email is required");
@@ -49,7 +64,8 @@ export function parseSubmissionFormData(formData: FormData) {
     academy: (formData.get("academy") as string) || null,
     city: (formData.get("city") as string) || null,
     address: (formData.get("address") as string) || null,
-    date: formData.get("date") as string,
+    date,
+    end_date: parseEndDate(date, formData.get("end_date")),
     start_time: (formData.get("start_time") as string) || null,
     end_time: (formData.get("end_time") as string) || null,
     price: priceStr ? parseFloat(priceStr) : null,

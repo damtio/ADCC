@@ -9,7 +9,7 @@ import {
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import type { EventSubmission } from "@/types/submission";
-import { formatDate } from "@/lib/utils";
+import { formatDateRange } from "@/lib/utils";
 
 interface AdminSubmissionRowProps {
   submission: EventSubmission;
@@ -32,7 +32,7 @@ export function AdminSubmissionRow({ submission }: AdminSubmissionRowProps) {
       <td className="px-4 py-3 text-sm font-medium">{submission.title}</td>
       <td className="px-4 py-3 text-sm text-zinc-400">{submission.category}</td>
       <td className="px-4 py-3 text-sm text-zinc-400">
-        {formatDate(submission.date)}
+        {formatDateRange(submission.date, submission.end_date)}
       </td>
       <td className="px-4 py-3 text-sm text-zinc-400">
         {submission.contact_email}

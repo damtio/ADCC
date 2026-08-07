@@ -111,6 +111,12 @@ export function SubmissionForm({ action }: SubmissionFormProps) {
         </div>
 
         <div className="space-y-2">
+          <Label htmlFor="end_date">{t("endDateLabel")}</Label>
+          <Input id="end_date" name="end_date" type="date" />
+          <p className="text-xs text-zinc-500">{t("endDateHint")}</p>
+        </div>
+
+        <div className="space-y-2">
           <Label htmlFor="start_time">{t("startTimeLabel")}</Label>
           <Input id="start_time" name="start_time" type="time" />
         </div>

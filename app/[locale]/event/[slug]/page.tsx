@@ -17,7 +17,7 @@ import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Link } from "@/i18n/navigation";
 import { getEventBySlug } from "@/lib/supabase";
-import { formatDate, formatPrice, formatTime } from "@/lib/utils";
+import { formatDateRange, formatPrice, formatTime } from "@/lib/utils";
 
 export const dynamic = "force-dynamic";
 
@@ -71,6 +71,9 @@ export default async function EventPage({ params }: EventPageProps) {
   const siteUrl = process.env.URL || "https://wolnamata.pl";
   const eventUrl = `${siteUrl}/${locale}/event/${event.slug}`;
 
+  const endDay =
+    event.end_date && event.end_date > event.date ? event.end_date : event.date;
+
   const jsonLd = {
     "@context": "https://schema.org",
     "@type": "Event",
@@ -79,7 +82,11 @@ export default async function EventPage({ params }: EventPageProps) {
     startDate: event.start_time
       ? `${event.date}T${event.start_time}`
       : event.date,
-    endDate: event.end_time ? `${event.date}T${event.end_time}` : undefined,
+    endDate: event.end_time
+      ? `${endDay}T${event.end_time}`
+      : event.end_date && event.end_date > event.date
+        ? event.end_date
+        : undefined,
     eventAttendanceMode: "https://schema.org/OfflineEventAttendanceMode",
     eventStatus: "https://schema.org/EventScheduled",
     location: {
@@ -178,7 +185,9 @@ export default async function EventPage({ params }: EventPageProps) {
                 <p className="text-xs tracking-wider text-zinc-500 uppercase">
                   {t("date")}
                 </p>
-                <p className="text-white">{formatDate(event.date)}</p>
+                <p className="text-white">
+                  {formatDateRange(event.date, event.end_date)}
+                </p>
               </div>
             </div>
             {event.start_time && (

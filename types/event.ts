@@ -22,6 +22,7 @@ export interface Event {
   latitude: number | null;
   longitude: number | null;
   date: string;
+  end_date: string | null;
   start_time: string | null;
   end_time: string | null;
   price: number | null;

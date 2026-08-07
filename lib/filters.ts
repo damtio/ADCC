@@ -1,5 +1,6 @@
 import type { Academy, AcademyFilters } from "@/types/academy";
 import type { Event, EventFilters } from "@/types/event";
+import { eachDateInRange, eventCoversDate } from "@/lib/utils";
 
 export function filterEvents(events: Event[], filters: EventFilters): Event[] {
   return events.filter((event) => {
@@ -19,7 +20,7 @@ export function filterEvents(events: Event[], filters: EventFilters): Event[] {
       return false;
     }
 
-    if (filters.date && event.date !== filters.date) {
+    if (filters.date && !eventCoversDate(event, filters.date)) {
       return false;
     }
 
@@ -35,7 +36,7 @@ export function getUniqueCities(events: Event[]): string[] {
 }
 
 export function getUniqueDates(events: Event[]): string[] {
-  const dates = events.map((e) => e.date);
+  const dates = events.flatMap((e) => eachDateInRange(e.date, e.end_date));
   return [...new Set(dates)].sort();
 }
 

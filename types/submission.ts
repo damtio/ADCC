@@ -13,6 +13,7 @@ export interface EventSubmission {
   city: string | null;
   address: string | null;
   date: string;
+  end_date: string | null;
   start_time: string | null;
   end_time: string | null;
   price: number | null;

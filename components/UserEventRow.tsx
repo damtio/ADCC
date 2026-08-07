@@ -11,7 +11,7 @@ import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Link } from "@/i18n/navigation";
 import type { Event } from "@/types/event";
-import { formatDate } from "@/lib/utils";
+import { formatDateRange } from "@/lib/utils";
 
 interface UserEventRowProps {
   event: Event;
@@ -35,7 +35,7 @@ export function UserEventRow({ event }: UserEventRowProps) {
       <td className="px-4 py-3 text-sm font-medium">{event.title}</td>
       <td className="px-4 py-3 text-sm text-zinc-400">{event.category}</td>
       <td className="px-4 py-3 text-sm text-zinc-400">
-        {formatDate(event.date)}
+        {formatDateRange(event.date, event.end_date)}
       </td>
       <td className="px-4 py-3">
         <Badge variant={event.published ? "default" : "secondary"}>

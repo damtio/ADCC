@@ -8,7 +8,7 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Link } from "@/i18n/navigation";
 import type { Event } from "@/types/event";
-import { formatDate, formatPrice, formatTime } from "@/lib/utils";
+import { formatDateRange, formatPrice, formatTime } from "@/lib/utils";
 
 interface EventCardProps {
   event: Event;
@@ -57,7 +57,7 @@ export function EventCard({ event }: EventCardProps) {
           )}
           <div className="flex items-center gap-2">
             <Calendar className="h-3.5 w-3.5 shrink-0 text-red-500" />
-            <span>{formatDate(event.date)}</span>
+            <span>{formatDateRange(event.date, event.end_date)}</span>
           </div>
           {event.start_time && (
             <div className="flex items-center gap-2">

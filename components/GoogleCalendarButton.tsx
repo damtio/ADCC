@@ -9,6 +9,9 @@ interface GoogleCalendarButtonProps {
 
 function buildGoogleCalendarUrl(event: Event): string {
   const startDate = event.date.replace(/-/g, "");
+  const endDay =
+    event.end_date && event.end_date > event.date ? event.end_date : event.date;
+  const endDate = endDay.replace(/-/g, "");
   const startTime = event.start_time
     ? event.start_time.replace(/:/g, "") + "00"
     : "090000";
@@ -19,7 +22,7 @@ function buildGoogleCalendarUrl(event: Event): string {
   const params = new URLSearchParams({
     action: "TEMPLATE",
     text: event.title,
-    dates: `${startDate}T${startTime}/${startDate}T${endTime}`,
+    dates: `${startDate}T${startTime}/${endDate}T${endTime}`,
     details: event.description || "",
     location: [event.address, event.city].filter(Boolean).join(", "),
   });

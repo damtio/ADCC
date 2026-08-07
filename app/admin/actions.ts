@@ -266,6 +266,7 @@ export async function approveSubmissionAction(id: string): Promise<void> {
     city: submission.city,
     address: submission.address,
     date: submission.date,
+    end_date: submission.end_date,
     start_time: submission.start_time,
     end_time: submission.end_time,
     price: submission.price,

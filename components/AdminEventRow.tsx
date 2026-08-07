@@ -7,7 +7,7 @@ import { deleteEventAction, togglePublishAction } from "@/app/admin/actions";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import type { Event } from "@/types/event";
-import { formatDate } from "@/lib/utils";
+import { formatDateRange } from "@/lib/utils";
 
 interface AdminEventRowProps {
   event: Event;
@@ -30,7 +30,7 @@ export function AdminEventRow({ event }: AdminEventRowProps) {
       <td className="px-4 py-3 text-sm font-medium">{event.title}</td>
       <td className="px-4 py-3 text-sm text-zinc-400">{event.category}</td>
       <td className="px-4 py-3 text-sm text-zinc-400">
-        {formatDate(event.date)}
+        {formatDateRange(event.date, event.end_date)}
       </td>
       <td className="px-4 py-3">
         <Badge variant={event.published ? "default" : "secondary"}>
