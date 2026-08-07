@@ -1,5 +1,5 @@
 export const EVENT_CATEGORIES = [
-  "Seminar",
+  "Tournament",
   "Seminar - Gi",
   "Seminar - NoGi",
   "Seminar - Gi + NoGi",
