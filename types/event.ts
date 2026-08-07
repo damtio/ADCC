@@ -1,7 +1,9 @@
 export const EVENT_CATEGORIES = [
+  "Seminar",
   "Seminar - Gi",
   "Seminar - NoGi",
   "Seminar - Gi + NoGi",
+  "Camp",
   "Afterparty",
   "Open Mat",
 ] as const;
