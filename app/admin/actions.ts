@@ -10,9 +10,9 @@ import {
 } from "@/lib/auth";
 import { parseAcademyFormData } from "@/lib/academy-form";
 import { parseEventFormData } from "@/lib/event-form";
+import { resolveUniqueEventSlug } from "@/lib/event-slug";
 import { createSupabaseAdmin } from "@/lib/supabase-admin";
 import { uploadEventImage } from "@/lib/storage";
-import { slugify } from "@/lib/utils";
 import type { Academy } from "@/types/academy";
 import type { EventSubmission } from "@/types/submission";
 
@@ -62,7 +62,6 @@ export async function createEventAction(
 
   try {
     const data = parseEventFormData(formData);
-    const slug = slugify(data.title);
     const supabase = createSupabaseAdmin();
     if (!supabase) {
       return {
@@ -70,6 +69,7 @@ export async function createEventAction(
       };
     }
 
+    const slug = await resolveUniqueEventSlug(supabase, data.title);
     const image_url = await resolveImageUrl(formData, supabase);
 
     const { error } = await supabase.from("events").insert({
@@ -99,7 +99,6 @@ export async function updateEventAction(
   try {
     const id = formData.get("id") as string;
     const data = parseEventFormData(formData);
-    const slug = slugify(data.title);
     const supabase = createSupabaseAdmin();
     if (!supabase) {
       return {
@@ -107,6 +106,7 @@ export async function updateEventAction(
       };
     }
 
+    const slug = await resolveUniqueEventSlug(supabase, data.title, id);
     const image_url = await resolveImageUrl(formData, supabase);
 
     const { error } = await supabase
@@ -247,14 +247,7 @@ export async function approveSubmissionAction(id: string): Promise<void> {
 
   if (error || !submission) throw new Error("Submission not found");
 
-  let slug = slugify(submission.title);
-  const { data: existing } = await supabase
-    .from("events")
-    .select("id")
-    .eq("slug", slug)
-    .maybeSingle();
-
-  if (existing) slug = `${slug}-${id.slice(0, 8)}`;
+  const slug = await resolveUniqueEventSlug(supabase, submission.title);
 
   const { error: insertError } = await supabase.from("events").insert({
     title: submission.title,

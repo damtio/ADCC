@@ -3,10 +3,10 @@
 import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
 import { parseEventFormData } from "@/lib/event-form";
+import { resolveUniqueEventSlug } from "@/lib/event-slug";
 import { uploadEventImage } from "@/lib/storage";
 import { createSupabaseAdmin } from "@/lib/supabase-admin";
 import { createSupabaseServerClient, getAuthUser } from "@/lib/supabase/server";
-import { slugify } from "@/lib/utils";
 import type { Event } from "@/types/event";
 
 async function resolveImageUrl(
@@ -31,12 +31,12 @@ export async function createUserEventAction(
 
   try {
     const data = parseEventFormData(formData);
-    const slug = slugify(data.title);
     const supabase = createSupabaseAdmin();
     if (!supabase) {
       return { error: "Supabase is not configured." };
     }
 
+    const slug = await resolveUniqueEventSlug(supabase, data.title);
     const image_url = await resolveImageUrl(formData, supabase);
 
     const { error } = await supabase.from("events").insert({
@@ -46,7 +46,15 @@ export async function createUserEventAction(
       user_id: user.id,
     });
 
-    if (error) return { error: error.message };
+    if (error) {
+      if (error.code === "23505") {
+        return {
+          error:
+            "An event with a similar title already exists. Try a different title.",
+        };
+      }
+      return { error: error.message };
+    }
 
     revalidatePath("/");
     revalidatePath("/my-events", "layout");
@@ -66,12 +74,12 @@ export async function updateUserEventAction(
   try {
     const id = formData.get("id") as string;
     const data = parseEventFormData(formData);
-    const slug = slugify(data.title);
     const supabase = createSupabaseAdmin();
     if (!supabase) {
       return { error: "Supabase is not configured." };
     }
 
+    const slug = await resolveUniqueEventSlug(supabase, data.title, id);
     const image_url = await resolveImageUrl(formData, supabase);
 
     const { data: updated, error } = await supabase
