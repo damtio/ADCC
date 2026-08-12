@@ -1,14 +1,23 @@
 import { SubmissionForm } from "@/components/SubmissionForm";
 import { submitEventAction } from "@/app/submit-event/actions";
+import { publicMetadata } from "@/lib/seo";
+import type { Locale } from "@/i18n/routing";
 import { getTranslations } from "next-intl/server";
 
-export async function generateMetadata() {
-  const t = await getTranslations("submitEvent");
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<{ locale: Locale }>;
+}): Promise<Metadata> {
+  const { locale } = await params;
+  const t = await getTranslations({ locale, namespace: "submitEvent" });
 
-  return {
+  return publicMetadata({
+    locale,
+    path: "/submit-event",
     title: t("title"),
     description: t("subtitle"),
-  };
+  });
 }
 
 export default async function SubmitEventPage() {
@@ -24,3 +33,4 @@ export default async function SubmitEventPage() {
     </div>
   );
 }
+import type { Metadata } from "next";

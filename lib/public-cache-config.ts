@@ -62,6 +62,7 @@ export const ACADEMY_LIST_COLUMNS = [
   "longitude",
   "sort_order",
   "published",
+  "updated_at",
 ].join(",");
 
 export function publicLocalePaths(path: string): string[] {

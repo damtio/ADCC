@@ -16,14 +16,21 @@ import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Link } from "@/i18n/navigation";
 import { buildEventMapsUrl, hasEventMapsTarget } from "@/lib/event-links";
+import {
+  localizedUrl,
+  publicMetadata,
+  safeHttpsUrl,
+  safeJsonLd,
+  warsawDateTime,
+} from "@/lib/seo";
 import { getEventBySlug, getAllEventSlugs } from "@/lib/supabase";
 import { formatDateRange, formatPrice, formatTime } from "@/lib/utils";
-import { routing } from "@/i18n/routing";
+import { routing, type Locale } from "@/i18n/routing";
 
 export const revalidate = 3600;
 
 interface EventPageProps {
-  params: Promise<{ locale: string; slug: string }>;
+  params: Promise<{ locale: Locale; slug: string }>;
 }
 
 export async function generateStaticParams() {
@@ -36,24 +43,24 @@ export async function generateStaticParams() {
 export async function generateMetadata({
   params,
 }: EventPageProps): Promise<Metadata> {
-  const { slug } = await params;
+  const { locale, slug } = await params;
   const event = await getEventBySlug(slug);
-  const t = await getTranslations("eventPage");
+  const t = await getTranslations({ locale, namespace: "eventPage" });
 
   if (!event) {
-    return { title: t("notFound") };
+    return {
+      title: t("notFound"),
+      robots: { index: false, follow: false },
+    };
   }
 
-  return {
+  return publicMetadata({
+    locale,
+    path: `/event/${event.slug}`,
     title: event.title,
     description: event.description || `${event.title} - ${event.category}`,
-    openGraph: {
-      title: event.title,
-      description: event.description || undefined,
-      images: event.image_url ? [{ url: event.image_url }] : undefined,
-      type: "website",
-    },
-  };
+    image: event.image_url,
+  });
 }
 
 export default async function EventPage({ params }: EventPageProps) {
@@ -63,8 +70,7 @@ export default async function EventPage({ params }: EventPageProps) {
 
   if (!event) notFound();
 
-  const siteUrl = process.env.URL || "https://wolnamata.pl";
-  const eventUrl = `${siteUrl}/${locale}/event/${event.slug}`;
+  const eventUrl = localizedUrl(locale, `/event/${event.slug}`);
   const showMapsLink = hasEventMapsTarget(event);
 
   const endDay =
@@ -75,11 +81,10 @@ export default async function EventPage({ params }: EventPageProps) {
     "@type": "Event",
     name: event.title,
     description: event.description,
-    startDate: event.start_time
-      ? `${event.date}T${event.start_time}`
-      : event.date,
+    url: eventUrl,
+    startDate: warsawDateTime(event.date, event.start_time),
     endDate: event.end_time
-      ? `${endDay}T${event.end_time}`
+      ? warsawDateTime(endDay, event.end_time)
       : event.end_date && event.end_date > event.date
         ? event.end_date
         : undefined,
@@ -96,14 +101,15 @@ export default async function EventPage({ params }: EventPageProps) {
       },
     },
     image: event.image_url,
-    offers: event.price
-      ? {
-          "@type": "Offer",
-          price: event.price,
-          priceCurrency: event.currency || "PLN",
-          url: event.registration_url,
-        }
-      : undefined,
+    offers:
+      event.price != null && safeHttpsUrl(event.registration_url)
+        ? {
+            "@type": "Offer",
+            price: event.price,
+            priceCurrency: event.currency || "PLN",
+            url: safeHttpsUrl(event.registration_url),
+          }
+        : undefined,
     performer: event.instructor
       ? { "@type": "Person", name: event.instructor }
       : undefined,
@@ -116,7 +122,7 @@ export default async function EventPage({ params }: EventPageProps) {
     <>
       <script
         type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+        dangerouslySetInnerHTML={{ __html: safeJsonLd(jsonLd) }}
       />
 
       <article className="mx-auto max-w-4xl px-4 py-8 sm:px-6 lg:px-8">

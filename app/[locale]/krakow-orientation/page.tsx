@@ -2,15 +2,24 @@ import { OrientationNav } from "@/components/OrientationNav";
 import { OrientationSectionView } from "@/components/OrientationSection";
 import { highlightTag } from "@/lib/i18n-rich";
 import type { OrientationSection } from "@/types/orientation";
+import { publicMetadata } from "@/lib/seo";
+import type { Locale } from "@/i18n/routing";
 import { getTranslations } from "next-intl/server";
 
-export async function generateMetadata() {
-  const t = await getTranslations("orientation");
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<{ locale: Locale }>;
+}): Promise<Metadata> {
+  const { locale } = await params;
+  const t = await getTranslations({ locale, namespace: "orientation" });
 
-  return {
+  return publicMetadata({
+    locale,
+    path: "/krakow-orientation",
     title: t("title").replace(/<[^>]+>/g, ""),
     description: t("subtitle"),
-  };
+  });
 }
 
 export default async function KrakowOrientationPage() {
@@ -48,3 +57,4 @@ export default async function KrakowOrientationPage() {
     </div>
   );
 }
+import type { Metadata } from "next";

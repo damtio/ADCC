@@ -113,13 +113,15 @@ export function getPublishedAcademies(): Promise<Academy[]> {
   })();
 }
 
-export async function getAllEventSlugs(): Promise<{ slug: string }[]> {
+export async function getAllEventSlugs(): Promise<
+  { slug: string; updated_at: string }[]
+> {
   const supabase = createSupabaseClient();
   if (!supabase) return [];
 
   const { data, error } = await supabase
     .from("events")
-    .select("slug")
+    .select("slug,updated_at")
     .eq("published", true);
 
   if (error) return [];

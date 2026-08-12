@@ -3,6 +3,9 @@ import { setRequestLocale } from "next-intl/server";
 import { Footer } from "@/components/Footer";
 import { Navbar } from "@/components/Navbar";
 import enMessages from "@/messages/en.json";
+import { NO_INDEX_METADATA } from "@/lib/seo";
+
+export const metadata = NO_INDEX_METADATA;
 
 export default function AdminLayout({
   children,

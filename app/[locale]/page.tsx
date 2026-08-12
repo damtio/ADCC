@@ -1,12 +1,33 @@
+import type { Metadata } from "next";
 import { Countdown } from "@/components/Countdown";
 import { EventList } from "@/components/EventList";
 import { highlightTag } from "@/lib/i18n-rich";
 import { getPublishedEvents } from "@/lib/supabase";
-import { getTranslations } from "next-intl/server";
+import { publicMetadata } from "@/lib/seo";
+import type { Locale } from "@/i18n/routing";
+import { getTranslations, setRequestLocale } from "next-intl/server";
 
 export const revalidate = 300;
 
-export default async function HomePage() {
+interface HomePageProps {
+  params: Promise<{ locale: Locale }>;
+}
+
+export async function generateMetadata({
+  params,
+}: HomePageProps): Promise<Metadata> {
+  const { locale } = await params;
+  const t = await getTranslations({ locale, namespace: "metadata" });
+  return publicMetadata({
+    locale,
+    title: t("title"),
+    description: t("description"),
+  });
+}
+
+export default async function HomePage({ params }: HomePageProps) {
+  const { locale } = await params;
+  setRequestLocale(locale);
   const t = await getTranslations("home");
   const events = await getPublishedEvents();
 

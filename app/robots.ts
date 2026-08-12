@@ -1,14 +1,22 @@
 import type { MetadataRoute } from "next";
+import { routing } from "@/i18n/routing";
+import { SITE_ORIGIN } from "@/lib/seo";
 
 export default function robots(): MetadataRoute.Robots {
-  const siteUrl = process.env.URL || "https://wolnamata.pl";
+  const privatePaths = routing.locales.flatMap((locale) => [
+    `/${locale}/login`,
+    `/${locale}/register`,
+    `/${locale}/my-events`,
+    `/${locale}/my-academies`,
+  ]);
 
   return {
     rules: {
       userAgent: "*",
       allow: "/",
-      disallow: "/admin/",
+      disallow: ["/admin/", "/auth/", ...privatePaths],
     },
-    sitemap: `${siteUrl}/sitemap.xml`,
+    sitemap: `${SITE_ORIGIN}/sitemap.xml`,
+    host: SITE_ORIGIN,
   };
 }

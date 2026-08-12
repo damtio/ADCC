@@ -2,6 +2,9 @@ import { setRequestLocale } from "next-intl/server";
 import { AuthForm } from "@/components/AuthForm";
 import { getAuthUser } from "@/lib/supabase/server";
 import { redirect } from "@/i18n/navigation";
+import { NO_INDEX_METADATA } from "@/lib/seo";
+
+export const metadata = NO_INDEX_METADATA;
 
 interface RegisterPageProps {
   params: Promise<{ locale: string }>;
