@@ -1,25 +1,21 @@
 import createMiddleware from "next-intl/middleware";
 import { type NextRequest, NextResponse } from "next/server";
 import { routing } from "./i18n/routing";
+import {
+  hasSupabaseAuthCookie,
+  isAuthCallbackPath,
+  isLocaleRoot,
+  shouldUpdateSession,
+} from "./lib/middleware-routes";
 import { updateSession } from "./lib/supabase/middleware";
 
 const handleI18nRouting = createMiddleware(routing);
 
-function isLocaleRoot(pathname: string): boolean {
-  return (
-    pathname === "/" ||
-    routing.locales.some(
-      (locale) => pathname === `/${locale}` || pathname === `/${locale}/`,
-    )
-  );
-}
-
 export async function middleware(request: NextRequest) {
   const { pathname, searchParams } = request.nextUrl;
 
-  // Do not refresh the session on the OAuth callback — exchanging the
-  // auth code must own cookie writes on the redirect response.
-  if (pathname.startsWith("/auth/callback")) {
+  // OAuth / email code exchange must own cookie writes on the redirect response.
+  if (isAuthCallbackPath(pathname)) {
     return NextResponse.next({ request });
   }
 
@@ -42,14 +38,21 @@ export async function middleware(request: NextRequest) {
     return NextResponse.redirect(url);
   }
 
-  if (pathname.startsWith("/auth") || pathname.startsWith("/admin")) {
-    return updateSession(request, NextResponse.next({ request }));
+  const hasAuthCookie = hasSupabaseAuthCookie(request.cookies.getAll());
+  const needsSession = shouldUpdateSession({ pathname, hasAuthCookie });
+
+  // Admin (and bare /auth/* except callback) stay outside next-intl.
+  if (pathname.startsWith("/admin") || pathname.startsWith("/auth")) {
+    const response = NextResponse.next({ request });
+    return needsSession ? updateSession(request, response) : response;
   }
 
   const response = handleI18nRouting(request);
-  return updateSession(request, response);
+  return needsSession ? updateSession(request, response) : response;
 }
 
 export const config = {
-  matcher: ["/((?!api|_next|_vercel|.*\\..*).*)"],
+  matcher: [
+    "/((?!api|_next/static|_next/image|_vercel|favicon.ico|robots.txt|sitemap.xml|.*\\..*).*)",
+  ],
 };

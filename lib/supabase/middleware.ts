@@ -2,6 +2,16 @@ import { createServerClient } from "@supabase/ssr";
 import { type NextRequest, NextResponse } from "next/server";
 import { isSupabasePublicConfigured } from "@/lib/supabase";
 
+type CookieToSet = {
+  name: string;
+  value: string;
+  options?: Parameters<NextResponse["cookies"]["set"]>[2];
+};
+
+/**
+ * Refresh Supabase session cookies on an existing response (e.g. next-intl).
+ * Must not replace redirects/rewrites with a bare NextResponse.next().
+ */
 export async function updateSession(
   request: NextRequest,
   response: NextResponse,
@@ -13,28 +23,23 @@ export async function updateSession(
   const url = process.env.NEXT_PUBLIC_SUPABASE_URL!;
   const key = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!;
 
-  let supabaseResponse = response;
-
   const supabase = createServerClient(url, key, {
     cookies: {
       getAll() {
         return request.cookies.getAll();
       },
-      setAll(cookiesToSet) {
+      setAll(cookiesToSet: CookieToSet[]) {
         cookiesToSet.forEach(({ name, value }) => {
           request.cookies.set(name, value);
         });
-        supabaseResponse = NextResponse.next({ request });
-        response.cookies.getAll().forEach((cookie) => {
-          supabaseResponse.cookies.set(cookie.name, cookie.value);
-        });
+        // Mutate the original response so next-intl status / Location / rewrite stay intact.
         cookiesToSet.forEach(({ name, value, options }) => {
-          supabaseResponse.cookies.set(name, value, options);
+          response.cookies.set(name, value, options);
         });
       },
     },
   });
 
   await supabase.auth.getUser();
-  return supabaseResponse;
+  return response;
 }
