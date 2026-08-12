@@ -32,3 +32,4 @@ export function createSupabaseAdmin(): SupabaseClient | null {
     },
   });
 }
+import "server-only";

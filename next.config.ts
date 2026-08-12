@@ -27,6 +27,50 @@ const nextConfig: NextConfig = {
     deviceSizes: [360, 640, 750, 828, 1080, 1200, 1920],
     imageSizes: [32, 48, 64, 96, 128, 256, 384],
   },
+  async headers() {
+    const supabaseOrigin = (() => {
+      try {
+        return new URL(process.env.NEXT_PUBLIC_SUPABASE_URL ?? "").origin;
+      } catch {
+        return "";
+      }
+    })();
+    const csp = [
+      "default-src 'self'",
+      "base-uri 'self'",
+      "object-src 'none'",
+      "frame-ancestors 'none'",
+      "form-action 'self'",
+      "script-src 'self' 'unsafe-inline' https://www.googletagmanager.com",
+      "style-src 'self' 'unsafe-inline'",
+      "font-src 'self' data:",
+      `img-src 'self' data: blob: ${supabaseOrigin} https://www.google-analytics.com`,
+      `connect-src 'self' ${supabaseOrigin} https://www.google-analytics.com https://*.google-analytics.com`,
+      "frame-src https://accounts.google.com",
+      "upgrade-insecure-requests",
+    ]
+      .filter((directive) => !directive.includes("  https"))
+      .join("; ");
+    return [
+      {
+        source: "/(.*)",
+        headers: [
+          { key: "Content-Security-Policy", value: csp },
+          {
+            key: "Strict-Transport-Security",
+            value: "max-age=63072000; includeSubDomains; preload",
+          },
+          { key: "X-Content-Type-Options", value: "nosniff" },
+          { key: "X-Frame-Options", value: "DENY" },
+          { key: "Referrer-Policy", value: "strict-origin-when-cross-origin" },
+          {
+            key: "Permissions-Policy",
+            value: "camera=(), microphone=(), geolocation=()",
+          },
+        ],
+      },
+    ];
+  },
 };
 
 export default withNextIntl(nextConfig);

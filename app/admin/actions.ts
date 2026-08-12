@@ -14,6 +14,8 @@ import { resolveUniqueEventSlug } from "@/lib/event-slug";
 import { revalidatePublicContent } from "@/lib/public-cache";
 import { createSupabaseAdmin } from "@/lib/supabase-admin";
 import { preserveEventImageUrl, uploadEventImage } from "@/lib/storage";
+import { consumeRateLimit, requestFingerprint } from "@/lib/rate-limit";
+import { parseUuid } from "@/lib/event-form";
 import { sortEventsChronologically } from "@/lib/utils";
 import type { Academy } from "@/types/academy";
 import type { EventSubmission } from "@/types/submission";
@@ -27,6 +29,21 @@ export async function loginAction(
   }
 
   const password = formData.get("password") as string;
+  const fingerprint = await requestFingerprint();
+  const ipAllowed = await consumeRateLimit(
+    "admin-login-ip",
+    fingerprint.ip,
+    10,
+    900,
+  );
+  const agentAllowed = await consumeRateLimit(
+    "admin-login-agent",
+    fingerprint.agent,
+    30,
+    900,
+  );
+  if (!ipAllowed || !agentAllowed)
+    return { error: "Too many attempts. Try again later." };
 
   if (!verifyPassword(password)) {
     return { error: "Invalid password" };
@@ -97,7 +114,7 @@ export async function updateEventAction(
   }
 
   try {
-    const id = formData.get("id") as string;
+    const id = parseUuid(formData.get("id"));
     const data = parseEventFormData(formData);
     const supabase = createSupabaseAdmin();
     if (!supabase) {
@@ -133,6 +150,7 @@ export async function deleteEventAction(id: string): Promise<void> {
     throw new Error("Unauthorized");
   }
 
+  id = parseUuid(id);
   const supabase = createSupabaseAdmin();
   if (!supabase) {
     throw new Error("Supabase is not configured");
@@ -152,6 +170,7 @@ export async function togglePublishAction(
     throw new Error("Unauthorized");
   }
 
+  id = parseUuid(id);
   const supabase = createSupabaseAdmin();
   if (!supabase) {
     throw new Error("Supabase is not configured");
@@ -238,6 +257,7 @@ export async function getAllSubmissionsAdmin(): Promise<EventSubmission[]> {
 export async function approveSubmissionAction(id: string): Promise<void> {
   if (!(await isAuthenticated())) throw new Error("Unauthorized");
 
+  id = parseUuid(id);
   const supabase = createSupabaseAdmin();
   if (!supabase) throw new Error("Supabase is not configured");
 
@@ -289,6 +309,7 @@ export async function approveSubmissionAction(id: string): Promise<void> {
 export async function rejectSubmissionAction(id: string): Promise<void> {
   if (!(await isAuthenticated())) throw new Error("Unauthorized");
 
+  id = parseUuid(id);
   const supabase = createSupabaseAdmin();
   if (!supabase) throw new Error("Supabase is not configured");
 
@@ -341,7 +362,7 @@ export async function updateAcademyAction(
   }
 
   try {
-    const id = formData.get("id") as string;
+    const id = parseUuid(formData.get("id"));
     const data = parseAcademyFormData(formData);
     const supabase = createSupabaseAdmin();
     if (!supabase) {
@@ -374,6 +395,7 @@ export async function deleteAcademyAction(id: string): Promise<void> {
     throw new Error("Unauthorized");
   }
 
+  id = parseUuid(id);
   const supabase = createSupabaseAdmin();
   if (!supabase) {
     throw new Error("Supabase is not configured");
@@ -393,6 +415,7 @@ export async function toggleAcademyPublishAction(
     throw new Error("Unauthorized");
   }
 
+  id = parseUuid(id);
   const supabase = createSupabaseAdmin();
   if (!supabase) {
     throw new Error("Supabase is not configured");

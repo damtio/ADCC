@@ -1,44 +1,71 @@
-import {
-  ACADEMY_SPECIALIZATIONS,
-  type AcademyFormData,
-  type AcademySpecialization,
-} from "@/types/academy";
+import { z } from "zod";
+import { ACADEMY_SPECIALIZATIONS, type AcademyFormData } from "@/types/academy";
 
-function parseOptionalNumber(value: FormDataEntryValue | null): number | null {
-  const str = (value as string)?.trim();
-  if (!str) return null;
-  const num = parseFloat(str);
-  return Number.isFinite(num) ? num : null;
-}
+const emptyToNull = (value: unknown) => {
+  if (typeof value !== "string") return value ?? null;
+  const trimmed = value.trim();
+  return trimmed === "" ? null : trimmed;
+};
+const optionalText = (max: number) =>
+  z.preprocess(emptyToNull, z.string().max(max).nullable());
+const httpsUrl = z.preprocess(
+  emptyToNull,
+  z
+    .string()
+    .url()
+    .max(2048)
+    .refine(
+      (value) => new URL(value).protocol === "https:",
+      "Only HTTPS URLs are allowed",
+    )
+    .nullable(),
+);
+const socialUrl = (host: string) =>
+  httpsUrl.refine((value) => {
+    if (!value) return true;
+    const actual = new URL(value).hostname.toLowerCase();
+    return actual === host || actual.endsWith(`.${host}`);
+  }, "Enter a URL from the correct social network");
+const optionalNumber = (minimum: number, maximum: number) =>
+  z.preprocess((value) => {
+    const normalized = emptyToNull(value);
+    return normalized === null ? null : Number(normalized);
+  }, z.number().finite().min(minimum).max(maximum).nullable());
 
-function parseSpecialization(
-  value: FormDataEntryValue | null,
-): AcademySpecialization {
-  const str = (value as string)?.trim();
-  if (str && (ACADEMY_SPECIALIZATIONS as readonly string[]).includes(str)) {
-    return str as AcademySpecialization;
-  }
-  return "Gi + NoGi";
-}
+const academySchema = z.object({
+  name: z.string().trim().min(2, "Academy name is required").max(160),
+  address: z.string().trim().min(3, "Address is required").max(300),
+  city: z.string().trim().min(2).max(120),
+  district: z.string().trim().max(120),
+  specialization: z.enum(ACADEMY_SPECIALIZATIONS),
+  phone: optionalText(40),
+  email: z.preprocess(emptyToNull, z.string().email().max(254).nullable()),
+  website: httpsUrl,
+  facebook_url: socialUrl("facebook.com"),
+  instagram_url: socialUrl("instagram.com"),
+  image_url: httpsUrl,
+  latitude: optionalNumber(-90, 90),
+  longitude: optionalNumber(-180, 180),
+  sort_order: z.coerce.number().int().min(-10_000).max(10_000),
+  published: z.boolean(),
+});
 
 export function parseAcademyFormData(formData: FormData): AcademyFormData {
-  const sortOrderStr = (formData.get("sort_order") as string)?.trim();
-
-  return {
-    name: (formData.get("name") as string)?.trim() ?? "",
-    address: (formData.get("address") as string)?.trim() ?? "",
-    city: (formData.get("city") as string)?.trim() || "Kraków",
-    district: (formData.get("district") as string)?.trim() ?? "",
-    specialization: parseSpecialization(formData.get("specialization")),
-    phone: (formData.get("phone") as string)?.trim() || null,
-    email: (formData.get("email") as string)?.trim() || null,
-    website: (formData.get("website") as string)?.trim() || null,
-    facebook_url: (formData.get("facebook_url") as string)?.trim() || null,
-    instagram_url: (formData.get("instagram_url") as string)?.trim() || null,
-    image_url: (formData.get("image_url") as string)?.trim() || null,
-    latitude: parseOptionalNumber(formData.get("latitude")),
-    longitude: parseOptionalNumber(formData.get("longitude")),
-    sort_order: sortOrderStr ? parseInt(sortOrderStr, 10) : 0,
+  return academySchema.parse({
+    name: formData.get("name"),
+    address: formData.get("address"),
+    city: formData.get("city") || "Kraków",
+    district: formData.get("district") || "",
+    specialization: formData.get("specialization") || "Gi + NoGi",
+    phone: formData.get("phone"),
+    email: formData.get("email"),
+    website: formData.get("website"),
+    facebook_url: formData.get("facebook_url"),
+    instagram_url: formData.get("instagram_url"),
+    image_url: formData.get("image_url"),
+    latitude: formData.get("latitude"),
+    longitude: formData.get("longitude"),
+    sort_order: formData.get("sort_order") || 0,
     published: formData.get("published") === "on",
-  };
+  });
 }

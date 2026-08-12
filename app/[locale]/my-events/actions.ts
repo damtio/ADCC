@@ -2,7 +2,8 @@
 
 import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
-import { parseEventFormData } from "@/lib/event-form";
+import { parseEventFormData, parseUuid } from "@/lib/event-form";
+import { consumeRateLimit, privateFingerprint } from "@/lib/rate-limit";
 import { resolveUniqueEventSlug } from "@/lib/event-slug";
 import { revalidatePublicContent } from "@/lib/public-cache";
 import { preserveEventImageUrl, uploadEventImage } from "@/lib/storage";
@@ -18,6 +19,13 @@ async function resolveImageUrl(
 ): Promise<string | null> {
   const file = formData.get("image");
   if (file instanceof File && file.size > 0) {
+    const allowed = await consumeRateLimit(
+      "user-event-upload",
+      privateFingerprint("user", userId),
+      20,
+      86400,
+    );
+    if (!allowed) throw new Error("Daily image upload limit reached");
     return uploadEventImage(supabase, file, { kind: "user", userId });
   }
 
@@ -55,7 +63,7 @@ export async function createUserEventAction(
             "An event with a similar title already exists. Try a different title.",
         };
       }
-      return { error: error.message };
+      return { error: "Unable to create the event." };
     }
 
     revalidatePublicContent({ events: true, eventSlug: slug });
@@ -74,7 +82,7 @@ export async function updateUserEventAction(
   if (!user) return { error: "Unauthorized" };
 
   try {
-    const id = formData.get("id") as string;
+    const id = parseUuid(formData.get("id"));
     const data = parseEventFormData(formData);
     const supabase = createSupabaseAdmin();
     if (!supabase) {
@@ -97,7 +105,7 @@ export async function updateUserEventAction(
       .select("id")
       .maybeSingle();
 
-    if (error) return { error: error.message };
+    if (error) return { error: "Unable to update the event." };
     if (!updated) return { error: "Event not found" };
 
     revalidatePublicContent({ events: true, eventSlug: slug });
@@ -112,6 +120,7 @@ export async function deleteUserEventAction(id: string): Promise<void> {
   const user = await getAuthUser();
   if (!user) throw new Error("Unauthorized");
 
+  id = parseUuid(id);
   const supabase = createSupabaseAdmin();
   if (!supabase) throw new Error("Supabase is not configured");
 
@@ -121,7 +130,7 @@ export async function deleteUserEventAction(id: string): Promise<void> {
     .eq("id", id)
     .eq("user_id", user.id);
 
-  if (error) throw new Error(error.message);
+  if (error) throw new Error("Unable to delete the event");
 
   revalidatePublicContent({ events: true });
   revalidatePath("/my-events", "layout");
@@ -134,6 +143,7 @@ export async function toggleUserPublishAction(
   const user = await getAuthUser();
   if (!user) throw new Error("Unauthorized");
 
+  id = parseUuid(id);
   const supabase = createSupabaseAdmin();
   if (!supabase) throw new Error("Supabase is not configured");
 
@@ -145,7 +155,7 @@ export async function toggleUserPublishAction(
     .select("slug")
     .maybeSingle();
 
-  if (error) throw new Error(error.message);
+  if (error) throw new Error("Unable to change event visibility");
 
   revalidatePublicContent({
     events: true,

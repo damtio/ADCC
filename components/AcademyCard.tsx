@@ -6,6 +6,7 @@ import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import type { Academy } from "@/types/academy";
+import { safeHttpsUrl } from "@/lib/seo";
 
 interface AcademyCardProps {
   academy: Academy;
@@ -28,6 +29,9 @@ export function AcademyCard({ academy }: AcademyCardProps) {
   const hasMapsTarget = Boolean(
     academy.name || academy.address || academy.city,
   );
+  const website = safeHttpsUrl(academy.website);
+  const facebookUrl = safeHttpsUrl(academy.facebook_url);
+  const instagramUrl = safeHttpsUrl(academy.instagram_url);
 
   return (
     <Card className="group overflow-hidden transition-all duration-300 hover:-translate-y-1 hover:border-red-600/40 hover:shadow-lg hover:shadow-red-900/10">
@@ -84,36 +88,24 @@ export function AcademyCard({ academy }: AcademyCardProps) {
               </a>
             </Button>
           )}
-          {academy.website && (
+          {website && (
             <Button asChild variant="outline" size="sm">
-              <a
-                href={academy.website}
-                target="_blank"
-                rel="noopener noreferrer"
-              >
+              <a href={website} target="_blank" rel="noopener noreferrer">
                 <Globe className="h-4 w-4" />
                 {t("website")}
               </a>
             </Button>
           )}
-          {academy.facebook_url && (
+          {facebookUrl && (
             <Button asChild variant="outline" size="sm">
-              <a
-                href={academy.facebook_url}
-                target="_blank"
-                rel="noopener noreferrer"
-              >
+              <a href={facebookUrl} target="_blank" rel="noopener noreferrer">
                 Facebook
               </a>
             </Button>
           )}
-          {academy.instagram_url && (
+          {instagramUrl && (
             <Button asChild variant="outline" size="sm">
-              <a
-                href={academy.instagram_url}
-                target="_blank"
-                rel="noopener noreferrer"
-              >
+              <a href={instagramUrl} target="_blank" rel="noopener noreferrer">
                 Instagram
               </a>
             </Button>

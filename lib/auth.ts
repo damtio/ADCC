@@ -1,57 +1,80 @@
+import "server-only";
+
+import { createHash, createHmac, randomUUID, timingSafeEqual } from "crypto";
 import { cookies } from "next/headers";
-import { createHmac, timingSafeEqual } from "crypto";
 
 const COOKIE_NAME = "admin_session";
-const COOKIE_MAX_AGE = 60 * 60 * 24 * 7; // 7 days
+const COOKIE_MAX_AGE = 60 * 60 * 24;
 
-function getSessionToken(): string {
-  const password = process.env.ADMIN_PASSWORD;
-  if (!password) throw new Error("ADMIN_PASSWORD is not configured");
-  return createHmac("sha256", password).update("bjj-adcc-admin").digest("hex");
+function sessionSecrets(): string[] {
+  const current =
+    process.env.ADMIN_SESSION_SECRET ||
+    createHash("sha256")
+      .update(`${process.env.ADMIN_PASSWORD ?? ""}:admin-session`)
+      .digest("hex");
+  return [current, process.env.ADMIN_SESSION_SECRET_PREVIOUS].filter(
+    (value): value is string => Boolean(value),
+  );
+}
+
+function sign(payload: string, secret: string): string {
+  return createHmac("sha256", secret).update(payload).digest("base64url");
+}
+
+function safeEqual(left: string, right: string): boolean {
+  const leftHash = createHash("sha256").update(left).digest();
+  const rightHash = createHash("sha256").update(right).digest();
+  return timingSafeEqual(leftHash, rightHash);
 }
 
 export async function isAuthenticated(): Promise<boolean> {
-  const cookieStore = await cookies();
-  const session = cookieStore.get(COOKIE_NAME)?.value;
+  const session = (await cookies()).get(COOKIE_NAME)?.value;
   if (!session) return false;
 
   try {
-    const expected = getSessionToken();
-    const sessionBuf = Buffer.from(session);
-    const expectedBuf = Buffer.from(expected);
-    if (sessionBuf.length !== expectedBuf.length) return false;
-    return timingSafeEqual(sessionBuf, expectedBuf);
+    const [payload, signature] = session.split(".");
+    if (!payload || !signature) return false;
+    const validSignature = sessionSecrets().some((secret) =>
+      safeEqual(signature, sign(payload, secret)),
+    );
+    if (!validSignature) return false;
+    const parsed = JSON.parse(Buffer.from(payload, "base64url").toString()) as {
+      exp?: number;
+    };
+    return typeof parsed.exp === "number" && parsed.exp > Date.now();
   } catch {
     return false;
   }
 }
 
 export async function createSession(): Promise<void> {
-  const cookieStore = await cookies();
-  cookieStore.set(COOKIE_NAME, getSessionToken(), {
+  const payload = Buffer.from(
+    JSON.stringify({
+      exp: Date.now() + COOKIE_MAX_AGE * 1000,
+      nonce: randomUUID(),
+    }),
+  ).toString("base64url");
+  const token = `${payload}.${sign(payload, sessionSecrets()[0])}`;
+  (await cookies()).set(COOKIE_NAME, token, {
     httpOnly: true,
     secure: process.env.NODE_ENV === "production",
-    sameSite: "lax",
+    sameSite: "strict",
     maxAge: COOKIE_MAX_AGE,
-    path: "/",
+    path: "/admin",
   });
 }
 
 export async function destroySession(): Promise<void> {
-  const cookieStore = await cookies();
-  cookieStore.delete(COOKIE_NAME);
+  (await cookies()).set(COOKIE_NAME, "", {
+    httpOnly: true,
+    secure: process.env.NODE_ENV === "production",
+    sameSite: "strict",
+    maxAge: 0,
+    path: "/admin",
+  });
 }
 
 export function verifyPassword(password: string): boolean {
-  const adminPassword = process.env.ADMIN_PASSWORD;
-  if (!adminPassword) return false;
-
-  try {
-    const inputBuf = Buffer.from(password);
-    const expectedBuf = Buffer.from(adminPassword);
-    if (inputBuf.length !== expectedBuf.length) return false;
-    return timingSafeEqual(inputBuf, expectedBuf);
-  } catch {
-    return false;
-  }
+  const expected = process.env.ADMIN_PASSWORD;
+  return Boolean(expected) && safeEqual(password, expected!);
 }

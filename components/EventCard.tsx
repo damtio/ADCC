@@ -8,6 +8,7 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Link } from "@/i18n/navigation";
 import { buildEventMapsUrl, hasEventMapsTarget } from "@/lib/event-links";
+import { safeHttpsUrl } from "@/lib/seo";
 import { formatDateRange, formatPrice, formatTime } from "@/lib/utils";
 import type { Event } from "@/types/event";
 
@@ -19,6 +20,9 @@ export function EventCard({ event }: EventCardProps) {
   const t = useTranslations("events");
   const tPage = useTranslations("eventPage");
   const hasMapsTarget = hasEventMapsTarget(event);
+  const registrationUrl = safeHttpsUrl(event.registration_url);
+  const facebookUrl = safeHttpsUrl(event.facebook_url);
+  const instagramUrl = safeHttpsUrl(event.instagram_url);
 
   return (
     <Card className="group overflow-hidden transition-all duration-300 hover:-translate-y-1 hover:border-red-600/40 hover:shadow-lg hover:shadow-red-900/10">
@@ -98,10 +102,10 @@ export function EventCard({ event }: EventCardProps) {
               </a>
             </Button>
           )}
-          {event.registration_url && (
+          {registrationUrl && (
             <Button asChild variant="outline" size="sm">
               <a
-                href={event.registration_url}
+                href={registrationUrl}
                 target="_blank"
                 rel="noopener noreferrer"
               >
@@ -110,24 +114,16 @@ export function EventCard({ event }: EventCardProps) {
               </a>
             </Button>
           )}
-          {event.facebook_url && (
+          {facebookUrl && (
             <Button asChild variant="outline" size="sm">
-              <a
-                href={event.facebook_url}
-                target="_blank"
-                rel="noopener noreferrer"
-              >
+              <a href={facebookUrl} target="_blank" rel="noopener noreferrer">
                 Facebook
               </a>
             </Button>
           )}
-          {event.instagram_url && (
+          {instagramUrl && (
             <Button asChild variant="outline" size="sm">
-              <a
-                href={event.instagram_url}
-                target="_blank"
-                rel="noopener noreferrer"
-              >
+              <a href={instagramUrl} target="_blank" rel="noopener noreferrer">
                 Instagram
               </a>
             </Button>

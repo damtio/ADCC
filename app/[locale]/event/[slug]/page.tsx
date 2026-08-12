@@ -71,6 +71,9 @@ export default async function EventPage({ params }: EventPageProps) {
   if (!event) notFound();
 
   const eventUrl = localizedUrl(locale, `/event/${event.slug}`);
+  const registrationUrl = safeHttpsUrl(event.registration_url);
+  const facebookUrl = safeHttpsUrl(event.facebook_url);
+  const instagramUrl = safeHttpsUrl(event.instagram_url);
   const showMapsLink = hasEventMapsTarget(event);
 
   const endDay =
@@ -249,10 +252,10 @@ export default async function EventPage({ params }: EventPageProps) {
                 </a>
               </Button>
             )}
-            {event.registration_url && (
+            {registrationUrl && (
               <Button asChild variant="outline" size="sm">
                 <a
-                  href={event.registration_url}
+                  href={registrationUrl}
                   target="_blank"
                   rel="noopener noreferrer"
                 >
@@ -261,21 +264,17 @@ export default async function EventPage({ params }: EventPageProps) {
                 </a>
               </Button>
             )}
-            {event.facebook_url && (
+            {facebookUrl && (
               <Button asChild variant="outline" size="sm">
-                <a
-                  href={event.facebook_url}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                >
+                <a href={facebookUrl} target="_blank" rel="noopener noreferrer">
                   Facebook
                 </a>
               </Button>
             )}
-            {event.instagram_url && (
+            {instagramUrl && (
               <Button asChild variant="outline" size="sm">
                 <a
-                  href={event.instagram_url}
+                  href={instagramUrl}
                   target="_blank"
                   rel="noopener noreferrer"
                 >

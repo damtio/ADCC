@@ -5,6 +5,7 @@ import { parseAcademyFormData } from "@/lib/academy-form";
 import { revalidatePublicContent } from "@/lib/public-cache";
 import { createSupabaseAdmin } from "@/lib/supabase-admin";
 import { getAuthUser } from "@/lib/supabase/server";
+import { parseUuid } from "@/lib/event-form";
 import type { Academy } from "@/types/academy";
 
 export async function createUserAcademyAction(
@@ -27,7 +28,7 @@ export async function createUserAcademyAction(
       user_id: user.id,
     });
 
-    if (error) return { error: error.message };
+    if (error) return { error: "Unable to create the academy." };
 
     revalidatePublicContent({ events: false, academies: true });
     revalidatePath("/my-academies", "layout");
@@ -47,7 +48,7 @@ export async function updateUserAcademyAction(
   if (!user) return { error: "Unauthorized" };
 
   try {
-    const id = formData.get("id") as string;
+    const id = parseUuid(formData.get("id"));
     const parsed = parseAcademyFormData(formData);
     const supabase = createSupabaseAdmin();
     if (!supabase) {
@@ -78,7 +79,7 @@ export async function updateUserAcademyAction(
       .select("id")
       .maybeSingle();
 
-    if (error) return { error: error.message };
+    if (error) return { error: "Unable to update the academy." };
     if (!updated) return { error: "Academy not found" };
 
     revalidatePublicContent({ events: false, academies: true });
@@ -95,6 +96,7 @@ export async function deleteUserAcademyAction(id: string): Promise<void> {
   const user = await getAuthUser();
   if (!user) throw new Error("Unauthorized");
 
+  id = parseUuid(id);
   const supabase = createSupabaseAdmin();
   if (!supabase) throw new Error("Supabase is not configured");
 
@@ -104,7 +106,7 @@ export async function deleteUserAcademyAction(id: string): Promise<void> {
     .eq("id", id)
     .eq("user_id", user.id);
 
-  if (error) throw new Error(error.message);
+  if (error) throw new Error("Unable to delete the academy");
 
   revalidatePublicContent({ events: false, academies: true });
   revalidatePath("/my-academies", "layout");
@@ -117,6 +119,7 @@ export async function toggleUserAcademyPublishAction(
   const user = await getAuthUser();
   if (!user) throw new Error("Unauthorized");
 
+  id = parseUuid(id);
   const supabase = createSupabaseAdmin();
   if (!supabase) throw new Error("Supabase is not configured");
 
@@ -126,7 +129,7 @@ export async function toggleUserAcademyPublishAction(
     .eq("id", id)
     .eq("user_id", user.id);
 
-  if (error) throw new Error(error.message);
+  if (error) throw new Error("Unable to change academy visibility");
 
   revalidatePublicContent({ events: false, academies: true });
   revalidatePath("/my-academies", "layout");
