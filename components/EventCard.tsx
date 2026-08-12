@@ -89,48 +89,55 @@ export function EventCard({ event }: EventCardProps) {
           {formatPrice(event.price, event.currency)}
         </p>
 
-        <div className="flex flex-wrap gap-2">
-          {hasMapsTarget && (
-            <Button asChild variant="outline" size="sm">
-              <a
-                href={buildEventMapsUrl(event)}
-                target="_blank"
-                rel="noopener noreferrer"
-              >
-                <MapPin className="h-4 w-4" />
-                {tPage("openInMaps")}
-              </a>
-            </Button>
-          )}
-          {registrationUrl && (
-            <Button asChild variant="outline" size="sm">
-              <a
-                href={registrationUrl}
-                target="_blank"
-                rel="noopener noreferrer"
-              >
-                <ExternalLink className="h-4 w-4" />
-                {tPage("register")}
-              </a>
-            </Button>
-          )}
-          {facebookUrl && (
-            <Button asChild variant="outline" size="sm">
-              <a href={facebookUrl} target="_blank" rel="noopener noreferrer">
-                Facebook
-              </a>
-            </Button>
-          )}
-          {instagramUrl && (
-            <Button asChild variant="outline" size="sm">
-              <a href={instagramUrl} target="_blank" rel="noopener noreferrer">
-                Instagram
-              </a>
-            </Button>
-          )}
-          <Button asChild variant="outline" size="sm">
+        <div className="space-y-3 border-t border-white/10 pt-4">
+          <Button asChild className="w-full" size="sm">
             <Link href={`/event/${event.slug}`}>{t("details")}</Link>
           </Button>
+
+          <div className="grid grid-cols-2 gap-2">
+            {hasMapsTarget && (
+              <Button asChild variant="outline" size="sm" className="w-full">
+                <a
+                  href={buildEventMapsUrl(event)}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  <MapPin className="h-4 w-4" />
+                  {tPage("openInMaps")}
+                </a>
+              </Button>
+            )}
+            {registrationUrl && (
+              <Button asChild variant="outline" size="sm" className="w-full">
+                <a
+                  href={registrationUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  <ExternalLink className="h-4 w-4" />
+                  {tPage("register")}
+                </a>
+              </Button>
+            )}
+            {facebookUrl && (
+              <Button asChild variant="outline" size="sm" className="w-full">
+                <a href={facebookUrl} target="_blank" rel="noopener noreferrer">
+                  Facebook
+                </a>
+              </Button>
+            )}
+            {instagramUrl && (
+              <Button asChild variant="outline" size="sm" className="w-full">
+                <a
+                  href={instagramUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  Instagram
+                </a>
+              </Button>
+            )}
+          </div>
         </div>
       </CardContent>
     </Card>
