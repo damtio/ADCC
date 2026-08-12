@@ -13,6 +13,7 @@ import { parseEventFormData } from "@/lib/event-form";
 import { resolveUniqueEventSlug } from "@/lib/event-slug";
 import { createSupabaseAdmin } from "@/lib/supabase-admin";
 import { uploadEventImage } from "@/lib/storage";
+import { sortEventsChronologically } from "@/lib/utils";
 import type { Academy } from "@/types/academy";
 import type { EventSubmission } from "@/types/submission";
 
@@ -180,10 +181,11 @@ export async function getAllEventsAdmin() {
   const { data, error } = await supabase
     .from("events")
     .select("*")
-    .order("date", { ascending: true });
+    .order("date", { ascending: true })
+    .order("start_time", { ascending: true, nullsFirst: false });
 
   if (error) throw error;
-  return data ?? [];
+  return sortEventsChronologically(data ?? []);
 }
 
 export async function getEventByIdAdmin(id: string) {

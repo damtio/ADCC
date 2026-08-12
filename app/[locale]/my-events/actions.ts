@@ -7,6 +7,7 @@ import { resolveUniqueEventSlug } from "@/lib/event-slug";
 import { uploadEventImage } from "@/lib/storage";
 import { createSupabaseAdmin } from "@/lib/supabase-admin";
 import { createSupabaseServerClient, getAuthUser } from "@/lib/supabase/server";
+import { sortEventsChronologically } from "@/lib/utils";
 import type { Event } from "@/types/event";
 
 async function resolveImageUrl(
@@ -159,10 +160,11 @@ export async function getUserEvents(): Promise<Event[]> {
     .from("events")
     .select("*")
     .eq("user_id", user.id)
-    .order("date", { ascending: true });
+    .order("date", { ascending: true })
+    .order("start_time", { ascending: true, nullsFirst: false });
 
   if (error) throw error;
-  return (data as Event[]) ?? [];
+  return sortEventsChronologically((data as Event[]) ?? []);
 }
 
 export async function getUserEventById(id: string): Promise<Event | null> {

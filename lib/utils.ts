@@ -106,3 +106,24 @@ export function formatPrice(
 }
 
 export const ADCC_WEEKEND_DATE = "2026-09-12";
+
+export function compareEventsChronologically(
+  a: { date: string; start_time: string | null; title: string },
+  b: { date: string; start_time: string | null; title: string },
+): number {
+  const byDate = a.date.localeCompare(b.date);
+  if (byDate !== 0) return byDate;
+
+  const aTime = a.start_time ?? "23:59:59";
+  const bTime = b.start_time ?? "23:59:59";
+  const byTime = aTime.localeCompare(bTime);
+  if (byTime !== 0) return byTime;
+
+  return a.title.localeCompare(b.title);
+}
+
+export function sortEventsChronologically<
+  T extends { date: string; start_time: string | null; title: string },
+>(events: T[]): T[] {
+  return [...events].sort(compareEventsChronologically);
+}

@@ -1,6 +1,7 @@
 import { createClient, type SupabaseClient } from "@supabase/supabase-js";
 import type { Academy } from "@/types/academy";
 import type { Event } from "@/types/event";
+import { sortEventsChronologically } from "@/lib/utils";
 
 export function isSupabasePublicConfigured(): boolean {
   const url = process.env.NEXT_PUBLIC_SUPABASE_URL;
@@ -37,10 +38,11 @@ export async function getPublishedEvents(): Promise<Event[]> {
     .from("events")
     .select("*")
     .eq("published", true)
-    .order("date", { ascending: true });
+    .order("date", { ascending: true })
+    .order("start_time", { ascending: true, nullsFirst: false });
 
   if (error) throw error;
-  return (data as Event[]) ?? [];
+  return sortEventsChronologically((data as Event[]) ?? []);
 }
 
 export async function getEventBySlug(slug: string): Promise<Event | null> {
