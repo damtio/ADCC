@@ -1,10 +1,18 @@
 "use client";
 
 import { useTranslations } from "next-intl";
-import { useMemo, useState } from "react";
+import { useCallback, useEffect, useMemo, useState } from "react";
 import { EventCard } from "@/components/EventCard";
 import { Filters } from "@/components/Filters";
 import { filterEvents, getUniqueCities, getUniqueDates } from "@/lib/filters";
+import {
+  EMPTY_EVENT_FILTERS,
+  hasActiveEventFilters,
+  parseEventFilterParams,
+  serializeEventFilterParams,
+  type EventFilterState,
+} from "@/lib/event-filter-params";
+import { EVENT_CATEGORIES } from "@/types/event";
 import type { Event } from "@/types/event";
 
 interface EventListProps {
@@ -20,6 +28,41 @@ export function EventList({ events }: EventListProps) {
 
   const cities = useMemo(() => getUniqueCities(events), [events]);
   const dates = useMemo(() => getUniqueDates(events), [events]);
+
+  const readFiltersFromUrl = useCallback(() => {
+    const filters = parseEventFilterParams(window.location.search, {
+      categories: EVENT_CATEGORIES,
+      cities,
+      dates,
+    });
+    setSearch(filters.search);
+    setCategory(filters.category);
+    setCity(filters.city);
+    setDate(filters.date);
+  }, [cities, dates]);
+
+  useEffect(() => {
+    readFiltersFromUrl();
+    window.addEventListener("popstate", readFiltersFromUrl);
+    return () => window.removeEventListener("popstate", readFiltersFromUrl);
+  }, [readFiltersFromUrl]);
+
+  function updateFilters(next: EventFilterState) {
+    setSearch(next.search);
+    setCategory(next.category);
+    setCity(next.city);
+    setDate(next.date);
+
+    const query = serializeEventFilterParams(next, window.location.search);
+    window.history.replaceState(
+      window.history.state,
+      "",
+      `${window.location.pathname}${query}${window.location.hash}`,
+    );
+  }
+
+  const currentFilters = { search, category, city, date };
+  const hasActiveFilters = hasActiveEventFilters(currentFilters);
 
   const filteredEvents = useMemo(
     () =>
@@ -41,11 +84,29 @@ export function EventList({ events }: EventListProps) {
         date={date}
         cities={cities}
         dates={dates}
-        onSearchChange={setSearch}
-        onCategoryChange={setCategory}
-        onCityChange={setCity}
-        onDateChange={setDate}
+        onSearchChange={(value) =>
+          updateFilters({ ...currentFilters, search: value })
+        }
+        onCategoryChange={(value) =>
+          updateFilters({ ...currentFilters, category: value })
+        }
+        onCityChange={(value) =>
+          updateFilters({ ...currentFilters, city: value })
+        }
+        onDateChange={(value) =>
+          updateFilters({ ...currentFilters, date: value })
+        }
+        hasActiveFilters={hasActiveFilters}
+        onClear={() => updateFilters(EMPTY_EVENT_FILTERS)}
       />
+
+      <p
+        className="text-sm text-zinc-500"
+        aria-live="polite"
+        aria-atomic="true"
+      >
+        {t("resultsCount", { count: filteredEvents.length })}
+      </p>
 
       {filteredEvents.length === 0 ? (
         <div className="rounded-xl border border-[#2B2B2B] bg-[#151515] py-16 text-center">

@@ -36,7 +36,10 @@
     "allCities": "Wszystkie miasta",
     "date": "Data",
     "allDates": "Wszystkie daty",
-    "details": "Szczegóły"
+    "details": "Szczegóły",
+    "searchLabel": "Szukaj wydarzeń",
+    "clearFilters": "Wyczyść filtry",
+    "resultsCount": "Liczba znalezionych wydarzeń: {count}"
   },
   "eventPage": {
     "notFound": "Nie znaleziono wydarzenia",

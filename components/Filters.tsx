@@ -2,6 +2,8 @@
 
 import { useTranslations } from "next-intl";
 import { SearchBox } from "@/components/SearchBox";
+import { Button } from "@/components/ui/button";
+import { Label } from "@/components/ui/label";
 import {
   Select,
   SelectContent,
@@ -23,6 +25,8 @@ interface FiltersProps {
   onCategoryChange: (value: string) => void;
   onCityChange: (value: string) => void;
   onDateChange: (value: string) => void;
+  hasActiveFilters: boolean;
+  onClear: () => void;
 }
 
 export function Filters({
@@ -36,54 +40,86 @@ export function Filters({
   onCategoryChange,
   onCityChange,
   onDateChange,
+  hasActiveFilters,
+  onClear,
 }: FiltersProps) {
   const t = useTranslations("events");
 
   return (
-    <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
-      <SearchBox value={search} onChange={onSearchChange} />
+    <div className="space-y-4">
+      <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+        <SearchBox
+          value={search}
+          onChange={onSearchChange}
+          ariaLabel={t("searchLabel")}
+        />
 
-      <Select value={category || "all"} onValueChange={onCategoryChange}>
-        <SelectTrigger>
-          <SelectValue placeholder={t("category")} />
-        </SelectTrigger>
-        <SelectContent>
-          <SelectItem value="all">{t("allCategories")}</SelectItem>
-          {EVENT_CATEGORIES.map((cat) => (
-            <SelectItem key={cat} value={cat}>
-              {cat}
-            </SelectItem>
-          ))}
-        </SelectContent>
-      </Select>
+        <div>
+          <Label className="sr-only" htmlFor="event-category-filter">
+            {t("category")}
+          </Label>
+          <Select value={category || "all"} onValueChange={onCategoryChange}>
+            <SelectTrigger
+              id="event-category-filter"
+              aria-label={t("category")}
+            >
+              <SelectValue placeholder={t("category")} />
+            </SelectTrigger>
+            <SelectContent>
+              <SelectItem value="all">{t("allCategories")}</SelectItem>
+              {EVENT_CATEGORIES.map((cat) => (
+                <SelectItem key={cat} value={cat}>
+                  {cat}
+                </SelectItem>
+              ))}
+            </SelectContent>
+          </Select>
+        </div>
 
-      <Select value={city || "all"} onValueChange={onCityChange}>
-        <SelectTrigger>
-          <SelectValue placeholder={t("city")} />
-        </SelectTrigger>
-        <SelectContent>
-          <SelectItem value="all">{t("allCities")}</SelectItem>
-          {cities.map((c) => (
-            <SelectItem key={c} value={c}>
-              {c}
-            </SelectItem>
-          ))}
-        </SelectContent>
-      </Select>
+        <div>
+          <Label className="sr-only" htmlFor="event-city-filter">
+            {t("city")}
+          </Label>
+          <Select value={city || "all"} onValueChange={onCityChange}>
+            <SelectTrigger id="event-city-filter" aria-label={t("city")}>
+              <SelectValue placeholder={t("city")} />
+            </SelectTrigger>
+            <SelectContent>
+              <SelectItem value="all">{t("allCities")}</SelectItem>
+              {cities.map((c) => (
+                <SelectItem key={c} value={c}>
+                  {c}
+                </SelectItem>
+              ))}
+            </SelectContent>
+          </Select>
+        </div>
 
-      <Select value={date || "all"} onValueChange={onDateChange}>
-        <SelectTrigger>
-          <SelectValue placeholder={t("date")} />
-        </SelectTrigger>
-        <SelectContent>
-          <SelectItem value="all">{t("allDates")}</SelectItem>
-          {dates.map((d) => (
-            <SelectItem key={d} value={d}>
-              {formatDate(d)}
-            </SelectItem>
-          ))}
-        </SelectContent>
-      </Select>
+        <div>
+          <Label className="sr-only" htmlFor="event-date-filter">
+            {t("date")}
+          </Label>
+          <Select value={date || "all"} onValueChange={onDateChange}>
+            <SelectTrigger id="event-date-filter" aria-label={t("date")}>
+              <SelectValue placeholder={t("date")} />
+            </SelectTrigger>
+            <SelectContent>
+              <SelectItem value="all">{t("allDates")}</SelectItem>
+              {dates.map((d) => (
+                <SelectItem key={d} value={d}>
+                  {formatDate(d)}
+                </SelectItem>
+              ))}
+            </SelectContent>
+          </Select>
+        </div>
+      </div>
+
+      {hasActiveFilters && (
+        <Button type="button" variant="ghost" size="sm" onClick={onClear}>
+          {t("clearFilters")}
+        </Button>
+      )}
     </div>
   );
 }

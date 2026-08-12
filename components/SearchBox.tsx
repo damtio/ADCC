@@ -8,9 +8,15 @@ interface SearchBoxProps {
   value: string;
   onChange: (value: string) => void;
   placeholder?: string;
+  ariaLabel?: string;
 }
 
-export function SearchBox({ value, onChange, placeholder }: SearchBoxProps) {
+export function SearchBox({
+  value,
+  onChange,
+  placeholder,
+  ariaLabel,
+}: SearchBoxProps) {
   const t = useTranslations("events");
 
   return (
@@ -19,6 +25,7 @@ export function SearchBox({ value, onChange, placeholder }: SearchBoxProps) {
       <Input
         type="search"
         placeholder={placeholder ?? t("searchPlaceholder")}
+        aria-label={ariaLabel ?? placeholder ?? t("searchPlaceholder")}
         value={value}
         onChange={(e) => onChange(e.target.value)}
         className="pl-10"

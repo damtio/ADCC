@@ -8,7 +8,7 @@
     "start": "next start",
     "lint": "eslint . --max-warnings 0",
     "typecheck": "tsc --noEmit",
-    "test": "node --experimental-strip-types --test lib/public-cache.test.mjs lib/middleware-routes.test.mjs lib/storage.test.mjs lib/seo.test.mjs",
+    "test": "node --experimental-strip-types --test lib/public-cache.test.mjs lib/middleware-routes.test.mjs lib/storage.test.mjs lib/seo.test.mjs lib/ux.test.mjs",
     "format": "prettier --write .",
     "format:check": "prettier --check .",
     "prepare": "husky"

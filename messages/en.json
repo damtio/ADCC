@@ -36,7 +36,10 @@
     "allCities": "All cities",
     "date": "Date",
     "allDates": "All dates",
-    "details": "Details"
+    "details": "Details",
+    "searchLabel": "Search events",
+    "clearFilters": "Clear filters",
+    "resultsCount": "Events found: {count}"
   },
   "eventPage": {
     "notFound": "Event Not Found",
