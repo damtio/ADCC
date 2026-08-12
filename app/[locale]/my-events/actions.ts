@@ -5,7 +5,7 @@ import { redirect } from "next/navigation";
 import { parseEventFormData } from "@/lib/event-form";
 import { resolveUniqueEventSlug } from "@/lib/event-slug";
 import { revalidatePublicContent } from "@/lib/public-cache";
-import { uploadEventImage } from "@/lib/storage";
+import { preserveEventImageUrl, uploadEventImage } from "@/lib/storage";
 import { createSupabaseAdmin } from "@/lib/supabase-admin";
 import { createSupabaseServerClient, getAuthUser } from "@/lib/supabase/server";
 import { sortEventsChronologically } from "@/lib/utils";
@@ -14,14 +14,14 @@ import type { Event } from "@/types/event";
 async function resolveImageUrl(
   formData: FormData,
   supabase: NonNullable<ReturnType<typeof createSupabaseAdmin>>,
+  userId: string,
 ): Promise<string | null> {
   const file = formData.get("image");
   if (file instanceof File && file.size > 0) {
-    return uploadEventImage(supabase, file);
+    return uploadEventImage(supabase, file, { kind: "user", userId });
   }
 
-  const existing = formData.get("existing_image_url") as string;
-  return existing || null;
+  return preserveEventImageUrl(formData.get("existing_image_url"));
 }
 
 export async function createUserEventAction(
@@ -39,7 +39,7 @@ export async function createUserEventAction(
     }
 
     const slug = await resolveUniqueEventSlug(supabase, data.title);
-    const image_url = await resolveImageUrl(formData, supabase);
+    const image_url = await resolveImageUrl(formData, supabase, user.id);
 
     const { error } = await supabase.from("events").insert({
       ...data,
@@ -82,7 +82,7 @@ export async function updateUserEventAction(
     }
 
     const slug = await resolveUniqueEventSlug(supabase, data.title, id);
-    const image_url = await resolveImageUrl(formData, supabase);
+    const image_url = await resolveImageUrl(formData, supabase, user.id);
 
     const { data: updated, error } = await supabase
       .from("events")

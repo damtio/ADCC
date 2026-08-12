@@ -10,7 +10,7 @@ async function resolveImageUrl(
 ): Promise<string | null> {
   const file = formData.get("image");
   if (file instanceof File && file.size > 0) {
-    return uploadEventImage(supabase, file);
+    return uploadEventImage(supabase, file, { kind: "submission" });
   }
   return null;
 }

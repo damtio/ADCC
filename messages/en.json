@@ -237,7 +237,7 @@
     "facebookUrlLabel": "Facebook URL",
     "instagramUrlLabel": "Instagram URL",
     "imageLabel": "Event Image",
-    "imageHint": "JPEG, PNG, WebP or GIF. Max 5 MB.",
+    "imageHint": "JPEG, PNG or WebP. Max 5 MB.",
     "descriptionLabel": "Description",
     "submitting": "Submitting...",
     "submit": "Submit Event"

@@ -250,7 +250,7 @@ export function EventForm({
             id="image"
             name="image"
             type="file"
-            accept="image/jpeg,image/png,image/webp,image/gif"
+            accept="image/jpeg,image/png,image/webp"
           />
           <p className="text-xs text-zinc-500">
             {label("imageHint")}
@@ -320,7 +320,7 @@ const fallbackLabels = {
   facebookUrlLabel: "Facebook URL",
   instagramUrlLabel: "Instagram URL",
   imageLabel: "Event Image",
-  imageHint: "JPEG, PNG, WebP or GIF. Max 5 MB.",
+  imageHint: "JPEG, PNG or WebP. Max 5 MB.",
   descriptionLabel: "Description",
 } as const;
 

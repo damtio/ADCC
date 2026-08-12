@@ -7,10 +7,10 @@ import {
   Users,
 } from "lucide-react";
 import type { Metadata } from "next";
-import Image from "next/image";
 import { notFound } from "next/navigation";
 import { getTranslations } from "next-intl/server";
 import { GoogleCalendarButton } from "@/components/GoogleCalendarButton";
+import { SafeImage } from "@/components/SafeImage";
 import { ShareButton } from "@/components/ShareButton";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
@@ -129,13 +129,13 @@ export default async function EventPage({ params }: EventPageProps) {
 
         <div className="relative mb-8 aspect-[16/9] overflow-hidden rounded-xl border border-[#2B2B2B] bg-[#151515]">
           {event.image_url ? (
-            <Image
+            <SafeImage
               src={event.image_url}
               alt={event.title}
-              fill
               className="object-cover"
               priority
               sizes="(max-width: 896px) 100vw, 896px"
+              fallbackClassName="text-6xl"
             />
           ) : (
             <div className="flex h-full items-center justify-center">

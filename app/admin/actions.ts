@@ -13,7 +13,7 @@ import { parseEventFormData } from "@/lib/event-form";
 import { resolveUniqueEventSlug } from "@/lib/event-slug";
 import { revalidatePublicContent } from "@/lib/public-cache";
 import { createSupabaseAdmin } from "@/lib/supabase-admin";
-import { uploadEventImage } from "@/lib/storage";
+import { preserveEventImageUrl, uploadEventImage } from "@/lib/storage";
 import { sortEventsChronologically } from "@/lib/utils";
 import type { Academy } from "@/types/academy";
 import type { EventSubmission } from "@/types/submission";
@@ -47,11 +47,10 @@ async function resolveImageUrl(
 ): Promise<string | null> {
   const file = formData.get("image");
   if (file instanceof File && file.size > 0) {
-    return uploadEventImage(supabase, file);
+    return uploadEventImage(supabase, file, { kind: "admin" });
   }
 
-  const existing = formData.get("existing_image_url") as string;
-  return existing || null;
+  return preserveEventImageUrl(formData.get("existing_image_url"));
 }
 
 export async function createEventAction(

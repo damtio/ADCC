@@ -1,8 +1,8 @@
 "use client";
 
 import { Calendar, Clock, ExternalLink, MapPin } from "lucide-react";
-import Image from "next/image";
 import { useTranslations } from "next-intl";
+import { SafeImage } from "@/components/SafeImage";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
@@ -29,10 +29,9 @@ export function EventCard({ event }: EventCardProps) {
           aria-label={event.title}
         />
         {event.image_url ? (
-          <Image
+          <SafeImage
             src={event.image_url}
             alt={event.title}
-            fill
             className="object-cover transition-transform duration-300 group-hover:scale-105"
             sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
           />

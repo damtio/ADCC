@@ -157,7 +157,7 @@ export function SubmissionForm({ action }: SubmissionFormProps) {
             id="image"
             name="image"
             type="file"
-            accept="image/jpeg,image/png,image/webp,image/gif"
+            accept="image/jpeg,image/png,image/webp"
           />
           <p className="text-xs text-zinc-500">{t("imageHint")}</p>
         </div>
