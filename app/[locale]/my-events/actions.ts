@@ -4,6 +4,7 @@ import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
 import { parseEventFormData } from "@/lib/event-form";
 import { resolveUniqueEventSlug } from "@/lib/event-slug";
+import { revalidatePublicContent } from "@/lib/public-cache";
 import { uploadEventImage } from "@/lib/storage";
 import { createSupabaseAdmin } from "@/lib/supabase-admin";
 import { createSupabaseServerClient, getAuthUser } from "@/lib/supabase/server";
@@ -57,7 +58,7 @@ export async function createUserEventAction(
       return { error: error.message };
     }
 
-    revalidatePath("/");
+    revalidatePublicContent({ events: true, eventSlug: slug });
     revalidatePath("/my-events", "layout");
     return { success: true };
   } catch (e) {
@@ -99,9 +100,8 @@ export async function updateUserEventAction(
     if (error) return { error: error.message };
     if (!updated) return { error: "Event not found" };
 
-    revalidatePath("/");
+    revalidatePublicContent({ events: true, eventSlug: slug });
     revalidatePath("/my-events", "layout");
-    revalidatePath(`/event/${slug}`);
     return { success: true };
   } catch (e) {
     return { error: e instanceof Error ? e.message : "Failed to update event" };
@@ -123,7 +123,7 @@ export async function deleteUserEventAction(id: string): Promise<void> {
 
   if (error) throw new Error(error.message);
 
-  revalidatePath("/");
+  revalidatePublicContent({ events: true });
   revalidatePath("/my-events", "layout");
 }
 
@@ -137,15 +137,20 @@ export async function toggleUserPublishAction(
   const supabase = createSupabaseAdmin();
   if (!supabase) throw new Error("Supabase is not configured");
 
-  const { error } = await supabase
+  const { data: updated, error } = await supabase
     .from("events")
     .update({ published, updated_at: new Date().toISOString() })
     .eq("id", id)
-    .eq("user_id", user.id);
+    .eq("user_id", user.id)
+    .select("slug")
+    .maybeSingle();
 
   if (error) throw new Error(error.message);
 
-  revalidatePath("/");
+  revalidatePublicContent({
+    events: true,
+    eventSlug: updated?.slug ?? null,
+  });
   revalidatePath("/my-events", "layout");
 }
 

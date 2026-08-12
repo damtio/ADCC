@@ -11,6 +11,7 @@ import {
 import { parseAcademyFormData } from "@/lib/academy-form";
 import { parseEventFormData } from "@/lib/event-form";
 import { resolveUniqueEventSlug } from "@/lib/event-slug";
+import { revalidatePublicContent } from "@/lib/public-cache";
 import { createSupabaseAdmin } from "@/lib/supabase-admin";
 import { uploadEventImage } from "@/lib/storage";
 import { sortEventsChronologically } from "@/lib/utils";
@@ -81,8 +82,7 @@ export async function createEventAction(
 
     if (error) return { error: error.message };
 
-    revalidatePath("/");
-    revalidatePath("/admin");
+    revalidatePublicContent({ events: true, eventSlug: slug, admin: true });
     return { success: true };
   } catch (e) {
     return { error: e instanceof Error ? e.message : "Failed to create event" };
@@ -122,9 +122,7 @@ export async function updateEventAction(
 
     if (error) return { error: error.message };
 
-    revalidatePath("/");
-    revalidatePath("/admin");
-    revalidatePath(`/event/${slug}`);
+    revalidatePublicContent({ events: true, eventSlug: slug, admin: true });
     return { success: true };
   } catch (e) {
     return { error: e instanceof Error ? e.message : "Failed to update event" };
@@ -144,8 +142,7 @@ export async function deleteEventAction(id: string): Promise<void> {
   const { error } = await supabase.from("events").delete().eq("id", id);
   if (error) throw new Error(error.message);
 
-  revalidatePath("/");
-  revalidatePath("/admin");
+  revalidatePublicContent({ events: true, admin: true });
 }
 
 export async function togglePublishAction(
@@ -161,15 +158,20 @@ export async function togglePublishAction(
     throw new Error("Supabase is not configured");
   }
 
-  const { error } = await supabase
+  const { data: updated, error } = await supabase
     .from("events")
     .update({ published, updated_at: new Date().toISOString() })
-    .eq("id", id);
+    .eq("id", id)
+    .select("slug")
+    .maybeSingle();
 
   if (error) throw new Error(error.message);
 
-  revalidatePath("/");
-  revalidatePath("/admin");
+  revalidatePublicContent({
+    events: true,
+    eventSlug: updated?.slug ?? null,
+    admin: true,
+  });
 }
 
 export async function getAllEventsAdmin() {
@@ -282,9 +284,7 @@ export async function approveSubmissionAction(id: string): Promise<void> {
 
   if (updateError) throw new Error(updateError.message);
 
-  revalidatePath("/");
-  revalidatePath("/admin");
-  revalidatePath("/admin/submissions");
+  revalidatePublicContent({ events: true, eventSlug: slug, admin: true });
 }
 
 export async function rejectSubmissionAction(id: string): Promise<void> {
@@ -324,8 +324,7 @@ export async function createAcademyAction(
     const { error } = await supabase.from("academies").insert(data);
     if (error) return { error: error.message };
 
-    revalidatePath("/academies");
-    revalidatePath("/admin/academies");
+    revalidatePublicContent({ events: false, academies: true, admin: true });
     return { success: true };
   } catch (e) {
     return {
@@ -362,8 +361,7 @@ export async function updateAcademyAction(
 
     if (error) return { error: error.message };
 
-    revalidatePath("/academies");
-    revalidatePath("/admin/academies");
+    revalidatePublicContent({ events: false, academies: true, admin: true });
     return { success: true };
   } catch (e) {
     return {
@@ -385,8 +383,7 @@ export async function deleteAcademyAction(id: string): Promise<void> {
   const { error } = await supabase.from("academies").delete().eq("id", id);
   if (error) throw new Error(error.message);
 
-  revalidatePath("/academies");
-  revalidatePath("/admin/academies");
+  revalidatePublicContent({ events: false, academies: true, admin: true });
 }
 
 export async function toggleAcademyPublishAction(
@@ -409,8 +406,7 @@ export async function toggleAcademyPublishAction(
 
   if (error) throw new Error(error.message);
 
-  revalidatePath("/academies");
-  revalidatePath("/admin/academies");
+  revalidatePublicContent({ events: false, academies: true, admin: true });
 }
 
 export async function getAllAcademiesAdmin(): Promise<Academy[]> {

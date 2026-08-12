@@ -16,13 +16,21 @@ import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Link } from "@/i18n/navigation";
 import { buildEventMapsUrl, hasEventMapsTarget } from "@/lib/event-links";
-import { getEventBySlug } from "@/lib/supabase";
+import { getEventBySlug, getAllEventSlugs } from "@/lib/supabase";
 import { formatDateRange, formatPrice, formatTime } from "@/lib/utils";
+import { routing } from "@/i18n/routing";
 
-export const dynamic = "force-dynamic";
+export const revalidate = 3600;
 
 interface EventPageProps {
   params: Promise<{ locale: string; slug: string }>;
+}
+
+export async function generateStaticParams() {
+  const events = await getAllEventSlugs();
+  return routing.locales.flatMap((locale) =>
+    events.map(({ slug }) => ({ locale, slug })),
+  );
 }
 
 export async function generateMetadata({

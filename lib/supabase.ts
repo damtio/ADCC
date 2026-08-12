@@ -1,6 +1,15 @@
+import { unstable_cache } from "next/cache";
+import { cache } from "react";
 import { createClient, type SupabaseClient } from "@supabase/supabase-js";
 import type { Academy } from "@/types/academy";
 import type { Event } from "@/types/event";
+import {
+  ACADEMY_LIST_COLUMNS,
+  CACHE_TAGS,
+  EVENT_DETAIL_COLUMNS,
+  EVENT_LIST_COLUMNS,
+  PUBLIC_REVALIDATE,
+} from "@/lib/public-cache-config";
 import { sortEventsChronologically } from "@/lib/utils";
 
 export function isSupabasePublicConfigured(): boolean {
@@ -30,34 +39,78 @@ export function createSupabaseClient(): SupabaseClient | null {
   return createClient(url, key);
 }
 
-export async function getPublishedEvents(): Promise<Event[]> {
+async function fetchPublishedEvents(): Promise<Event[]> {
   const supabase = createSupabaseClient();
   if (!supabase) return [];
 
   const { data, error } = await supabase
     .from("events")
-    .select("*")
+    .select(EVENT_LIST_COLUMNS)
     .eq("published", true)
     .order("date", { ascending: true })
     .order("start_time", { ascending: true, nullsFirst: false });
 
   if (error) throw error;
-  return sortEventsChronologically((data as Event[]) ?? []);
+  return sortEventsChronologically((data as unknown as Event[]) ?? []);
 }
 
-export async function getEventBySlug(slug: string): Promise<Event | null> {
+async function fetchEventBySlug(slug: string): Promise<Event | null> {
   const supabase = createSupabaseClient();
   if (!supabase) return null;
 
   const { data, error } = await supabase
     .from("events")
-    .select("*")
+    .select(EVENT_DETAIL_COLUMNS)
     .eq("slug", slug)
     .eq("published", true)
     .single();
 
   if (error) return null;
-  return data as Event;
+  return data as unknown as Event;
+}
+
+async function fetchPublishedAcademies(): Promise<Academy[]> {
+  const supabase = createSupabaseClient();
+  if (!supabase) return [];
+
+  const { data, error } = await supabase
+    .from("academies")
+    .select(ACADEMY_LIST_COLUMNS)
+    .eq("published", true)
+    .order("sort_order", { ascending: true })
+    .order("name", { ascending: true });
+
+  if (error) throw error;
+  return (data as unknown as Academy[]) ?? [];
+}
+
+/** Cross-request Data Cache + tags (ISR companion). */
+export function getPublishedEvents(): Promise<Event[]> {
+  return unstable_cache(fetchPublishedEvents, ["published-events"], {
+    revalidate: PUBLIC_REVALIDATE.home,
+    tags: [CACHE_TAGS.events],
+  })();
+}
+
+/** Request-level dedupe (metadata + page) + cross-request cache. */
+export const getEventBySlug = cache(
+  async (slug: string): Promise<Event | null> => {
+    return unstable_cache(
+      () => fetchEventBySlug(slug),
+      ["published-event", slug],
+      {
+        revalidate: PUBLIC_REVALIDATE.eventDetail,
+        tags: [CACHE_TAGS.events, CACHE_TAGS.event(slug)],
+      },
+    )();
+  },
+);
+
+export function getPublishedAcademies(): Promise<Academy[]> {
+  return unstable_cache(fetchPublishedAcademies, ["published-academies"], {
+    revalidate: PUBLIC_REVALIDATE.academies,
+    tags: [CACHE_TAGS.academies],
+  })();
 }
 
 export async function getAllEventSlugs(): Promise<{ slug: string }[]> {
@@ -71,19 +124,4 @@ export async function getAllEventSlugs(): Promise<{ slug: string }[]> {
 
   if (error) return [];
   return data ?? [];
-}
-
-export async function getPublishedAcademies(): Promise<Academy[]> {
-  const supabase = createSupabaseClient();
-  if (!supabase) return [];
-
-  const { data, error } = await supabase
-    .from("academies")
-    .select("*")
-    .eq("published", true)
-    .order("sort_order", { ascending: true })
-    .order("name", { ascending: true });
-
-  if (error) throw error;
-  return (data as Academy[]) ?? [];
 }

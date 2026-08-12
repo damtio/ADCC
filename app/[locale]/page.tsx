@@ -4,7 +4,7 @@ import { highlightTag } from "@/lib/i18n-rich";
 import { getPublishedEvents } from "@/lib/supabase";
 import { getTranslations } from "next-intl/server";
 
-export const dynamic = "force-dynamic";
+export const revalidate = 300;
 
 export default async function HomePage() {
   const t = await getTranslations("home");

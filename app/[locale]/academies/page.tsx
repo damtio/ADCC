@@ -3,7 +3,7 @@ import { highlightTag } from "@/lib/i18n-rich";
 import { getPublishedAcademies } from "@/lib/supabase";
 import { getTranslations } from "next-intl/server";
 
-export const dynamic = "force-dynamic";
+export const revalidate = 300;
 
 export async function generateMetadata() {
   const t = await getTranslations("academies");

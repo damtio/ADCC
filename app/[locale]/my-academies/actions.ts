@@ -2,6 +2,7 @@
 
 import { revalidatePath } from "next/cache";
 import { parseAcademyFormData } from "@/lib/academy-form";
+import { revalidatePublicContent } from "@/lib/public-cache";
 import { createSupabaseAdmin } from "@/lib/supabase-admin";
 import { getAuthUser } from "@/lib/supabase/server";
 import type { Academy } from "@/types/academy";
@@ -28,7 +29,7 @@ export async function createUserAcademyAction(
 
     if (error) return { error: error.message };
 
-    revalidatePath("/academies");
+    revalidatePublicContent({ events: false, academies: true });
     revalidatePath("/my-academies", "layout");
     return { success: true };
   } catch (e) {
@@ -80,7 +81,7 @@ export async function updateUserAcademyAction(
     if (error) return { error: error.message };
     if (!updated) return { error: "Academy not found" };
 
-    revalidatePath("/academies");
+    revalidatePublicContent({ events: false, academies: true });
     revalidatePath("/my-academies", "layout");
     return { success: true };
   } catch (e) {
@@ -105,7 +106,7 @@ export async function deleteUserAcademyAction(id: string): Promise<void> {
 
   if (error) throw new Error(error.message);
 
-  revalidatePath("/academies");
+  revalidatePublicContent({ events: false, academies: true });
   revalidatePath("/my-academies", "layout");
 }
 
@@ -127,7 +128,7 @@ export async function toggleUserAcademyPublishAction(
 
   if (error) throw new Error(error.message);
 
-  revalidatePath("/academies");
+  revalidatePublicContent({ events: false, academies: true });
   revalidatePath("/my-academies", "layout");
 }
 
