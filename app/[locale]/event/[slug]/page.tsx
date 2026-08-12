@@ -16,6 +16,7 @@ import { ShareButton } from "@/components/ShareButton";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Link } from "@/i18n/navigation";
+import { buildEventMapsUrl } from "@/lib/event-links";
 import { getEventBySlug } from "@/lib/supabase";
 import { formatDateRange, formatPrice, formatTime } from "@/lib/utils";
 
@@ -46,19 +47,6 @@ export async function generateMetadata({
       type: "website",
     },
   };
-}
-
-function buildMapsUrl(event: {
-  latitude: number | null;
-  longitude: number | null;
-  address: string | null;
-  city: string | null;
-}): string {
-  if (event.latitude && event.longitude) {
-    return `https://www.google.com/maps/search/?api=1&query=${event.latitude},${event.longitude}`;
-  }
-  const query = [event.address, event.city].filter(Boolean).join(", ");
-  return `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(query)}`;
 }
 
 export default async function EventPage({ params }: EventPageProps) {
@@ -237,7 +225,7 @@ export default async function EventPage({ params }: EventPageProps) {
           <div className="grid grid-cols-1 gap-3 sm:grid-cols-3">
             <Button asChild variant="outline" className="w-full">
               <a
-                href={buildMapsUrl(event)}
+                href={buildEventMapsUrl(event)}
                 target="_blank"
                 rel="noopener noreferrer"
               >
