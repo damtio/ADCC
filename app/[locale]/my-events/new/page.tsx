@@ -28,7 +28,11 @@ export default async function NewUserEventPage({
         &larr; {t("back")}
       </Link>
       <h1 className="mb-8 text-2xl font-bold text-white">{t("createTitle")}</h1>
-      <EventForm action={createUserEventAction} successHref="/my-events" />
+      <EventForm
+        action={createUserEventAction}
+        successHref="/my-events"
+        translated
+      />
     </div>
   );
 }

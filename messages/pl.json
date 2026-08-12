@@ -286,7 +286,20 @@
     "draft": "Szkic",
     "publish": "Opublikuj",
     "unpublish": "Cofnij publikację",
-    "deleteConfirm": "Usunąć „{title}”?"
+    "deleteConfirm": "Usunąć „{title}”?",
+    "publishedLabel": "Opublikowane",
+    "saving": "Zapisywanie...",
+    "updateEvent": "Zapisz zmiany",
+    "createEvent": "Utwórz wydarzenie",
+    "imageKeepHint": "Zostaw puste, aby zachować obecne zdjęcie.",
+    "imageAlt": "Obecne zdjęcie wydarzenia",
+    "errors": {
+      "unauthorized": "Brak autoryzacji",
+      "notFound": "Nie znaleziono wydarzenia",
+      "slugDuplicate": "Wydarzenie o podobnym tytule już istnieje. Spróbuj innego tytułu.",
+      "createFailed": "Nie udało się utworzyć wydarzenia",
+      "updateFailed": "Nie udało się zaktualizować wydarzenia"
+    }
   },
   "myAcademies": {
     "title": "Moje akademie",

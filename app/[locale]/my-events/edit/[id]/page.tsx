@@ -39,6 +39,7 @@ export default async function EditUserEventPage({
         event={event}
         action={updateUserEventAction}
         successHref="/my-events"
+        translated
       />
     </div>
   );

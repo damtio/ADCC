@@ -1,6 +1,7 @@
 "use client";
 
 import Image from "next/image";
+import { useTranslations } from "next-intl";
 import { useRouter as useNextRouter } from "next/navigation";
 import { useActionState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
@@ -19,16 +20,45 @@ interface EventFormProps {
   event?: Event;
   action: FormAction;
   successHref?: string;
+  translated?: boolean;
 }
+
+const ERROR_KEYS: Record<string, string> = {
+  Unauthorized: "errors.unauthorized",
+  "Event not found": "errors.notFound",
+  "An event with a similar title already exists. Try a different title.":
+    "errors.slugDuplicate",
+  "Failed to create event": "errors.createFailed",
+  "Failed to update event": "errors.updateFailed",
+};
 
 export function EventForm({
   event,
   action,
   successHref = "/admin",
+  translated = false,
 }: EventFormProps) {
+  const tFields = useTranslations("submitEvent");
+  const tForm = useTranslations("myEvents");
   const nextRouter = useNextRouter();
   const intlRouter = useIntlRouter();
   const [state, formAction, isPending] = useActionState(action, null);
+
+  const label = (key: Parameters<typeof tFields>[0]) =>
+    translated
+      ? tFields(key)
+      : fallbackLabels[key as keyof typeof fallbackLabels];
+
+  const formLabel = (key: Parameters<typeof tForm>[0]) =>
+    translated
+      ? tForm(key)
+      : fallbackFormLabels[key as keyof typeof fallbackFormLabels];
+
+  const errorMessage =
+    state?.error &&
+    (translated && ERROR_KEYS[state.error]
+      ? tForm(ERROR_KEYS[state.error] as Parameters<typeof tForm>[0])
+      : state.error);
 
   useEffect(() => {
     if (!state?.success) return;
@@ -47,20 +77,20 @@ export function EventForm({
       encType="multipart/form-data"
       className="space-y-6"
     >
-      {state?.error && (
+      {errorMessage && (
         <div className="rounded-lg border border-red-800 bg-red-900/20 px-4 py-3 text-sm text-red-400">
-          {state.error}
+          {errorMessage}
         </div>
       )}
 
       <div className="grid gap-6 sm:grid-cols-2">
         <div className="space-y-2 sm:col-span-2">
-          <Label htmlFor="title">Title *</Label>
+          <Label htmlFor="title">{label("titleLabel")}</Label>
           <Input id="title" name="title" defaultValue={event?.title} required />
         </div>
 
         <div className="space-y-2">
-          <Label htmlFor="category">Category *</Label>
+          <Label htmlFor="category">{label("categoryLabel")}</Label>
           <select
             id="category"
             name="category"
@@ -77,7 +107,7 @@ export function EventForm({
         </div>
 
         <div className="space-y-2">
-          <Label htmlFor="instructor">Instructor</Label>
+          <Label htmlFor="instructor">{label("instructorLabel")}</Label>
           <Input
             id="instructor"
             name="instructor"
@@ -86,7 +116,7 @@ export function EventForm({
         </div>
 
         <div className="space-y-2">
-          <Label htmlFor="academy">Academy</Label>
+          <Label htmlFor="academy">{label("academyLabel")}</Label>
           <Input
             id="academy"
             name="academy"
@@ -95,12 +125,12 @@ export function EventForm({
         </div>
 
         <div className="space-y-2">
-          <Label htmlFor="city">City</Label>
+          <Label htmlFor="city">{label("cityLabel")}</Label>
           <Input id="city" name="city" defaultValue={event?.city ?? ""} />
         </div>
 
         <div className="space-y-2 sm:col-span-2">
-          <Label htmlFor="address">Address</Label>
+          <Label htmlFor="address">{label("addressLabel")}</Label>
           <Input
             id="address"
             name="address"
@@ -109,7 +139,7 @@ export function EventForm({
         </div>
 
         <div className="space-y-2">
-          <Label htmlFor="date">Start Date *</Label>
+          <Label htmlFor="date">{label("dateLabel")}</Label>
           <Input
             id="date"
             name="date"
@@ -120,20 +150,18 @@ export function EventForm({
         </div>
 
         <div className="space-y-2">
-          <Label htmlFor="end_date">End Date</Label>
+          <Label htmlFor="end_date">{label("endDateLabel")}</Label>
           <Input
             id="end_date"
             name="end_date"
             type="date"
             defaultValue={event?.end_date ?? ""}
           />
-          <p className="text-xs text-zinc-500">
-            Leave empty for a single-day event.
-          </p>
+          <p className="text-xs text-zinc-500">{label("endDateHint")}</p>
         </div>
 
         <div className="space-y-2">
-          <Label htmlFor="start_time">Start Time</Label>
+          <Label htmlFor="start_time">{label("startTimeLabel")}</Label>
           <Input
             id="start_time"
             name="start_time"
@@ -143,7 +171,7 @@ export function EventForm({
         </div>
 
         <div className="space-y-2">
-          <Label htmlFor="end_time">End Time</Label>
+          <Label htmlFor="end_time">{label("endTimeLabel")}</Label>
           <Input
             id="end_time"
             name="end_time"
@@ -153,7 +181,7 @@ export function EventForm({
         </div>
 
         <div className="space-y-2">
-          <Label htmlFor="price">Price</Label>
+          <Label htmlFor="price">{label("priceLabel")}</Label>
           <Input
             id="price"
             name="price"
@@ -165,7 +193,7 @@ export function EventForm({
         </div>
 
         <div className="space-y-2">
-          <Label htmlFor="currency">Currency</Label>
+          <Label htmlFor="currency">{label("currencyLabel")}</Label>
           <Input
             id="currency"
             name="currency"
@@ -174,7 +202,9 @@ export function EventForm({
         </div>
 
         <div className="space-y-2 sm:col-span-2">
-          <Label htmlFor="registration_url">Registration URL</Label>
+          <Label htmlFor="registration_url">
+            {label("registrationUrlLabel")}
+          </Label>
           <Input
             id="registration_url"
             name="registration_url"
@@ -184,7 +214,7 @@ export function EventForm({
         </div>
 
         <div className="space-y-2">
-          <Label htmlFor="facebook_url">Facebook URL</Label>
+          <Label htmlFor="facebook_url">{label("facebookUrlLabel")}</Label>
           <Input
             id="facebook_url"
             name="facebook_url"
@@ -194,7 +224,7 @@ export function EventForm({
         </div>
 
         <div className="space-y-2">
-          <Label htmlFor="instagram_url">Instagram URL</Label>
+          <Label htmlFor="instagram_url">{label("instagramUrlLabel")}</Label>
           <Input
             id="instagram_url"
             name="instagram_url"
@@ -204,12 +234,12 @@ export function EventForm({
         </div>
 
         <div className="space-y-2 sm:col-span-2">
-          <Label htmlFor="image">Event Image</Label>
+          <Label htmlFor="image">{label("imageLabel")}</Label>
           {event?.image_url && (
             <div className="relative mb-2 h-40 w-full max-w-xs overflow-hidden rounded-lg border border-[#2B2B2B]">
               <Image
                 src={event.image_url}
-                alt="Current event image"
+                alt={formLabel("imageAlt")}
                 fill
                 className="object-cover"
                 sizes="320px"
@@ -223,8 +253,8 @@ export function EventForm({
             accept="image/jpeg,image/png,image/webp,image/gif"
           />
           <p className="text-xs text-zinc-500">
-            JPEG, PNG, WebP or GIF. Max 5 MB.
-            {event?.image_url && " Leave empty to keep current image."}
+            {label("imageHint")}
+            {event?.image_url && ` ${formLabel("imageKeepHint")}`}
           </p>
           {event?.image_url && (
             <input
@@ -236,7 +266,7 @@ export function EventForm({
         </div>
 
         <div className="space-y-2 sm:col-span-2">
-          <Label htmlFor="description">Description</Label>
+          <Label htmlFor="description">{label("descriptionLabel")}</Label>
           <Textarea
             id="description"
             name="description"
@@ -253,7 +283,7 @@ export function EventForm({
             defaultChecked={event?.published ?? false}
             className="h-4 w-4 rounded border-[#2B2B2B] bg-[#151515] text-red-600 focus:ring-red-500"
           />
-          <Label htmlFor="published">Published</Label>
+          <Label htmlFor="published">{formLabel("publishedLabel")}</Label>
         </div>
       </div>
 
@@ -261,9 +291,44 @@ export function EventForm({
 
       <div className="flex gap-3">
         <Button type="submit" disabled={isPending}>
-          {isPending ? "Saving..." : event ? "Update Event" : "Create Event"}
+          {isPending
+            ? formLabel("saving")
+            : event
+              ? formLabel("updateEvent")
+              : formLabel("createEvent")}
         </Button>
       </div>
     </form>
   );
 }
+
+const fallbackLabels = {
+  titleLabel: "Title *",
+  categoryLabel: "Category *",
+  instructorLabel: "Instructor",
+  academyLabel: "Academy",
+  cityLabel: "City",
+  addressLabel: "Address",
+  dateLabel: "Start Date *",
+  endDateLabel: "End Date",
+  endDateHint: "Leave empty for a single-day event.",
+  startTimeLabel: "Start Time",
+  endTimeLabel: "End Time",
+  priceLabel: "Price",
+  currencyLabel: "Currency",
+  registrationUrlLabel: "Registration URL",
+  facebookUrlLabel: "Facebook URL",
+  instagramUrlLabel: "Instagram URL",
+  imageLabel: "Event Image",
+  imageHint: "JPEG, PNG, WebP or GIF. Max 5 MB.",
+  descriptionLabel: "Description",
+} as const;
+
+const fallbackFormLabels = {
+  publishedLabel: "Published",
+  saving: "Saving...",
+  updateEvent: "Update Event",
+  createEvent: "Create Event",
+  imageKeepHint: "Leave empty to keep current image.",
+  imageAlt: "Current event image",
+} as const;

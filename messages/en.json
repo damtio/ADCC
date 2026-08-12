@@ -286,7 +286,20 @@
     "draft": "Draft",
     "publish": "Publish",
     "unpublish": "Unpublish",
-    "deleteConfirm": "Delete \"{title}\"?"
+    "deleteConfirm": "Delete \"{title}\"?",
+    "publishedLabel": "Published",
+    "saving": "Saving...",
+    "updateEvent": "Update Event",
+    "createEvent": "Create Event",
+    "imageKeepHint": "Leave empty to keep current image.",
+    "imageAlt": "Current event image",
+    "errors": {
+      "unauthorized": "Unauthorized",
+      "notFound": "Event not found",
+      "slugDuplicate": "An event with a similar title already exists. Try a different title.",
+      "createFailed": "Failed to create event",
+      "updateFailed": "Failed to update event"
+    }
   },
   "myAcademies": {
     "title": "My academies",
