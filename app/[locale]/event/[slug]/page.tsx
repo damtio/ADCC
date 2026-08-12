@@ -11,12 +11,11 @@ import Image from "next/image";
 import { notFound } from "next/navigation";
 import { getTranslations } from "next-intl/server";
 import { GoogleCalendarButton } from "@/components/GoogleCalendarButton";
-import { MapPreview } from "@/components/MapPreview";
 import { ShareButton } from "@/components/ShareButton";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Link } from "@/i18n/navigation";
-import { buildEventMapsUrl } from "@/lib/event-links";
+import { buildEventMapsUrl, hasEventMapsTarget } from "@/lib/event-links";
 import { getEventBySlug } from "@/lib/supabase";
 import { formatDateRange, formatPrice, formatTime } from "@/lib/utils";
 
@@ -58,6 +57,7 @@ export default async function EventPage({ params }: EventPageProps) {
 
   const siteUrl = process.env.URL || "https://wolnamata.pl";
   const eventUrl = `${siteUrl}/${locale}/event/${event.slug}`;
+  const showMapsLink = hasEventMapsTarget(event);
 
   const endDay =
     event.end_date && event.end_date > event.date ? event.end_date : event.date;
@@ -222,61 +222,21 @@ export default async function EventPage({ params }: EventPageProps) {
             </div>
           </div>
 
-          <div className="grid grid-cols-1 gap-3 sm:grid-cols-3">
-            <Button asChild variant="outline" className="w-full">
-              <a
-                href={buildEventMapsUrl(event)}
-                target="_blank"
-                rel="noopener noreferrer"
-              >
-                <MapPin className="h-4 w-4" />
-                {t("openInMaps")}
-              </a>
-            </Button>
-            {event.facebook_url && (
-              <Button asChild variant="outline" className="w-full">
+          <div className="flex flex-wrap gap-2">
+            {showMapsLink && (
+              <Button asChild variant="outline" size="sm">
                 <a
-                  href={event.facebook_url}
+                  href={buildEventMapsUrl(event)}
                   target="_blank"
                   rel="noopener noreferrer"
                 >
-                  Facebook
+                  <MapPin className="h-4 w-4" />
+                  {t("openInMaps")}
                 </a>
               </Button>
             )}
-            {event.instagram_url && (
-              <Button asChild variant="outline" className="w-full">
-                <a
-                  href={event.instagram_url}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                >
-                  Instagram
-                </a>
-              </Button>
-            )}
-          </div>
-
-          {event.latitude && event.longitude && (
-            <MapPreview
-              latitude={event.latitude}
-              longitude={event.longitude}
-              title={event.title}
-            />
-          )}
-
-          {event.description && (
-            <div className="prose prose-invert max-w-none">
-              <h2 className="text-xl font-semibold text-white">{t("about")}</h2>
-              <p className="whitespace-pre-wrap text-zinc-300">
-                {event.description}
-              </p>
-            </div>
-          )}
-
-          <div className="flex flex-wrap gap-3">
             {event.registration_url && (
-              <Button asChild>
+              <Button asChild variant="outline" size="sm">
                 <a
                   href={event.registration_url}
                   target="_blank"
@@ -287,6 +247,28 @@ export default async function EventPage({ params }: EventPageProps) {
                 </a>
               </Button>
             )}
+            {event.facebook_url && (
+              <Button asChild variant="outline" size="sm">
+                <a
+                  href={event.facebook_url}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  Facebook
+                </a>
+              </Button>
+            )}
+            {event.instagram_url && (
+              <Button asChild variant="outline" size="sm">
+                <a
+                  href={event.instagram_url}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  Instagram
+                </a>
+              </Button>
+            )}
             <GoogleCalendarButton event={event} label={t("addToCalendar")} />
             <ShareButton
               title={event.title}
@@ -294,6 +276,15 @@ export default async function EventPage({ params }: EventPageProps) {
               label={t("share")}
             />
           </div>
+
+          {event.description && (
+            <div className="prose prose-invert max-w-none">
+              <h2 className="text-xl font-semibold text-white">{t("about")}</h2>
+              <p className="whitespace-pre-wrap text-zinc-300">
+                {event.description}
+              </p>
+            </div>
+          )}
         </div>
       </article>
     </>

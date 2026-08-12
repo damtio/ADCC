@@ -7,7 +7,7 @@ import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Link } from "@/i18n/navigation";
-import { buildEventMapsUrl } from "@/lib/event-links";
+import { buildEventMapsUrl, hasEventMapsTarget } from "@/lib/event-links";
 import { formatDateRange, formatPrice, formatTime } from "@/lib/utils";
 import type { Event } from "@/types/event";
 
@@ -18,13 +18,7 @@ interface EventCardProps {
 export function EventCard({ event }: EventCardProps) {
   const t = useTranslations("events");
   const tPage = useTranslations("eventPage");
-  const hasMapsTarget = Boolean(
-    event.latitude ||
-    event.longitude ||
-    event.address ||
-    event.city ||
-    event.academy,
-  );
+  const hasMapsTarget = hasEventMapsTarget(event);
 
   return (
     <Card className="group overflow-hidden transition-all duration-300 hover:-translate-y-1 hover:border-red-600/40 hover:shadow-lg hover:shadow-red-900/10">
