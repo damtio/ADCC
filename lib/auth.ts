@@ -3,7 +3,8 @@ import "server-only";
 import { createHash, createHmac, randomUUID, timingSafeEqual } from "crypto";
 import { cookies } from "next/headers";
 
-const COOKIE_NAME = "admin_session";
+const COOKIE_NAME = "admin_session_v2";
+const LEGACY_COOKIE_NAME = "admin_session";
 const COOKIE_MAX_AGE = 60 * 60 * 24;
 
 function sessionSecrets(): string[] {
@@ -55,23 +56,29 @@ export async function createSession(): Promise<void> {
     }),
   ).toString("base64url");
   const token = `${payload}.${sign(payload, sessionSecrets()[0])}`;
-  (await cookies()).set(COOKIE_NAME, token, {
+  const cookieStore = await cookies();
+  cookieStore.set(COOKIE_NAME, token, {
     httpOnly: true,
     secure: process.env.NODE_ENV === "production",
     sameSite: "strict",
     maxAge: COOKIE_MAX_AGE,
-    path: "/admin",
+    path: "/",
   });
+  cookieStore.set(LEGACY_COOKIE_NAME, "", { maxAge: 0, path: "/" });
+  cookieStore.set(LEGACY_COOKIE_NAME, "", { maxAge: 0, path: "/admin" });
 }
 
 export async function destroySession(): Promise<void> {
-  (await cookies()).set(COOKIE_NAME, "", {
+  const cookieStore = await cookies();
+  cookieStore.set(COOKIE_NAME, "", {
     httpOnly: true,
     secure: process.env.NODE_ENV === "production",
     sameSite: "strict",
     maxAge: 0,
-    path: "/admin",
+    path: "/",
   });
+  cookieStore.set(LEGACY_COOKIE_NAME, "", { maxAge: 0, path: "/" });
+  cookieStore.set(LEGACY_COOKIE_NAME, "", { maxAge: 0, path: "/admin" });
 }
 
 export function verifyPassword(password: string): boolean {
