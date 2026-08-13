@@ -1,7 +1,7 @@
 -- Wolna Mata: kandydaci do importu, stan weryfikacji 2026-08-13.
 -- Struktura zgodna z damtio/ADCC: public.events.
--- Wszystkie wpisy pozostajÄ… nieopublikowane do rÄ™cznej kontroli redakcyjnej.
--- Idempotencja: ponowne uruchomienie nie nadpisuje rekordÃ³w o istniejÄ…cym slugu.
+-- Wszystkie wpisy pozostają nieopublikowane do ręcznej kontroli redakcyjnej.
+-- Idempotencja: ponowne uruchomienie nie nadpisuje rekordów o istniejącym slugu.
 
 INSERT INTO events (
   slug, title, category, description, instructor, organizer, academy,
@@ -12,11 +12,11 @@ INSERT INTO events (
 -- OBOZY
 (
   'combat-camp-sierpien-2026',
-  'Combat Camp SierpieÅ„ 2026',
+  'Combat Camp Sierpień 2026',
   'Camp',
-  'Czterodniowy obÃ³z sparingowo-mentalny z trzema sesjami treningowymi dziennie. SzczegÃ³Å‚y programu i dostÄ™pnoÅ›ci miejsc znajdujÄ… siÄ™ na stronie organizatora.',
+  'Czterodniowy obóz sparingowo-mentalny z trzema sesjami treningowymi dziennie. Szczegóły programu i dostępności miejsc znajdują się na stronie organizatora.',
   NULL, 'KMCenter', NULL,
-  'Nowa SÅ‚upia', 'OÅ›rodek GoÅ‚oborze, Nowa SÅ‚upia', NULL, NULL,
+  'Nowa Słupia', 'Ośrodek Gołoborze, Nowa Słupia', NULL, NULL,
   '2026-08-13', '2026-08-16', NULL, NULL,
   1799, 'PLN', 'https://kmcenter.pl/events/combat-camp-sierpien-2026/', NULL, NULL, NULL,
   false
@@ -25,31 +25,31 @@ INSERT INTO events (
   'rio-fit-and-chill-camp-2026',
   'Rio Fit & Chill Camp 2026',
   'Camp',
-  'Weekendowy obÃ³z sportowo-rekreacyjny organizowany przez Rio Grappling Club CzÄ™stochowa. Program Å‚Ä…czy aktywnoÅ›Ä‡ fizycznÄ…, samoobronÄ™ i regeneracjÄ™.',
-  NULL, 'Rio Grappling Club CzÄ™stochowa', 'Rio Grappling Club CzÄ™stochowa',
-  'KaÅ‚uÅ¼e', 'Rzeka Miodu, KaÅ‚uÅ¼e 21, 98-335 KaÅ‚uÅ¼e', NULL, NULL,
+  'Weekendowy obóz sportowo-rekreacyjny organizowany przez Rio Grappling Club Częstochowa. Program łączy aktywność fizyczną, samoobronę i regenerację.',
+  NULL, 'Rio Grappling Club Częstochowa', 'Rio Grappling Club Częstochowa',
+  'Kałuże', 'Rzeka Miodu, Kałuże 21, 98-335 Kałuże', NULL, NULL,
   '2026-08-16', '2026-08-18', NULL, NULL,
   900, 'PLN', 'https://riofitcamp.pl/', NULL, NULL, NULL,
   false
 ),
 (
   'bt-camp-berserkers-team-2026',
-  'BT Camp â€“ ObÃ³z Berserkers Team 2026',
+  'BT Camp – Obóz Berserkers Team 2026',
   'Camp',
-  'Tygodniowy obÃ³z sportÃ³w walki z treningami BJJ, submission fighting, zapasÃ³w, MMA i muay thai. Organizator przewiduje trzy treningi dziennie oraz osobny program dla dzieci.',
+  'Tygodniowy obóz sportów walki z treningami BJJ, submission fighting, zapasów, MMA i muay thai. Organizator przewiduje trzy treningi dziennie oraz osobny program dla dzieci.',
   NULL, 'Berserkers Team', 'Berserkers Team',
-  'Borowice', 'OÅ›rodek HOTTUR, Borowice, Karkonosze', NULL, NULL,
+  'Borowice', 'Ośrodek HOTTUR, Borowice, Karkonosze', NULL, NULL,
   '2026-08-17', '2026-08-24', '14:00', NULL,
   2350, 'PLN', 'https://berserkersteam.pl/bt-camp-oboz-berserkers-team-17-24-sierpnia-2026/', NULL, NULL, NULL,
   false
 ),
 (
   'mocni-zawodnicy-2-camp-bjj-2026',
-  'Mocni Zawodnicy 2 â€“ Camp BJJ',
+  'Mocni Zawodnicy 2 – Camp BJJ',
   'Camp',
-  'ObÃ³z BJJ i grapplingu nad Jeziorem Å»ywieckim, obejmujÄ…cy treningi, seminarium BJJ Gi z Bartoszem Zawadzkim oraz dodatkowe aktywnoÅ›ci integracyjne.',
+  'Obóz BJJ i grapplingu nad Jeziorem Żywieckim, obejmujący treningi, seminarium BJJ Gi z Bartoszem Zawadzkim oraz dodatkowe aktywności integracyjne.',
   'Bartosz Zawadzki', 'Mocni Zawodnicy', NULL,
-  'Tresna', 'Tresna, okolice Jeziora Å»ywieckiego', NULL, NULL,
+  'Tresna', 'Tresna, okolice Jeziora Żywieckiego', NULL, NULL,
   '2026-09-17', '2026-09-20', NULL, NULL,
   NULL, 'PLN', 'https://mocnizawodnicy.pl/', NULL, NULL, NULL,
   false
@@ -58,9 +58,9 @@ INSERT INTO events (
   'bjj-globetrotters-zen-camp-2026',
   'BJJ Globetrotters Zen Camp 2026',
   'Camp',
-  'SzeÅ›ciodniowy miÄ™dzynarodowy obÃ³z BJJ Gi i No-Gi z zajÄ™ciami, open matami, jogÄ… i warsztatami. WedÅ‚ug strony organizatora miejsca sÄ… wyprzedane.',
+  'Sześciodniowy międzynarodowy obóz BJJ Gi i No-Gi z zajęciami, open matami, jogą i warsztatami. Według strony organizatora miejsca są wyprzedane.',
   NULL, 'BJJ Globetrotters', NULL,
-  'Stara WieÅ›', 'Stara WieÅ› 1, 97-570 Stara WieÅ›', NULL, NULL,
+  'Stara Wieś', 'Stara Wieś 1, 97-570 Stara Wieś', NULL, NULL,
   '2026-10-05', '2026-10-11', NULL, NULL,
   NULL, 'EUR', 'https://www.bjjglobetrotters.com/zencamp2026', NULL, NULL, NULL,
   false
@@ -71,9 +71,9 @@ INSERT INTO events (
   'ffion-davies-open-no-gi-seminar-warsaw-2026',
   'Ffion Davies Open No-Gi Seminar',
   'Seminar - NoGi',
-  'Otwarte seminarium No-Gi z mistrzyniÄ… Å›wiata IBJJF i ADCC, przeznaczone dla uczestnikÃ³w niezaleÅ¼nie od poziomu zaawansowania.',
+  'Otwarte seminarium No-Gi z mistrzynią świata IBJJF i ADCC, przeznaczone dla uczestników niezależnie od poziomu zaawansowania.',
   'Ffion Davies', 'Babskie Jiu Jitsu', 'Copacabana Team Warszawa',
-  'Warszawa', 'Copacabana Team, ul. GaraÅ¼owa 4, Warszawa', NULL, NULL,
+  'Warszawa', 'Copacabana Team, ul. Garażowa 4, Warszawa', NULL, NULL,
   '2026-09-06', NULL, '13:00', '16:00',
   200, 'PLN', 'https://forms.gle/eJS3fYjL8qEZSPDZ6', NULL, NULL, NULL,
   false
@@ -82,9 +82,9 @@ INSERT INTO events (
   'seminarium-zasad-ibjjf-lukasz-winiarski-2026',
   'Seminarium z zasad IBJJF',
   'Seminar - Gi + NoGi',
-  'Otwarte szkolenie z zasad IBJJF organizowane przed XXIV Pucharem Polski BJJ. Organizator zapowiada udziaÅ‚ zarÃ³wno dla zawodnikÃ³w, jak i trenerÃ³w; dalsze szczegÃ³Å‚y majÄ… zostaÄ‡ podane pÃ³Åºniej.',
-  'Åukasz Winiarski', 'Puchar Polski BJJ', NULL,
-  'Warszawa', 'OSiR WÅ‚ochy, ul. GÅ‚adka 18, Warszawa', NULL, NULL,
+  'Otwarte szkolenie z zasad IBJJF organizowane przed XXIV Pucharem Polski BJJ. Organizator zapowiada udział zarówno dla zawodników, jak i trenerów; dalsze szczegóły mają zostać podane później.',
+  'Łukasz Winiarski', 'Puchar Polski BJJ', NULL,
+  'Warszawa', 'OSiR Włochy, ul. Gładka 18, Warszawa', NULL, NULL,
   '2026-09-18', NULL, NULL, NULL,
   NULL, 'PLN', 'https://martialmatch.com/pl/events/814-xxiv-puchar-polski-bjj', NULL, NULL, NULL,
   false
@@ -95,9 +95,9 @@ INSERT INTO events (
   'solt-18-mistrzostwa-polski-2026-no-gi',
   'SOLT 18 x DZIK: Mistrzostwa Polski 2026 No-Gi',
   'Tournament',
-  'Mistrzostwa Polski w formule No-Gi organizowane w ramach Sub Only League. Kategorie, regulamin i aktualne terminy rejestracji znajdujÄ… siÄ™ na stronie wydarzenia.',
+  'Mistrzostwa Polski w formule No-Gi organizowane w ramach Sub Only League. Kategorie, regulamin i aktualne terminy rejestracji znajdują się na stronie wydarzenia.',
   NULL, 'Sub Only League', NULL,
-  'Warszawa', 'OSiR WÅ‚ochy, Warszawa', NULL, NULL,
+  'Warszawa', 'OSiR Włochy, Warszawa', NULL, NULL,
   '2026-09-05', NULL, NULL, NULL,
   NULL, 'PLN', 'https://martialmatch.com/en/events/650-solt-18-x-dzik-mistrzostwa-polski-2026-no-gi-', NULL, NULL, NULL,
   false
@@ -106,9 +106,9 @@ INSERT INTO events (
   'adcc-amateur-world-championship-2026',
   'ADCC Amateur World Championship 2026',
   'Tournament',
-  'Amatorskie mistrzostwa Å›wiata ADCC odbywajÄ…ce siÄ™ dzieÅ„ przed gÅ‚Ã³wnym ADCC World Championship w Krakowie.',
+  'Amatorskie mistrzostwa świata ADCC odbywające się dzień przed głównym ADCC World Championship w Krakowie.',
   NULL, 'ADCC', NULL,
-  'KrakÃ³w', 'TAURON Arena KrakÃ³w, ul. StanisÅ‚awa Lema 7, 31-571 KrakÃ³w', NULL, NULL,
+  'Kraków', 'TAURON Arena Kraków, ul. Stanisława Lema 7, 31-571 Kraków', NULL, NULL,
   '2026-09-11', NULL, NULL, NULL,
   NULL, 'PLN', 'https://adcombat.com/adcc-events/adcc-amateur-world-championship-2026/', NULL, NULL, NULL,
   false
@@ -117,45 +117,45 @@ INSERT INTO events (
   'adcc-world-championship-2026-krakow',
   'ADCC Submission Fighting World Championship 2026',
   'Tournament',
-  'Mistrzostwa Å›wiata ADCC w submission grapplingu, po raz pierwszy organizowane w Polsce.',
+  'Mistrzostwa świata ADCC w submission grapplingu, po raz pierwszy organizowane w Polsce.',
   NULL, 'ADCC Sp. z o.o.', NULL,
-  'KrakÃ³w', 'TAURON Arena KrakÃ³w, ul. StanisÅ‚awa Lema 7, 31-571 KrakÃ³w', NULL, NULL,
+  'Kraków', 'TAURON Arena Kraków, ul. Stanisława Lema 7, 31-571 Kraków', NULL, NULL,
   '2026-09-12', '2026-09-13', NULL, NULL,
   230.90, 'PLN', 'https://www.ebilet.pl/sport/sporty-walki/adcc-world-championship', NULL, NULL, NULL,
   false
 ),
 (
   'project-roll-jiu-jitsu-7', 'Project Roll Jiu-Jitsu 7', 'Tournament',
-  'Turniej BJJ Gi i No-Gi dla dzieci i dorosÅ‚ych. SzczegÃ³Å‚y kategorii i rejestracji znajdujÄ… siÄ™ na stronie wydarzenia.',
-  NULL, NULL, NULL, 'Rybnik', 'JastrzÄ™bska 3b, 44-200 Rybnik', NULL, NULL,
+  'Turniej BJJ Gi i No-Gi dla dzieci i dorosłych. Szczegóły kategorii i rejestracji znajdują się na stronie wydarzenia.',
+  NULL, NULL, NULL, 'Rybnik', 'Jastrzębska 3b, 44-200 Rybnik', NULL, NULL,
   '2026-09-12', NULL, NULL, NULL, NULL, 'PLN',
   'https://martialmatch.com/pl/events/697-project-roll-jiu-jitsu-7', NULL, NULL, NULL, false
 ),
 (
   'xxiv-puchar-polski-bjj', 'XXIV Puchar Polski BJJ', 'Tournament',
-  'Dwudniowy Puchar Polski w Brazylijskim Jiu-Jitsu rozgrywany wedÅ‚ug zasad IBJJF.',
-  NULL, NULL, NULL, 'Warszawa', 'OSiR WÅ‚ochy, ul. GÅ‚adka 18, Warszawa', NULL, NULL,
+  'Dwudniowy Puchar Polski w Brazylijskim Jiu-Jitsu rozgrywany według zasad IBJJF.',
+  NULL, NULL, NULL, 'Warszawa', 'OSiR Włochy, ul. Gładka 18, Warszawa', NULL, NULL,
   '2026-09-19', '2026-09-20', NULL, NULL, NULL, 'PLN',
   'https://martialmatch.com/pl/events/814-xxiv-puchar-polski-bjj', NULL, NULL, NULL, false
 ),
 (
-  'iii-otwarte-mistrzostwa-dolnego-slaska-bjj-2026', 'III Otwarte Mistrzostwa Dolnego ÅšlÄ…ska w BJJ Gi & No Gi', 'Tournament',
-  'Otwarte zawody BJJ w formuÅ‚ach Gi i No-Gi.', NULL, NULL, NULL,
-  'WoÅ‚Ã³w', 'Hala Sportowa, ul. PanieÅ„ska 4a, 56-100 WoÅ‚Ã³w', NULL, NULL,
+  'iii-otwarte-mistrzostwa-dolnego-slaska-bjj-2026', 'III Otwarte Mistrzostwa Dolnego Śląska w BJJ Gi & No Gi', 'Tournament',
+  'Otwarte zawody BJJ w formułach Gi i No-Gi.', NULL, NULL, NULL,
+  'Wołów', 'Hala Sportowa, ul. Panieńska 4a, 56-100 Wołów', NULL, NULL,
   '2026-09-19', NULL, NULL, NULL, NULL, 'PLN',
   'https://martialmatch.com/pl/events/718-iii-otwarte-mistrzostwa-dolnego-slaska-w-bjj-gi-no-gi', NULL, NULL, NULL, false
 ),
 (
-  'ogolnopolska-liga-ju-jitsu-katowice-2026-09', 'OgÃ³lnopolska Liga Dzieci, MÅ‚odzieÅ¼y i DorosÅ‚ych w Ju-Jitsu', 'Tournament',
-  'Zawody obejmujÄ…ce m.in. BJJ Gi, BJJ No-Gi oraz ne-waza.', NULL, NULL, NULL,
+  'ogolnopolska-liga-ju-jitsu-katowice-2026-09', 'Ogólnopolska Liga Dzieci, Młodzieży i Dorosłych w Ju-Jitsu', 'Tournament',
+  'Zawody obejmujące m.in. BJJ Gi, BJJ No-Gi oraz ne-waza.', NULL, NULL, NULL,
   'Katowice', 'ul. Alfreda 1, Katowice', NULL, NULL,
   '2026-09-20', NULL, NULL, NULL, NULL, 'PLN',
   'https://martialmatch.com/pl/events/975-ogolnopolska-liga-dzieci-mlodziezy-doroslych-w-ju-jitsu', NULL, NULL, NULL, false
 ),
 (
   'xvi-puchar-polski-no-gi-jiu-jitsu-2026', 'XVI Puchar Polski No Gi Jiu Jitsu 2026', 'Tournament',
-  'Puchar Polski No-Gi Jiu-Jitsu. Aktualne kategorie, opÅ‚aty i harmonogram dostÄ™pne sÄ… na stronie wydarzenia.', NULL, NULL, NULL,
-  'PoznaÅ„', 'UAM Sport, ul. Zagajnikowa 9, PoznaÅ„', NULL, NULL,
+  'Puchar Polski No-Gi Jiu-Jitsu. Aktualne kategorie, opłaty i harmonogram dostępne są na stronie wydarzenia.', NULL, NULL, NULL,
+  'Poznań', 'UAM Sport, ul. Zagajnikowa 9, Poznań', NULL, NULL,
   '2026-09-26', NULL, NULL, NULL, NULL, 'PLN',
   'https://martialmatch.com/pl/events/662-xvi-puchar-polski-no-gi-jiu-jitsu-2026', NULL, NULL, NULL, false
 ),
@@ -166,21 +166,21 @@ INSERT INTO events (
   'https://martialmatch.com/pl/events/917-iii-open-fire-carioca-cup', NULL, NULL, NULL, false
 ),
 (
-  'copa-14-gi-nogi', 'COPA 14 â€“ Gi & No-Gi', 'Tournament',
-  'Turniej BJJ w formuÅ‚ach Gi i No-Gi.', NULL, NULL, NULL, 'Gliwice', NULL, NULL, NULL,
+  'copa-14-gi-nogi', 'COPA 14 – Gi & No-Gi', 'Tournament',
+  'Turniej BJJ w formułach Gi i No-Gi.', NULL, NULL, NULL, 'Gliwice', NULL, NULL, NULL,
   '2026-09-26', NULL, NULL, NULL, NULL, 'PLN',
   'https://martialmatch.com/pl/events/966-copa-14---gi-nogi', NULL, NULL, NULL, false
 ),
 (
   'puchar-polski-grappling-kamien-pomorski-2026', 'Puchar Polski w Grapplingu 2026', 'Tournament',
-  'Puchar Polski w grapplingu dla kategorii dzieciÄ™cych, mÅ‚odzieÅ¼owych i seniorskich.', NULL, 'Polski ZwiÄ…zek ZapaÅ›niczy', NULL,
-  'KamieÅ„ Pomorski', NULL, NULL, NULL,
+  'Puchar Polski w grapplingu dla kategorii dziecięcych, młodzieżowych i seniorskich.', NULL, 'Polski Związek Zapaśniczy', NULL,
+  'Kamień Pomorski', NULL, NULL, NULL,
   '2026-09-26', NULL, NULL, NULL, NULL, 'PLN',
   'https://zapasy.org.pl/i/grappling/102', NULL, NULL, NULL, false
 ),
 (
   'bone-breakers-cup-2026', 'Bone Breakers Cup', 'Tournament',
-  'Turniej submission only oraz BJJ Gi i No-Gi.', NULL, NULL, NULL, 'Å»agaÅ„', NULL, NULL, NULL,
+  'Turniej submission only oraz BJJ Gi i No-Gi.', NULL, NULL, NULL, 'Żagań', NULL, NULL, NULL,
   '2026-10-03', NULL, NULL, NULL, NULL, 'PLN',
   'https://martialmatch.com/pl/events/683-BoneB', NULL, NULL, NULL, false
 ),
@@ -193,74 +193,74 @@ INSERT INTO events (
 ),
 (
   'xvii-fight-grappler-cup-2026', 'XVII Turniej BJJ No-Gi Fight Grappler Cup 2026', 'Tournament',
-  'Turniej BJJ No-Gi.', NULL, NULL, NULL, 'MiÅ„sk Mazowiecki', NULL, NULL, NULL,
+  'Turniej BJJ No-Gi.', NULL, NULL, NULL, 'Mińsk Mazowiecki', NULL, NULL, NULL,
   '2026-10-10', NULL, NULL, NULL, NULL, 'PLN',
   'https://martialmatch.com/pl/events/895-xvii-turnieju-bjj-no-gi-fight-grappler-cup-2026', NULL, NULL, NULL, false
 ),
 (
   'open-baltic-cup-2026', 'Open Baltic Cup Gi & No-Gi', 'Tournament',
-  'Turniej BJJ Gi i No-Gi.', NULL, NULL, NULL, 'Koszalin', 'Hala SportÃ³w Walki, ul. FaÅ‚ata 34, Koszalin', NULL, NULL,
+  'Turniej BJJ Gi i No-Gi.', NULL, NULL, NULL, 'Koszalin', 'Hala Sportów Walki, ul. Fałata 34, Koszalin', NULL, NULL,
   '2026-10-10', NULL, NULL, NULL, NULL, 'PLN',
   'https://martialmatch.com/pl/events/916-open-baltic-cup-gi-and-no-gi', NULL, NULL, NULL, false
 ),
 (
   'taga-copa-poland-2026', 'TAGA COPA POLAND', 'Tournament',
-  'Turniej BJJ No-Gi.', NULL, 'TAGA Competition', NULL, 'Tarnowo PodgÃ³rne', NULL, NULL, NULL,
+  'Turniej BJJ No-Gi.', NULL, 'TAGA Competition', NULL, 'Tarnowo Podgórne', NULL, NULL, NULL,
   '2026-10-10', NULL, NULL, NULL, NULL, 'PLN',
   'https://martialmatch.com/pl/events/923-taga-copa-poland', NULL, NULL, NULL, false
 ),
 (
   'iii-bjj-colored-belts-championships', 'III BJJ Colored Belts Championships', 'Tournament',
-  'Turniej BJJ Gi i No-Gi dla kolorowych pasÃ³w.', NULL, NULL, NULL, 'Szczecin', NULL, NULL, NULL,
+  'Turniej BJJ Gi i No-Gi dla kolorowych pasów.', NULL, NULL, NULL, 'Szczecin', NULL, NULL, NULL,
   '2026-10-10', NULL, NULL, NULL, NULL, 'PLN',
   'https://martialmatch.com/pl/events/1005-iii-mistrzostwa-bjj-w-kolorowych-pasach', NULL, NULL, NULL, false
 ),
 (
   'fall-open-2026', 'Fall Open 2026 Gi & No-Gi Jiu Jitsu', 'Tournament',
-  'Turniej BJJ Gi i No-Gi.', NULL, NULL, NULL, 'PoznaÅ„', 'UAM Sport, PoznaÅ„', NULL, NULL,
+  'Turniej BJJ Gi i No-Gi.', NULL, NULL, NULL, 'Poznań', 'UAM Sport, Poznań', NULL, NULL,
   '2026-10-17', NULL, NULL, NULL, NULL, 'PLN',
   'https://martialmatch.com/pl/events/710-fall-open-2026-gi-no-gi-jiu-jitsu', NULL, NULL, NULL, false
 ),
 (
-  'jelcz-laskowice-cup-iv', 'Jelcz-Laskowice Cup IV â€“ DolnoÅ›lÄ…ska Liga BJJ', 'Tournament',
+  'jelcz-laskowice-cup-iv', 'Jelcz-Laskowice Cup IV – Dolnośląska Liga BJJ', 'Tournament',
   'Turniej BJJ Gi i No-Gi.', NULL, NULL, NULL, 'Jelcz-Laskowice', 'CSiR Jelcz-Laskowice', NULL, NULL,
   '2026-10-17', NULL, NULL, NULL, NULL, 'PLN',
   'https://martialmatch.com/pl/events/801-jelcz-laskowice-cup-iv---dolnoslaska-liga-bjj-gi-nogi', NULL, NULL, NULL, false
 ),
 (
-  'malopolska-liga-salt-cup-2026', 'MaÅ‚opolska Liga Jiu-Jitsu â€“ Salt Cup', 'Tournament',
-  'Turniej BJJ Gi i No-Gi.', NULL, 'MaÅ‚opolska Liga Jiu-Jitsu', NULL, 'Wieliczka', NULL, NULL, NULL,
+  'malopolska-liga-salt-cup-2026', 'Małopolska Liga Jiu-Jitsu – Salt Cup', 'Tournament',
+  'Turniej BJJ Gi i No-Gi.', NULL, 'Małopolska Liga Jiu-Jitsu', NULL, 'Wieliczka', NULL, NULL, NULL,
   '2026-10-24', NULL, NULL, NULL, NULL, 'PLN',
   'https://martialmatch.com/pl/events/692-malopolska-liga-jiu-jitsu-salt-cup', NULL, NULL, NULL, false
 ),
 (
   'solt-19-dzik-gi-nogi', 'SOLT 19 x DZIK: Gi & No-Gi', 'Tournament',
-  'Turniej Sub Only League w formuÅ‚ach Gi i No-Gi.', NULL, 'Sub Only League', NULL,
+  'Turniej Sub Only League w formułach Gi i No-Gi.', NULL, 'Sub Only League', NULL,
   'Opole', 'Stegu Arena, Opole', NULL, NULL,
   '2026-11-21', NULL, NULL, NULL, NULL, 'PLN',
   'https://subonlyleague.com/', NULL, NULL, NULL, false
 ),
 (
-  'malopolska-liga-cracow-cup-2026', 'MaÅ‚opolska Liga Jiu-Jitsu â€“ Cracow Cup', 'Tournament',
-  'Turniej BJJ Gi i No-Gi.', NULL, 'MaÅ‚opolska Liga Jiu-Jitsu', NULL, 'KrakÃ³w', NULL, NULL, NULL,
+  'malopolska-liga-cracow-cup-2026', 'Małopolska Liga Jiu-Jitsu – Cracow Cup', 'Tournament',
+  'Turniej BJJ Gi i No-Gi.', NULL, 'Małopolska Liga Jiu-Jitsu', NULL, 'Kraków', NULL, NULL, NULL,
   '2026-11-21', NULL, NULL, NULL, NULL, 'PLN',
   'https://martialmatch.com/pl/events/693-malopolska-liga-jiu-jitsu-cracow-cup', NULL, NULL, NULL, false
 ),
 (
-  'ground-game-cup-9-2026', 'Ground Game Cup 9 â€“ Baltic & Eastern Europe Championships', 'Tournament',
-  'Turniej BJJ Gi i No-Gi. Wpis wykorzystuje nowy termin wskazany przez organizatora.', NULL, NULL, NULL, 'SuwaÅ‚ki', NULL, NULL, NULL,
+  'ground-game-cup-9-2026', 'Ground Game Cup 9 – Baltic & Eastern Europe Championships', 'Tournament',
+  'Turniej BJJ Gi i No-Gi. Wpis wykorzystuje nowy termin wskazany przez organizatora.', NULL, NULL, NULL, 'Suwałki', NULL, NULL, NULL,
   '2026-11-21', NULL, NULL, NULL, NULL, 'PLN',
   'https://martialmatch.com/pl/events/1013-ground-game-cup-9-baltic-eastern-europe-championships', NULL, NULL, NULL, false
 ),
 (
-  'ii-otwarty-puchar-dolnego-slaska-bjj-2026', 'II Otwarty Puchar Dolnego ÅšlÄ…ska w BJJ Gi & No-Gi', 'Tournament',
-  'Otwarty turniej BJJ Gi i No-Gi.', NULL, NULL, NULL, 'Oborniki ÅšlÄ…skie', NULL, NULL, NULL,
+  'ii-otwarty-puchar-dolnego-slaska-bjj-2026', 'II Otwarty Puchar Dolnego Śląska w BJJ Gi & No-Gi', 'Tournament',
+  'Otwarty turniej BJJ Gi i No-Gi.', NULL, NULL, NULL, 'Oborniki Śląskie', NULL, NULL, NULL,
   '2026-11-28', NULL, NULL, NULL, NULL, 'PLN',
   'https://martialmatch.com/pl/events/839-ii-otwarty-puchar-dolnego-slaska-w-bjj-gi-no-gi-2026', NULL, NULL, NULL, false
 ),
 (
   'koga-cup-iii-2026', 'KOGA CUP III: Gi & No-Gi', 'Tournament',
-  'Turniej BJJ Gi i No-Gi.', NULL, NULL, NULL, 'ElblÄ…g', NULL, NULL, NULL,
+  'Turniej BJJ Gi i No-Gi.', NULL, NULL, NULL, 'Elbląg', NULL, NULL, NULL,
   '2026-11-28', NULL, NULL, NULL, NULL, 'PLN',
   'https://martialmatch.com/pl/events/959-koga-cup-iii-gi-no-gi', NULL, NULL, NULL, false
 ),
@@ -272,13 +272,13 @@ INSERT INTO events (
 ),
 (
   'adcc-polish-cup-2026', 'ADCC Polish Cup 2026', 'Tournament',
-  'Puchar Polski rozgrywany wedÅ‚ug zasad ADCC.', NULL, 'ADCC Poland', NULL, 'Warszawa', NULL, NULL, NULL,
+  'Puchar Polski rozgrywany według zasad ADCC.', NULL, 'ADCC Poland', NULL, 'Warszawa', NULL, NULL, NULL,
   '2026-12-05', NULL, NULL, NULL, NULL, 'PLN',
   'https://martialmatch.com/pl/events?type=ADCC', NULL, NULL, NULL, false
 ),
 (
   'winter-open-2026', 'Winter Open 2026 Gi & No-Gi Jiu Jitsu', 'Tournament',
-  'Turniej BJJ Gi i No-Gi.', NULL, NULL, NULL, 'PoznaÅ„', 'UAM Sport, PoznaÅ„', NULL, NULL,
+  'Turniej BJJ Gi i No-Gi.', NULL, NULL, NULL, 'Poznań', 'UAM Sport, Poznań', NULL, NULL,
   '2026-12-12', NULL, NULL, NULL, NULL, 'PLN',
   'https://martialmatch.com/pl/events/712-winter-open-2026-gi-no-gi-jiu-jitsu', NULL, NULL, NULL, false
 ),
@@ -291,7 +291,8 @@ INSERT INTO events (
 ON CONFLICT (slug) DO NOTHING;
 
 
--- DwujÄ™zyczna aktualizacja pakietu wolnamata-events-2026-import.sql.
+
+﻿-- DwujÄ™zyczna aktualizacja pakietu wolnamata-events-2026-import.sql.
 -- Konwencja kart: zawsze Polski / English.
 -- Opis jest jednym tekstem: najpierw peÅ‚ny akapit polski, nastÄ™pnie peÅ‚ny akapit angielski.
 
@@ -337,5 +338,4 @@ FROM (VALUES
   ('iii-zimowe-akademickie-mistrzostwa-polski-bjj-2026', 'III Zimowe Akademickie Mistrzostwa Polski BJJ / 3rd Winter Polish University BJJ Championship', E'Akademickie zawody BJJ Gi i No-Gi.\n\nA university-level Gi and No-Gi BJJ competition.')
 ) AS v(slug, title_bilingual, description_bilingual)
 WHERE e.slug = v.slug;
-
 
