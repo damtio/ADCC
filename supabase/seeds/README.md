@@ -1,88 +1,88 @@
-# Wolna Mata â€” baza kandydatÃ³w 2026
+# Wolna Mata — baza kandydatów 2026
 
-Stan badania: **13 sierpnia 2026**. Zakres: nadchodzÄ…ce wydarzenia w Polsce do koÅ„ca 2026 roku, istotne dla BJJ, submission grapplingu i spoÅ‚ecznoÅ›ci Wolnej Maty.
+Stan badania: **13 sierpnia 2026**. Zakres: nadchodzące wydarzenia w Polsce do końca 2026 roku, istotne dla BJJ, submission grapplingu i społeczności Wolnej Maty.
 
-## ZawartoÅ›Ä‡
+## Zawartość
 
-- 5 obozÃ³w,
+- 5 obozów,
 - 2 seminaria,
-- 29 zawodÃ³w,
-- Å‚Ä…cznie 36 rekordÃ³w zgodnych z tabelÄ… `events` w repozytorium `damtio/ADCC`.
+- 29 zawodów,
+- łącznie 36 rekordów zgodnych z tabelą `events` w repozytorium `damtio/ADCC`.
 
 Pakiet SQL: `wolnamata-events-2026-import.sql`.
 
-## Zasady jakoÅ›ci
+## Zasady jakości
 
-1. Wszystkie rekordy majÄ… `published = false`.
-2. Import jest idempotentny dziÄ™ki `ON CONFLICT (slug) DO NOTHING`.
-3. BrakujÄ…ce godziny, ceny, adresy i profile spoÅ‚ecznoÅ›ciowe pozostajÄ… `NULL`; nie zostaÅ‚y wymyÅ›lone.
-4. IstniejÄ…cych 21 wydarzeÅ„ widocznych na `wolnamata.pl/pl` nie dodawano ponownie.
+1. Wszystkie rekordy mają `published = false`.
+2. Import jest idempotentny dzięki `ON CONFLICT (slug) DO NOTHING`.
+3. Brakujące godziny, ceny, adresy i profile społecznościowe pozostają `NULL`; nie zostały wymyślone.
+4. Istniejących 21 wydarzeń widocznych na `wolnamata.pl/pl` nie dodawano ponownie.
 5. `registration_url` prowadzi do strony organizatora albo platformy rejestracyjnej.
-6. Rekordy wymagajÄ… krÃ³tkiej kontroli redakcyjnej bezpoÅ›rednio przed publikacjÄ…, poniewaÅ¼ terminy i status zapisÃ³w mogÄ… siÄ™ zmieniaÄ‡.
+6. Rekordy wymagają krótkiej kontroli redakcyjnej bezpośrednio przed publikacją, ponieważ terminy i status zapisów mogą się zmieniać.
 
-## GÅ‚Ã³wne ÅºrÃ³dÅ‚a
+## Główne źródła
 
-- MartialMatch â€” oficjalne strony rejestracji i szczegÃ³Å‚y zawodÃ³w: https://martialmatch.com/pl/events
-- ADCC News â€” ADCC Amateur World Championship: https://adcombat.com/adcc-events/adcc-amateur-world-championship-2026/
-- eBilet â€” ADCC World Championship: https://www.ebilet.pl/sport/sporty-walki/adcc-world-championship
-- Polski ZwiÄ…zek ZapaÅ›niczy â€” kalendarz grapplingu: https://zapasy.org.pl/i/grappling/102
-- Berserkers Team â€” BT Camp: https://berserkersteam.pl/bt-camp-oboz-berserkers-team-17-24-sierpnia-2026/
-- Mocni Zawodnicy â€” camp BJJ: https://mocnizawodnicy.pl/
-- BJJ Globetrotters â€” Zen Camp: https://www.bjjglobetrotters.com/zencamp2026
+- MartialMatch — oficjalne strony rejestracji i szczegóły zawodów: https://martialmatch.com/pl/events
+- ADCC News — ADCC Amateur World Championship: https://adcombat.com/adcc-events/adcc-amateur-world-championship-2026/
+- eBilet — ADCC World Championship: https://www.ebilet.pl/sport/sporty-walki/adcc-world-championship
+- Polski Związek Zapaśniczy — kalendarz grapplingu: https://zapasy.org.pl/i/grappling/102
+- Berserkers Team — BT Camp: https://berserkersteam.pl/bt-camp-oboz-berserkers-team-17-24-sierpnia-2026/
+- Mocni Zawodnicy — camp BJJ: https://mocnizawodnicy.pl/
+- BJJ Globetrotters — Zen Camp: https://www.bjjglobetrotters.com/zencamp2026
 - Rio Fit & Chill Camp: https://riofitcamp.pl/
-- KMCenter â€” Combat Camp: https://kmcenter.pl/events/combat-camp-sierpien-2026/
-- Ffion Davies Seminar â€” karta wydarzenia i formularz organizatora: https://happeningnext.com/event/ffion-davies-open-no-gi-seminar-in-warsaw-eid3a0dm9ksq8
+- KMCenter — Combat Camp: https://kmcenter.pl/events/combat-camp-sierpien-2026/
+- Ffion Davies Seminar — karta wydarzenia i formularz organizatora: https://happeningnext.com/event/ffion-davies-open-no-gi-seminar-in-warsaw-eid3a0dm9ksq8
 
 ## Kontrola przed importem
 
-- ZweryfikowaÄ‡, czy wydarzenia zaczynajÄ…ce siÄ™ 13â€“17 sierpnia nadal przyjmujÄ… uczestnikÃ³w.
-- PotwierdziÄ‡ aktualny status Ground Game Cup 9; wczeÅ›niejsze listy pokazywaÅ‚y 24 paÅºdziernika, natomiast aktualna nazwa wydarzenia wskazuje nowy termin 21 listopada.
-- PotwierdziÄ‡ dokÅ‚adne miejsce ADCC Polish Cup 2026.
-- Przy Zen Camp pozostawiÄ‡ informacjÄ™ o wyprzedaniu miejsc w opisie lub zdecydowaÄ‡, czy wydarzenia `sold out` majÄ… byÄ‡ widoczne.
-- SprawdziÄ‡ cenÄ™ â€žodâ€ dla ADCC World Championship â€” 230,90 PLN pochodzi z aktualnej strony biletowej i moÅ¼e siÄ™ zmieniÄ‡.
+- Zweryfikować, czy wydarzenia zaczynające się 13–17 sierpnia nadal przyjmują uczestników.
+- Potwierdzić aktualny status Ground Game Cup 9; wcześniejsze listy pokazywały 24 października, natomiast aktualna nazwa wydarzenia wskazuje nowy termin 21 listopada.
+- Potwierdzić dokładne miejsce ADCC Polish Cup 2026.
+- Przy Zen Camp pozostawić informację o wyprzedaniu miejsc w opisie lub zdecydować, czy wydarzenia `sold out` mają być widoczne.
+- Sprawdzić cenę „od” dla ADCC World Championship — 230,90 PLN pochodzi z aktualnej strony biletowej i może się zmienić.
 
-## Zalecany sposÃ³b uÅ¼ycia
+## Zalecany sposób użycia
 
-UruchomiÄ‡ skrypt najpierw w Å›rodowisku testowym Supabase. NastÄ™pnie przejrzeÄ‡ wpisy w panelu `/admin`, uzupeÅ‚niÄ‡ grafiki i brakujÄ…ce dane, po czym publikowaÄ‡ selektywnie. Skrypt nie modyfikuje ani nie usuwa istniejÄ…cych wydarzeÅ„.
+Uruchomić skrypt najpierw w środowisku testowym Supabase. Następnie przejrzeć wpisy w panelu `/admin`, uzupełnić grafiki i brakujące dane, po czym publikować selektywnie. Skrypt nie modyfikuje ani nie usuwa istniejących wydarzeń.
+
 
 # Kandydaci akademii dla Wolnej Maty
 
 Stan weryfikacji: **13 sierpnia 2026**.
 
-Pakiet `wolnamata-academies-import.sql` dodaje 16 akademii spoza obecnej krakowskiej bazy. KaÅ¼dy rekord ma `published = false`, dlatego po imporcie pojawi siÄ™ w panelu administracyjnym, ale nie na publicznej stronie.
+Pakiet `wolnamata-academies-import.sql` dodaje 16 akademii spoza obecnej krakowskiej bazy. Każdy rekord ma `published = false`, dlatego po imporcie pojawi się w panelu administracyjnym, ale nie na publicznej stronie.
 
 ## Pokrycie
 
 - Warszawa: 1
-- PoznaÅ„: 2
-- WrocÅ‚aw: 2
+- Poznań: 2
+- Wrocław: 2
 - Szczecin: 1
-- SuwaÅ‚ki: 1
-- KoÅ‚obrzeg: 1
+- Suwałki: 1
+- Kołobrzeg: 1
 - Lublin: 2
-- CzÄ™stochowa, DÄ…browa GÃ³rnicza, OtmuchÃ³w, Zawiercie, OÅ‚awa i KroÅ›nice: po 1
+- Częstochowa, Dąbrowa Górnicza, Otmuchów, Zawiercie, Oława i Krośnice: po 1
 
-## Å¹rÃ³dÅ‚a
+## Źródła
 
-- oficjalna lista klubÃ³w Rio Grappling Club Polska: https://riograpplingclub.pl/kluby/
+- oficjalna lista klubów Rio Grappling Club Polska: https://riograpplingclub.pl/kluby/
 - oficjalne strony filii Berserkers Team: https://berserkersteam.pl/nasze-filie/
-- Rio Grappling WrocÅ‚aw: https://bjj.wroclaw.pl/
-- Next Level WrocÅ‚aw: https://www.bjjwroclaw.com/
+- Rio Grappling Wrocław: https://bjj.wroclaw.pl/
+- Next Level Wrocław: https://www.bjjwroclaw.com/
 - Gameness Team: https://www.gamenessteam.pl/
-- K.S. Anakonda PoznaÅ„: https://bjj-poznan.pl/
+- K.S. Anakonda Poznań: https://bjj-poznan.pl/
 - Shootfighters Lublin: https://mma-lublin.com/bjj.html
 - Copacabana Lublin: https://copacabanalublin.pl/kontakt/
 - Copacabana Warszawa: https://www.copacabana.studio/
 
 ## Kontrola redakcyjna
 
-Przed zatwierdzeniem naleÅ¼y wejÅ›Ä‡ na stronÄ™ kaÅ¼dego klubu i potwierdziÄ‡ aktualny adres, aktywnoÅ›Ä‡ sekcji BJJ, formuÅ‚Ä™ Gi/No-Gi oraz moÅ¼liwoÅ›Ä‡ wejÅ›cia goÅ›cinnego. WspÃ³Å‚rzÄ™dne pozostawiono puste celowo; warto uzupeÅ‚niÄ‡ je dopiero po potwierdzeniu adresu.
+Przed zatwierdzeniem należy wejść na stronę każdego klubu i potwierdzić aktualny adres, aktywność sekcji BJJ, formułę Gi/No-Gi oraz możliwość wejścia gościnnego. Współrzędne pozostawiono puste celowo; warto uzupełnić je dopiero po potwierdzeniu adresu.
 
-## KolejnoÅ›Ä‡ importu
+## Kolejność importu
 
 1. `wolnamata-events-2026-import.sql`
 2. `wolnamata-events-2026-bilingual.sql`
 3. `wolnamata-academies-import.sql`
 
-DwujÄ™zyczny skrypt uÅ¼ywa konwencji `Polski tytuÅ‚ / English title`. Opis pozostaje jednym tekstem: peÅ‚ny polski akapit, pusta linia i peÅ‚ny angielski akapit â€” bez etykiet jÄ™zykowych. Jest to rozwiÄ…zanie kompatybilne z obecnym pojedynczym polem `title` i `description`.
-
+Dwujęzyczny skrypt używa konwencji `Polski tytuł / English title`. Opis pozostaje jednym tekstem: pełny polski akapit, pusta linia i pełny angielski akapit — bez etykiet językowych. Jest to rozwiązanie kompatybilne z obecnym pojedynczym polem `title` i `description`.
