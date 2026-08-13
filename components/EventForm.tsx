@@ -9,7 +9,11 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { useRouter as useIntlRouter } from "@/i18n/navigation";
-import { EVENT_CATEGORIES, type Event } from "@/types/event";
+import {
+  EVENT_CATEGORIES,
+  RECURRENCE_FREQUENCIES,
+  type Event,
+} from "@/types/event";
 
 type FormAction = (
   prevState: { error?: string; success?: boolean } | null,
@@ -158,6 +162,37 @@ export function EventForm({
             defaultValue={event?.end_date ?? ""}
           />
           <p className="text-xs text-zinc-500">{label("endDateHint")}</p>
+        </div>
+
+        <div className="space-y-2">
+          <Label htmlFor="recurrence_frequency">
+            {label("recurrenceLabel")}
+          </Label>
+          <select
+            id="recurrence_frequency"
+            name="recurrence_frequency"
+            defaultValue={event?.recurrence_frequency ?? "none"}
+            className="flex h-10 w-full rounded-lg border border-[#2B2B2B] bg-[#151515] px-3 py-2 text-sm text-white focus-visible:ring-2 focus-visible:ring-red-500 focus-visible:outline-none"
+          >
+            {RECURRENCE_FREQUENCIES.map((frequency) => (
+              <option key={frequency} value={frequency}>
+                {label(`recurrence_${frequency}`)}
+              </option>
+            ))}
+          </select>
+          <p className="text-xs text-zinc-500">{label("recurrenceHint")}</p>
+        </div>
+
+        <div className="space-y-2">
+          <Label htmlFor="recurrence_until">
+            {label("recurrenceUntilLabel")}
+          </Label>
+          <Input
+            id="recurrence_until"
+            name="recurrence_until"
+            type="date"
+            defaultValue={event?.recurrence_until ?? ""}
+          />
         </div>
 
         <div className="space-y-2">
@@ -312,6 +347,13 @@ const fallbackLabels = {
   dateLabel: "Start Date *",
   endDateLabel: "End Date",
   endDateHint: "Leave empty for a single-day event.",
+  recurrenceLabel: "Repeat",
+  recurrenceHint: "Recurring series are available only for Open Mat events.",
+  recurrenceUntilLabel: "Repeat until",
+  recurrence_none: "Does not repeat",
+  recurrence_weekly: "Every week",
+  recurrence_biweekly: "Every two weeks",
+  recurrence_monthly: "Every month",
   startTimeLabel: "Start Time",
   endTimeLabel: "End Time",
   priceLabel: "Price",

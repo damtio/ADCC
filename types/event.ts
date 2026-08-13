@@ -10,6 +10,14 @@ export const EVENT_CATEGORIES = [
 
 export type EventCategory = (typeof EVENT_CATEGORIES)[number];
 
+export const RECURRENCE_FREQUENCIES = [
+  "none",
+  "weekly",
+  "biweekly",
+  "monthly",
+] as const;
+export type RecurrenceFrequency = (typeof RECURRENCE_FREQUENCIES)[number];
+
 export interface Event {
   id: string;
   slug: string;
@@ -25,6 +33,8 @@ export interface Event {
   longitude: number | null;
   date: string;
   end_date: string | null;
+  recurrence_frequency: RecurrenceFrequency;
+  recurrence_until: string | null;
   start_time: string | null;
   end_time: string | null;
   price: number | null;

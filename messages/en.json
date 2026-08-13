@@ -39,7 +39,10 @@
     "details": "Details",
     "searchLabel": "Search events",
     "clearFilters": "Clear filters",
-    "resultsCount": "Events found: {count}"
+    "resultsCount": "Events found: {count}",
+    "recurrence_weekly": "Every week until {until}",
+    "recurrence_biweekly": "Every two weeks until {until}",
+    "recurrence_monthly": "Every month until {until}"
   },
   "eventPage": {
     "notFound": "Event Not Found",
@@ -232,6 +235,13 @@
     "dateLabel": "Start Date *",
     "endDateLabel": "End Date",
     "endDateHint": "Leave empty for a single-day event.",
+    "recurrenceLabel": "Repeat",
+    "recurrenceHint": "Recurring series are available only for Open Mat events.",
+    "recurrenceUntilLabel": "Repeat until",
+    "recurrence_none": "Does not repeat",
+    "recurrence_weekly": "Every week",
+    "recurrence_biweekly": "Every two weeks",
+    "recurrence_monthly": "Every month",
     "startTimeLabel": "Start Time",
     "endTimeLabel": "End Time",
     "priceLabel": "Price",

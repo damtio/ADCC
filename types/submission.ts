@@ -1,4 +1,4 @@
-import type { EventCategory } from "@/types/event";
+import type { EventCategory, RecurrenceFrequency } from "@/types/event";
 
 export const SUBMISSION_STATUSES = ["pending", "approved", "rejected"] as const;
 export type SubmissionStatus = (typeof SUBMISSION_STATUSES)[number];
@@ -14,6 +14,8 @@ export interface EventSubmission {
   address: string | null;
   date: string;
   end_date: string | null;
+  recurrence_frequency: RecurrenceFrequency;
+  recurrence_until: string | null;
   start_time: string | null;
   end_time: string | null;
   price: number | null;

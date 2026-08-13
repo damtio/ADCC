@@ -25,6 +25,8 @@ export const EVENT_LIST_COLUMNS = [
   "address",
   "date",
   "end_date",
+  "recurrence_frequency",
+  "recurrence_until",
   "start_time",
   "end_time",
   "price",

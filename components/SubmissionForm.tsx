@@ -6,7 +6,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
-import { EVENT_CATEGORIES } from "@/types/event";
+import { EVENT_CATEGORIES, RECURRENCE_FREQUENCIES } from "@/types/event";
 
 type FormAction = (
   prevState: { error?: string; success?: boolean } | null,
@@ -114,6 +114,28 @@ export function SubmissionForm({ action }: SubmissionFormProps) {
           <Label htmlFor="end_date">{t("endDateLabel")}</Label>
           <Input id="end_date" name="end_date" type="date" />
           <p className="text-xs text-zinc-500">{t("endDateHint")}</p>
+        </div>
+
+        <div className="space-y-2">
+          <Label htmlFor="recurrence_frequency">{t("recurrenceLabel")}</Label>
+          <select
+            id="recurrence_frequency"
+            name="recurrence_frequency"
+            defaultValue="none"
+            className="flex h-10 w-full rounded-lg border border-[#2B2B2B] bg-[#151515] px-3 py-2 text-sm text-white focus-visible:ring-2 focus-visible:ring-red-500 focus-visible:outline-none"
+          >
+            {RECURRENCE_FREQUENCIES.map((frequency) => (
+              <option key={frequency} value={frequency}>
+                {t(`recurrence_${frequency}`)}
+              </option>
+            ))}
+          </select>
+          <p className="text-xs text-zinc-500">{t("recurrenceHint")}</p>
+        </div>
+
+        <div className="space-y-2">
+          <Label htmlFor="recurrence_until">{t("recurrenceUntilLabel")}</Label>
+          <Input id="recurrence_until" name="recurrence_until" type="date" />
         </div>
 
         <div className="space-y-2">

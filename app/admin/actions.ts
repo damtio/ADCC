@@ -283,6 +283,8 @@ export async function approveSubmissionAction(id: string): Promise<void> {
     address: submission.address,
     date: submission.date,
     end_date: submission.end_date,
+    recurrence_frequency: submission.recurrence_frequency,
+    recurrence_until: submission.recurrence_until,
     start_time: submission.start_time,
     end_time: submission.end_time,
     price: submission.price,

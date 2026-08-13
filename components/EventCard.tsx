@@ -67,6 +67,13 @@ export function EventCard({ event }: EventCardProps) {
             <Calendar className="h-4 w-4 shrink-0 text-red-500" />
             <span>{formatDateRange(event.date, event.end_date)}</span>
           </div>
+          {event.recurrence_frequency !== "none" && event.recurrence_until && (
+            <p className="pl-6 text-xs font-medium text-red-400">
+              {t(`recurrence_${event.recurrence_frequency}`, {
+                until: formatDateRange(event.recurrence_until, null),
+              })}
+            </p>
+          )}
           {event.start_time && (
             <div className="flex items-center gap-2">
               <Clock className="h-4 w-4 shrink-0 text-red-500" />

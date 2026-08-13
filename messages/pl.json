@@ -39,7 +39,10 @@
     "details": "Szczegóły",
     "searchLabel": "Szukaj wydarzeń",
     "clearFilters": "Wyczyść filtry",
-    "resultsCount": "Liczba znalezionych wydarzeń: {count}"
+    "resultsCount": "Liczba znalezionych wydarzeń: {count}",
+    "recurrence_weekly": "Co tydzień do {until}",
+    "recurrence_biweekly": "Co dwa tygodnie do {until}",
+    "recurrence_monthly": "Co miesiąc do {until}"
   },
   "eventPage": {
     "notFound": "Nie znaleziono wydarzenia",
@@ -232,6 +235,13 @@
     "dateLabel": "Data rozpoczęcia *",
     "endDateLabel": "Data zakończenia",
     "endDateHint": "Zostaw puste dla wydarzenia jednodniowego.",
+    "recurrenceLabel": "Powtarzanie",
+    "recurrenceHint": "Serie cykliczne są dostępne tylko dla wolnych mat.",
+    "recurrenceUntilLabel": "Powtarzaj do",
+    "recurrence_none": "Nie powtarza się",
+    "recurrence_weekly": "Co tydzień",
+    "recurrence_biweekly": "Co dwa tygodnie",
+    "recurrence_monthly": "Co miesiąc",
     "startTimeLabel": "Godzina rozpoczęcia",
     "endTimeLabel": "Godzina zakończenia",
     "priceLabel": "Cena",

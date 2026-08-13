@@ -132,6 +132,7 @@ Create `.env.local` from `.env.example`:
    supabase/migrations/004_fix_event_submissions_columns.sql
    supabase/migrations/005_reload_submissions_schema.sql
    supabase/migrations/006_create_academies.sql
+   supabase/migrations/011_recurring_open_mats.sql
    ```
 
 3. Copy project URL and keys from **Settings → API**

@@ -1,5 +1,5 @@
 import { z } from "zod";
-import { EVENT_CATEGORIES } from "@/types/event";
+import { EVENT_CATEGORIES, RECURRENCE_FREQUENCIES } from "@/types/event";
 
 const emptyToNull = (value: unknown) => {
   if (typeof value !== "string") return value ?? null;
@@ -65,6 +65,8 @@ const eventBaseSchema = z.object({
   address: optionalText(300),
   date,
   end_date: z.preprocess(emptyToNull, date.nullable()),
+  recurrence_frequency: z.enum(RECURRENCE_FREQUENCIES),
+  recurrence_until: z.preprocess(emptyToNull, date.nullable()),
   start_time: time,
   end_time: time,
   price,
@@ -77,7 +79,13 @@ const eventBaseSchema = z.object({
 });
 
 function validateDateRange(
-  value: { date: string; end_date: string | null },
+  value: {
+    category: (typeof EVENT_CATEGORIES)[number];
+    date: string;
+    end_date: string | null;
+    recurrence_frequency: (typeof RECURRENCE_FREQUENCIES)[number];
+    recurrence_until: string | null;
+  },
   context: z.RefinementCtx,
 ) {
   if (value.end_date && value.end_date < value.date) {
@@ -86,6 +94,22 @@ function validateDateRange(
       path: ["end_date"],
       message: "End date must be on or after the start date",
     });
+  }
+  if (value.recurrence_frequency !== "none") {
+    if (value.category !== "Open Mat") {
+      context.addIssue({
+        code: z.ZodIssueCode.custom,
+        path: ["recurrence_frequency"],
+        message: "Recurring events are available only for Open Mat",
+      });
+    }
+    if (!value.recurrence_until || value.recurrence_until <= value.date) {
+      context.addIssue({
+        code: z.ZodIssueCode.custom,
+        path: ["recurrence_until"],
+        message: "Recurring event must end after its first date",
+      });
+    }
   }
 }
 
@@ -106,6 +130,8 @@ function rawEvent(formData: FormData) {
     address: formData.get("address"),
     date: formData.get("date"),
     end_date: formData.get("end_date"),
+    recurrence_frequency: formData.get("recurrence_frequency") || "none",
+    recurrence_until: formData.get("recurrence_until"),
     start_time: formData.get("start_time"),
     end_time: formData.get("end_time"),
     price: formData.get("price"),
