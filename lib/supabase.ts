@@ -11,6 +11,7 @@ import {
   PUBLIC_REVALIDATE,
 } from "@/lib/public-cache-config";
 import { sortEventsChronologically } from "@/lib/utils";
+import { inheritAcademySocials } from "@/lib/event-academy";
 
 export function isSupabasePublicConfigured(): boolean {
   const url = process.env.NEXT_PUBLIC_SUPABASE_URL;
@@ -51,7 +52,11 @@ async function fetchPublishedEvents(): Promise<Event[]> {
     .order("start_time", { ascending: true, nullsFirst: false });
 
   if (error) throw error;
-  return sortEventsChronologically((data as unknown as Event[]) ?? []);
+  const academies = await fetchPublishedAcademies();
+  const events = ((data as unknown as Event[]) ?? []).map((event) =>
+    inheritAcademySocials(event, academies),
+  );
+  return sortEventsChronologically(events);
 }
 
 async function fetchEventBySlug(slug: string): Promise<Event | null> {
@@ -66,7 +71,8 @@ async function fetchEventBySlug(slug: string): Promise<Event | null> {
     .single();
 
   if (error) return null;
-  return data as unknown as Event;
+  const academies = await fetchPublishedAcademies();
+  return inheritAcademySocials(data as unknown as Event, academies);
 }
 
 async function fetchPublishedAcademies(): Promise<Academy[]> {
@@ -88,7 +94,7 @@ async function fetchPublishedAcademies(): Promise<Academy[]> {
 export function getPublishedEvents(): Promise<Event[]> {
   return unstable_cache(fetchPublishedEvents, ["published-events"], {
     revalidate: PUBLIC_REVALIDATE.home,
-    tags: [CACHE_TAGS.events],
+    tags: [CACHE_TAGS.events, CACHE_TAGS.academies],
   })();
 }
 
@@ -100,7 +106,7 @@ export const getEventBySlug = cache(
       ["published-event", slug],
       {
         revalidate: PUBLIC_REVALIDATE.eventDetail,
-        tags: [CACHE_TAGS.events, CACHE_TAGS.event(slug)],
+        tags: [CACHE_TAGS.events, CACHE_TAGS.academies, CACHE_TAGS.event(slug)],
       },
     )();
   },
