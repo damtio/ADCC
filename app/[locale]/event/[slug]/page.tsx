@@ -1,8 +1,9 @@
 import {
   Calendar,
   Clock,
-  ExternalLink,
+  Instagram,
   MapPin,
+  Ticket,
   User,
   Users,
 } from "lucide-react";
@@ -10,6 +11,7 @@ import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { getTranslations } from "next-intl/server";
 import { GoogleCalendarButton } from "@/components/GoogleCalendarButton";
+import { FacebookIcon } from "@/components/icons/FacebookIcon";
 import { SafeImage } from "@/components/SafeImage";
 import { ShareButton } from "@/components/ShareButton";
 import { Badge } from "@/components/ui/badge";
@@ -259,7 +261,7 @@ export default async function EventPage({ params }: EventPageProps) {
                   target="_blank"
                   rel="noopener noreferrer"
                 >
-                  <ExternalLink className="h-4 w-4" />
+                  <Ticket className="h-4 w-4 shrink-0" />
                   {t("register")}
                 </a>
               </Button>
@@ -267,6 +269,7 @@ export default async function EventPage({ params }: EventPageProps) {
             {facebookUrl && (
               <Button asChild variant="outline" size="sm">
                 <a href={facebookUrl} target="_blank" rel="noopener noreferrer">
+                  <FacebookIcon className="h-4 w-4 shrink-0" />
                   Facebook
                 </a>
               </Button>
@@ -278,6 +281,7 @@ export default async function EventPage({ params }: EventPageProps) {
                   target="_blank"
                   rel="noopener noreferrer"
                 >
+                  <Instagram className="h-4 w-4 shrink-0" />
                   Instagram
                 </a>
               </Button>
