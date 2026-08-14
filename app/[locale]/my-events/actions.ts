@@ -2,7 +2,11 @@
 
 import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
-import { parseEventFormData, parseUuid } from "@/lib/event-form";
+import {
+  parseEventFormData,
+  parseUuid,
+  validationErrorMessage,
+} from "@/lib/event-form";
 import { consumeRateLimit, privateFingerprint } from "@/lib/rate-limit";
 import { resolveUniqueEventSlug } from "@/lib/event-slug";
 import { revalidatePublicContent } from "@/lib/public-cache";
@@ -70,7 +74,12 @@ export async function createUserEventAction(
     revalidatePath("/my-events", "layout");
     return { success: true };
   } catch (e) {
-    return { error: e instanceof Error ? e.message : "Failed to create event" };
+    return {
+      error: validationErrorMessage(
+        e,
+        e instanceof Error ? e.message : "Failed to create event",
+      ),
+    };
   }
 }
 
@@ -112,7 +121,12 @@ export async function updateUserEventAction(
     revalidatePath("/my-events", "layout");
     return { success: true };
   } catch (e) {
-    return { error: e instanceof Error ? e.message : "Failed to update event" };
+    return {
+      error: validationErrorMessage(
+        e,
+        e instanceof Error ? e.message : "Failed to update event",
+      ),
+    };
   }
 }
 

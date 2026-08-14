@@ -34,6 +34,10 @@ const ERROR_KEYS: Record<string, string> = {
     "errors.slugDuplicate",
   "Failed to create event": "errors.createFailed",
   "Failed to update event": "errors.updateFailed",
+  "Recurring events are available only for Open Mat":
+    "errors.recurrenceOpenMatOnly",
+  "Recurring event must end after its first date":
+    "errors.recurrenceEndAfterStart",
 };
 
 export function EventForm({

@@ -311,7 +311,9 @@
       "notFound": "Nie znaleziono wydarzenia",
       "slugDuplicate": "Wydarzenie o podobnym tytule już istnieje. Spróbuj innego tytułu.",
       "createFailed": "Nie udało się utworzyć wydarzenia",
-      "updateFailed": "Nie udało się zaktualizować wydarzenia"
+      "updateFailed": "Nie udało się zaktualizować wydarzenia",
+      "recurrenceOpenMatOnly": "Wydarzenia cykliczne są dostępne tylko dla kategorii Wolna mata (Open Mat).",
+      "recurrenceEndAfterStart": "Data zakończenia cyklu musi być późniejsza niż data pierwszego wydarzenia."
     }
   },
   "myAcademies": {

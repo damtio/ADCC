@@ -311,7 +311,9 @@
       "notFound": "Event not found",
       "slugDuplicate": "An event with a similar title already exists. Try a different title.",
       "createFailed": "Failed to create event",
-      "updateFailed": "Failed to update event"
+      "updateFailed": "Failed to update event",
+      "recurrenceOpenMatOnly": "Recurring events are available only for Open Mat.",
+      "recurrenceEndAfterStart": "The recurrence end date must be after the first event date."
     }
   },
   "myAcademies": {
