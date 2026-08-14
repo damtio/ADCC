@@ -3,6 +3,11 @@ import createNextIntlPlugin from "next-intl/plugin";
 
 const withNextIntl = createNextIntlPlugin("./i18n/request.ts");
 
+const privatePageHeaders = [
+  { key: "Cache-Control", value: "private, no-cache, no-store, max-age=0" },
+  { key: "Netlify-CDN-Cache-Control", value: "no-store" },
+];
+
 function supabaseStoragePattern() {
   const value = process.env.NEXT_PUBLIC_SUPABASE_URL;
   if (!value || value.includes("your_supabase")) return [];
@@ -52,6 +57,30 @@ const nextConfig: NextConfig = {
       .filter((directive) => !directive.includes("  https"))
       .join("; ");
     return [
+      {
+        source: "/admin/:path*",
+        headers: privatePageHeaders,
+      },
+      {
+        source: "/:locale/my-events/:path*",
+        headers: privatePageHeaders,
+      },
+      {
+        source: "/:locale/my-academies/:path*",
+        headers: privatePageHeaders,
+      },
+      {
+        source: "/:locale/submit-event",
+        headers: privatePageHeaders,
+      },
+      {
+        source: "/:locale/login",
+        headers: privatePageHeaders,
+      },
+      {
+        source: "/:locale/register",
+        headers: privatePageHeaders,
+      },
       {
         source: "/(.*)",
         headers: [
