@@ -26,7 +26,7 @@ export function EventCard({ event }: EventCardProps) {
   const instagramUrl = safeHttpsUrl(event.instagram_url);
 
   return (
-    <Card className="group overflow-hidden transition-all duration-300 hover:-translate-y-1 hover:border-red-600/40 hover:shadow-lg hover:shadow-red-900/10">
+    <Card className="group flex h-full flex-col overflow-hidden transition-all duration-300 hover:-translate-y-1 hover:border-red-600/40 hover:shadow-lg hover:shadow-red-900/10">
       <div className="relative aspect-[16/10] overflow-hidden bg-[#1a1a1a]">
         <Link
           href={`/event/${event.slug}`}
@@ -50,16 +50,14 @@ export function EventCard({ event }: EventCardProps) {
         </div>
       </div>
 
-      <CardContent className="space-y-4 p-5">
-        <div>
-          <h3 className="line-clamp-2 text-lg leading-tight font-semibold text-white">
+      <CardContent className="flex flex-1 flex-col gap-4 p-5">
+        <div className="min-h-[4.25rem]">
+          <h3 className="line-clamp-2 min-h-[2.75rem] text-lg leading-tight font-semibold text-white">
             {event.title}
           </h3>
-          {(event.organizer || event.academy) && (
-            <p className="mt-1 text-sm text-zinc-500">
-              {event.organizer || event.academy}
-            </p>
-          )}
+          <p className="mt-1 line-clamp-1 min-h-5 text-sm text-zinc-500">
+            {event.organizer || event.academy || "\u00a0"}
+          </p>
         </div>
 
         <div className="space-y-2 text-sm text-zinc-400">
@@ -86,67 +84,73 @@ export function EventCard({ event }: EventCardProps) {
           {event.city && (
             <div className="flex items-start gap-2">
               <MapPin className="mt-0.5 h-4 w-4 shrink-0 text-red-500" />
-              <span>
+              <span className="line-clamp-2">
                 {[event.address, event.city].filter(Boolean).join(", ")}
               </span>
             </div>
           )}
         </div>
 
-        <p className="text-sm font-semibold text-red-400">
-          {formatPrice(event.price, event.currency)}
-        </p>
+        <div className="mt-auto space-y-4">
+          <p className="text-sm font-semibold text-red-400">
+            {formatPrice(event.price, event.currency)}
+          </p>
 
-        <div className="space-y-3 border-t border-white/10 pt-4">
-          <Button asChild className="w-full" size="sm">
-            <Link href={`/event/${event.slug}`}>{t("details")}</Link>
-          </Button>
+          <div className="space-y-3 border-t border-white/10 pt-4">
+            <Button asChild className="w-full" size="sm">
+              <Link href={`/event/${event.slug}`}>{t("details")}</Link>
+            </Button>
 
-          <div className="grid grid-cols-2 gap-2">
-            {hasMapsTarget && (
-              <Button asChild variant="outline" size="sm" className="w-full">
-                <a
-                  href={buildEventMapsUrl(event)}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                >
-                  <MapPin className="h-4 w-4" />
-                  {tPage("openInMaps")}
-                </a>
-              </Button>
-            )}
-            {registrationUrl && (
-              <Button asChild variant="outline" size="sm" className="w-full">
-                <a
-                  href={registrationUrl}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                >
-                  <Ticket className="h-4 w-4 shrink-0" />
-                  {tPage("register")}
-                </a>
-              </Button>
-            )}
-            {facebookUrl && (
-              <Button asChild variant="outline" size="sm" className="w-full">
-                <a href={facebookUrl} target="_blank" rel="noopener noreferrer">
-                  <FacebookIcon className="h-4 w-4 shrink-0" />
-                  Facebook
-                </a>
-              </Button>
-            )}
-            {instagramUrl && (
-              <Button asChild variant="outline" size="sm" className="w-full">
-                <a
-                  href={instagramUrl}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                >
-                  <Instagram className="h-4 w-4 shrink-0" />
-                  Instagram
-                </a>
-              </Button>
-            )}
+            <div className="grid min-h-20 grid-cols-2 content-start gap-2">
+              {hasMapsTarget && (
+                <Button asChild variant="outline" size="sm" className="w-full">
+                  <a
+                    href={buildEventMapsUrl(event)}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  >
+                    <MapPin className="h-4 w-4" />
+                    {tPage("openInMaps")}
+                  </a>
+                </Button>
+              )}
+              {registrationUrl && (
+                <Button asChild variant="outline" size="sm" className="w-full">
+                  <a
+                    href={registrationUrl}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  >
+                    <Ticket className="h-4 w-4 shrink-0" />
+                    {tPage("register")}
+                  </a>
+                </Button>
+              )}
+              {facebookUrl && (
+                <Button asChild variant="outline" size="sm" className="w-full">
+                  <a
+                    href={facebookUrl}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  >
+                    <FacebookIcon className="h-4 w-4 shrink-0" />
+                    Facebook
+                  </a>
+                </Button>
+              )}
+              {instagramUrl && (
+                <Button asChild variant="outline" size="sm" className="w-full">
+                  <a
+                    href={instagramUrl}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  >
+                    <Instagram className="h-4 w-4 shrink-0" />
+                    Instagram
+                  </a>
+                </Button>
+              )}
+            </div>
           </div>
         </div>
       </CardContent>
