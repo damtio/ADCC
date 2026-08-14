@@ -313,7 +313,9 @@
       "createFailed": "Failed to create event",
       "updateFailed": "Failed to update event",
       "recurrenceOpenMatOnly": "Recurring events are available only for Open Mat.",
-      "recurrenceEndAfterStart": "The recurrence end date must be after the first event date."
+      "recurrenceEndAfterStart": "The recurrence end date must be after the first event date.",
+      "invalidStartTime": "Enter a valid start time.",
+      "invalidEndTime": "Enter a valid end time."
     }
   },
   "myAcademies": {

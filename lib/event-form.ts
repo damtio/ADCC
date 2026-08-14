@@ -44,13 +44,17 @@ const socialUrl = (hosts: string[]) =>
   );
 
 const date = z.string().regex(/^\d{4}-\d{2}-\d{2}$/, "Enter a valid date");
-const time = z.preprocess(
-  emptyToNull,
-  z
-    .string()
-    .regex(/^([01]\d|2[0-3]):[0-5]\d$/, "Enter a valid time")
-    .nullable(),
-);
+const time = (label: string) =>
+  z.preprocess(
+    emptyToNull,
+    z
+      .string()
+      .regex(
+        /^([01]\d|2[0-3]):[0-5]\d(?::[0-5]\d(?:\.\d{1,6})?)?$/,
+        `${label} must be a valid time`,
+      )
+      .nullable(),
+  );
 const price = z.preprocess((value) => {
   const normalized = emptyToNull(value);
   return normalized === null ? null : Number(normalized);
@@ -67,8 +71,8 @@ const eventBaseSchema = z.object({
   end_date: z.preprocess(emptyToNull, date.nullable()),
   recurrence_frequency: z.enum(RECURRENCE_FREQUENCIES),
   recurrence_until: z.preprocess(emptyToNull, date.nullable()),
-  start_time: time,
-  end_time: time,
+  start_time: time("Start time"),
+  end_time: time("End time"),
   price,
   currency: z.enum(["PLN", "EUR", "USD", "GBP"]),
   registration_url: publicHttpsUrl,

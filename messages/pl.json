@@ -313,7 +313,9 @@
       "createFailed": "Nie udało się utworzyć wydarzenia",
       "updateFailed": "Nie udało się zaktualizować wydarzenia",
       "recurrenceOpenMatOnly": "Wydarzenia cykliczne są dostępne tylko dla kategorii Wolna mata (Open Mat).",
-      "recurrenceEndAfterStart": "Data zakończenia cyklu musi być późniejsza niż data pierwszego wydarzenia."
+      "recurrenceEndAfterStart": "Data zakończenia cyklu musi być późniejsza niż data pierwszego wydarzenia.",
+      "invalidStartTime": "Podaj prawidłową godzinę rozpoczęcia.",
+      "invalidEndTime": "Podaj prawidłową godzinę zakończenia."
     }
   },
   "myAcademies": {

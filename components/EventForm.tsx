@@ -38,6 +38,8 @@ const ERROR_KEYS: Record<string, string> = {
     "errors.recurrenceOpenMatOnly",
   "Recurring event must end after its first date":
     "errors.recurrenceEndAfterStart",
+  "Start time must be a valid time": "errors.invalidStartTime",
+  "End time must be a valid time": "errors.invalidEndTime",
 };
 
 export function EventForm({
@@ -205,7 +207,7 @@ export function EventForm({
             id="start_time"
             name="start_time"
             type="time"
-            defaultValue={event?.start_time ?? ""}
+            defaultValue={event?.start_time?.slice(0, 5) ?? ""}
           />
         </div>
 
@@ -215,7 +217,7 @@ export function EventForm({
             id="end_time"
             name="end_time"
             type="time"
-            defaultValue={event?.end_time ?? ""}
+            defaultValue={event?.end_time?.slice(0, 5) ?? ""}
           />
         </div>
 
