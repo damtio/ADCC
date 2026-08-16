@@ -25,6 +25,7 @@ interface EventFormProps {
   action: FormAction;
   successHref?: string;
   translated?: boolean;
+  allowImageRemoval?: boolean;
 }
 
 const ERROR_KEYS: Record<string, string> = {
@@ -47,6 +48,7 @@ export function EventForm({
   action,
   successHref = "/admin",
   translated = false,
+  allowImageRemoval = false,
 }: EventFormProps) {
   const tFields = useTranslations("submitEvent");
   const tForm = useTranslations("myEvents");
@@ -298,11 +300,26 @@ export function EventForm({
             {event?.image_url && ` ${formLabel("imageKeepHint")}`}
           </p>
           {event?.image_url && (
-            <input
-              type="hidden"
-              name="existing_image_url"
-              value={event.image_url}
-            />
+            <>
+              <input
+                type="hidden"
+                name="existing_image_url"
+                value={event.image_url}
+              />
+              {allowImageRemoval && (
+                <div className="mt-3 flex items-center gap-2 rounded-lg border border-red-900/50 bg-red-950/20 px-3 py-2">
+                  <input
+                    id="remove_image"
+                    name="remove_image"
+                    type="checkbox"
+                    className="h-4 w-4 rounded border-[#2B2B2B] bg-[#151515] text-red-600 focus:ring-red-500"
+                  />
+                  <Label htmlFor="remove_image" className="text-red-300">
+                    {formLabel("removeImageLabel")}
+                  </Label>
+                </div>
+              )}
+            </>
           )}
         </div>
 
@@ -379,4 +396,5 @@ const fallbackFormLabels = {
   createEvent: "Create Event",
   imageKeepHint: "Leave empty to keep current image.",
   imageAlt: "Current event image",
+  removeImageLabel: "Remove current image",
 } as const;

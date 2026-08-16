@@ -28,7 +28,11 @@ export default async function EditEventPage({ params }: EditEventPageProps) {
         &larr; Back to dashboard
       </Link>
       <h1 className="mb-8 text-2xl font-bold text-white">Edit Event</h1>
-      <EventForm event={event as Event} action={updateEventAction} />
+      <EventForm
+        event={event as Event}
+        action={updateEventAction}
+        allowImageRemoval
+      />
     </div>
   );
 }

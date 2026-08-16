@@ -306,6 +306,7 @@
     "createEvent": "Utwórz wydarzenie",
     "imageKeepHint": "Zostaw puste, aby zachować obecne zdjęcie.",
     "imageAlt": "Obecne zdjęcie wydarzenia",
+    "removeImageLabel": "Usuń obecną grafikę",
     "errors": {
       "unauthorized": "Brak autoryzacji",
       "notFound": "Nie znaleziono wydarzenia",
