@@ -306,6 +306,7 @@
     "createEvent": "Create Event",
     "imageKeepHint": "Leave empty to keep current image.",
     "imageAlt": "Current event image",
+    "removeImageLabel": "Remove current image",
     "errors": {
       "unauthorized": "Unauthorized",
       "notFound": "Event not found",
