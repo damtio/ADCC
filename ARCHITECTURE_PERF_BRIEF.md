@@ -1,7 +1,7 @@
-# wolnamata.pl — Architecture & Performance Brief
+# kulanki.pl — Architecture & Performance Brief
 
 > **Purpose:** Single source of truth for an external AI / engineer to understand the stack, request paths, and speed up the site.
-> **Product:** BJJ events + academies directory around ADCC 2026 Kraków — https://wolnamata.pl
+> **Product:** BJJ events + academies directory around ADCC 2026 Kraków — https://kulanki.pl
 > **Repo name:** `bjj-around-adcc-poland` / ADCC
 > **Generated for analysis:** 2026-08-12
 
@@ -34,11 +34,11 @@ Expected concurrent load: **~50–100 users** browsing/filtering (ADCC weekend).
 | -------------------- | -------------------------------------- | ------------------------------------------------------- |
 | Frontend / SSR       | Next.js 15.2 + React 19                | App Router                                              |
 | Hosting              | Netlify + `@netlify/plugin-nextjs`     | `netlify.toml`, Node 22                                 |
-| DNS / TLS            | Netlify DNS (historically)             | Domain: wolnamata.pl                                    |
+| DNS / TLS            | Netlify DNS (historically)             | Domain: kulanki.pl                                      |
 | Database             | Supabase Postgres                      | Project: ADCC2026                                       |
 | Auth                 | Supabase Auth (email + Google OAuth)   | Separate from admin password auth                       |
 | Storage              | Supabase Storage bucket `event-images` | Public URLs for event images                            |
-| Email (auth confirm) | Resend via Supabase Custom SMTP        | `noreply@wolnamata.pl`                                  |
+| Email (auth confirm) | Resend via Supabase Custom SMTP        | `noreply@kulanki.pl`                                    |
 | Analytics            | Google Analytics `G-J7DBDKW4MP`        | `components/GoogleAnalytics.tsx`                        |
 | i18n                 | next-intl                              | Locales: `pl` (default), `en`; `localePrefix: "always"` |
 
@@ -380,6 +380,6 @@ After changes, expect:
 
 ## 17. Prompt hint for implementing AI
 
-> Optimize wolnamata.pl for faster public event browsing. Keep Supabase + Netlify. Prefer ISR/`revalidate` over force-dynamic on public routes, reduce middleware auth work for anonymous users, and tighten event list queries/images. Preserve i18n, auth model, and address-based map links. Dataset is small; target 50–100 concurrent visitors.
+> Optimize kulanki.pl for faster public event browsing. Keep Supabase + Netlify. Prefer ISR/`revalidate` over force-dynamic on public routes, reduce middleware auth work for anonymous users, and tighten event list queries/images. Preserve i18n, auth model, and address-based map links. Dataset is small; target 50–100 concurrent visitors.
 
 End of brief.

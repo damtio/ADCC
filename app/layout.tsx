@@ -6,7 +6,7 @@ import { safeJsonLd, SITE_ORIGIN } from "@/lib/seo";
 import "./globals.css";
 
 export const metadata: Metadata = {
-  metadataBase: new URL("https://wolnamata.pl"),
+  metadataBase: new URL("https://kulanki.pl"),
 };
 
 const inter = Inter({
@@ -32,7 +32,7 @@ export default async function RootLayout({
             __html: safeJsonLd({
               "@context": "https://schema.org",
               "@type": "WebSite",
-              name: "wolnamata.pl",
+              name: "kulanki.pl",
               url: SITE_ORIGIN,
               inLanguage: ["pl", "en"],
             }),

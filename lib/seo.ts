@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import type { Locale } from "@/i18n/routing";
 
-export const SITE_ORIGIN = "https://wolnamata.pl";
+export const SITE_ORIGIN = "https://kulanki.pl";
 export const WARSAW_TIME_ZONE = "Europe/Warsaw";
 
 export function localizedUrl(locale: string, path = ""): string {

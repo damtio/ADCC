@@ -4,7 +4,7 @@
     "description": "Find seminars, open mats and camps happening during ADCC weekend in Poland."
   },
   "nav": {
-    "brand": "wolna<highlight>mata</highlight>.pl",
+    "brand": "kulanki<highlight>.pl</highlight>",
     "events": "Events",
     "academies": "Academies",
     "orientation": "Orientation",
@@ -17,7 +17,7 @@
     "closeMenu": "Close menu"
   },
   "footer": {
-    "copyright": "wolnamata.pl",
+    "copyright": "kulanki.pl",
     "tagline": "Find seminars, open mats and camps during ADCC weekend."
   },
   "home": {
@@ -266,7 +266,7 @@
   },
   "auth": {
     "loginTitle": "Log in",
-    "loginSubtitle": "Manage your events on wolnamata.pl",
+    "loginSubtitle": "Manage your events on kulanki.pl",
     "registerTitle": "Create an account",
     "registerSubtitle": "Add and publish your own BJJ events",
     "email": "Email",
@@ -279,7 +279,7 @@
     "noAccount": "Don't have an account?",
     "hasAccount": "Already have an account?",
     "confirmEmail": "Check your inbox — we sent a confirmation link. After you click it, you can log in.",
-    "emailSendFailed": "Could not send the confirmation email. Check Resend SMTP in Supabase (sender noreply@wolnamata.pl + API key).",
+    "emailSendFailed": "Could not send the confirmation email. Check Resend SMTP in Supabase (sender noreply@kulanki.pl + API key).",
     "genericError": "Something went wrong. Please try again."
   },
   "myEvents": {

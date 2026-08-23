@@ -2,7 +2,7 @@
 
 A modern website listing Brazilian Jiu-Jitsu events happening around ADCC Poland — seminars, open mats, camps, and more. Includes a Kraków academies directory and a visitor orientation guide for ADCC weekend.
 
-**Production:** [wolnamata.pl](https://wolnamata.pl)
+**Production:** [kulanki.pl](https://kulanki.pl)
 
 ## Architecture
 
