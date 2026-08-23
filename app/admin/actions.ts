@@ -13,7 +13,11 @@ import { parseEventFormData, validationErrorMessage } from "@/lib/event-form";
 import { resolveUniqueEventSlug } from "@/lib/event-slug";
 import { revalidatePublicContent } from "@/lib/public-cache";
 import { createSupabaseAdmin } from "@/lib/supabase-admin";
-import { preserveEventImageUrl, uploadEventImage } from "@/lib/storage";
+import {
+  deleteEventImageObject,
+  preserveEventImageUrl,
+  uploadEventImage,
+} from "@/lib/storage";
 import { consumeRateLimit, requestFingerprint } from "@/lib/rate-limit";
 import { parseUuid } from "@/lib/event-form";
 import { sortEventsChronologically } from "@/lib/utils";
@@ -63,11 +67,41 @@ async function resolveImageUrl(
   supabase: NonNullable<ReturnType<typeof createSupabaseAdmin>>,
 ): Promise<string | null> {
   const file = formData.get("image");
+  const removeImage = formData.get("remove_image") === "on";
+  if (removeImage && file instanceof File && file.size > 0) {
+    throw new Error("Choose either a new image or remove the current image.");
+  }
+  if (removeImage) return null;
   if (file instanceof File && file.size > 0) {
     return uploadEventImage(supabase, file, { kind: "admin" });
   }
 
   return preserveEventImageUrl(formData.get("existing_image_url"));
+}
+
+async function deleteImageIfUnused(
+  supabase: NonNullable<ReturnType<typeof createSupabaseAdmin>>,
+  imageUrl: string,
+  updatedEventId: string,
+): Promise<void> {
+  const [
+    { count: eventReferences, error: eventError },
+    { count: submissionReferences, error: submissionError },
+  ] = await Promise.all([
+    supabase
+      .from("events")
+      .select("id", { count: "exact", head: true })
+      .eq("image_url", imageUrl)
+      .neq("id", updatedEventId),
+    supabase
+      .from("event_submissions")
+      .select("id", { count: "exact", head: true })
+      .eq("image_url", imageUrl),
+  ]);
+
+  if (eventError || submissionError) return;
+  if ((eventReferences ?? 0) > 0 || (submissionReferences ?? 0) > 0) return;
+  await deleteEventImageObject(supabase, imageUrl);
 }
 
 export async function createEventAction(
@@ -129,6 +163,14 @@ export async function updateEventAction(
     }
 
     const slug = await resolveUniqueEventSlug(supabase, data.title, id);
+    const { data: existingEvent, error: existingEventError } = await supabase
+      .from("events")
+      .select("image_url")
+      .eq("id", id)
+      .maybeSingle();
+    if (existingEventError || !existingEvent) {
+      return { error: "Event not found" };
+    }
     const image_url = await resolveImageUrl(formData, supabase);
 
     const { error } = await supabase
@@ -142,6 +184,10 @@ export async function updateEventAction(
       .eq("id", id);
 
     if (error) return { error: error.message };
+
+    if (existingEvent.image_url && existingEvent.image_url !== image_url) {
+      await deleteImageIfUnused(supabase, existingEvent.image_url, id);
+    }
 
     revalidatePublicContent({ events: true, eventSlug: slug, admin: true });
     return { success: true };

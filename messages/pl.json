@@ -4,7 +4,7 @@
     "description": "Znajdź seminaria, open maty i obozy podczas weekendu ADCC w Polsce."
   },
   "nav": {
-    "brand": "wolna<highlight>mata</highlight>.pl",
+    "brand": "kulanki<highlight>.pl</highlight>",
     "events": "Wydarzenia",
     "academies": "Akademie",
     "orientation": "Orientacja",
@@ -17,7 +17,7 @@
     "closeMenu": "Zamknij menu"
   },
   "footer": {
-    "copyright": "wolnamata.pl",
+    "copyright": "kulanki.pl",
     "tagline": "Seminaria, open maty i obozy podczas weekendu ADCC."
   },
   "home": {
@@ -266,7 +266,7 @@
   },
   "auth": {
     "loginTitle": "Zaloguj się",
-    "loginSubtitle": "Zarządzaj swoimi wydarzeniami na wolnamata.pl",
+    "loginSubtitle": "Zarządzaj swoimi wydarzeniami na kulanki.pl",
     "registerTitle": "Utwórz konto",
     "registerSubtitle": "Dodawaj i publikuj własne wydarzenia BJJ",
     "email": "E-mail",
@@ -279,7 +279,7 @@
     "noAccount": "Nie masz konta?",
     "hasAccount": "Masz już konto?",
     "confirmEmail": "Sprawdź skrzynkę — wysłaliśmy link potwierdzający. Po kliknięciu w mailu będziesz mógł się zalogować.",
-    "emailSendFailed": "Nie udało się wysłać maila potwierdzającego. Sprawdź konfigurację Resend SMTP w Supabase (nadawca noreply@wolnamata.pl + API key).",
+    "emailSendFailed": "Nie udało się wysłać maila potwierdzającego. Sprawdź konfigurację Resend SMTP w Supabase (nadawca noreply@kulanki.pl + API key).",
     "genericError": "Coś poszło nie tak. Spróbuj ponownie."
   },
   "myEvents": {
@@ -306,6 +306,7 @@
     "createEvent": "Utwórz wydarzenie",
     "imageKeepHint": "Zostaw puste, aby zachować obecne zdjęcie.",
     "imageAlt": "Obecne zdjęcie wydarzenia",
+    "removeImageLabel": "Usuń obecną grafikę",
     "errors": {
       "unauthorized": "Brak autoryzacji",
       "notFound": "Nie znaleziono wydarzenia",

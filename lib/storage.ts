@@ -68,6 +68,26 @@ export function preserveEventImageUrl(
   return url;
 }
 
+export async function deleteEventImageObject(
+  supabase: SupabaseClient,
+  value: string,
+): Promise<void> {
+  if (!isAllowedEventImageUrl(value)) return;
+
+  const marker = `/storage/v1/object/public/${BUCKET}/`;
+  const pathname = new URL(value).pathname;
+  const markerIndex = pathname.indexOf(marker);
+  if (markerIndex < 0) return;
+
+  const objectPath = decodeURIComponent(
+    pathname.slice(markerIndex + marker.length),
+  );
+  if (!objectPath || objectPath.includes("..")) return;
+
+  const { error } = await supabase.storage.from(BUCKET).remove([objectPath]);
+  if (error) throw new Error("Could not remove the previous image.");
+}
+
 export async function uploadEventImage(
   supabase: SupabaseClient,
   file: File,

@@ -12,7 +12,11 @@ import { isSupabaseConfigured } from "@/lib/supabase-admin";
 
 export const dynamic = "force-dynamic";
 
-export default async function AdminPage() {
+type AdminPageProps = {
+  searchParams: Promise<{ status?: string }>;
+};
+
+export default async function AdminPage({ searchParams }: AdminPageProps) {
   const authenticated = await isAuthenticated();
 
   if (!authenticated) {
@@ -31,7 +35,19 @@ export default async function AdminPage() {
     );
   }
 
-  const events = await getAllEventsAdmin();
+  const { status: requestedStatus } = await searchParams;
+  const status =
+    requestedStatus === "published" || requestedStatus === "draft"
+      ? requestedStatus
+      : "all";
+  const allEvents = await getAllEventsAdmin();
+  const events = allEvents.filter((event) => {
+    if (status === "published") return event.published;
+    if (status === "draft") return !event.published;
+    return true;
+  });
+  const publishedCount = allEvents.filter((event) => event.published).length;
+  const draftCount = allEvents.length - publishedCount;
   const pendingSubmissions = await getPendingSubmissionsCount();
   const supabaseReady = isSupabaseConfigured();
 
@@ -47,7 +63,7 @@ export default async function AdminPage() {
         <div>
           <h1 className="text-2xl font-bold text-white">Admin Dashboard</h1>
           <p className="mt-1 text-sm text-zinc-500">
-            Manage BJJ events ({events.length})
+            Manage BJJ events ({allEvents.length})
           </p>
         </div>
         <div className="flex gap-3">
@@ -73,6 +89,34 @@ export default async function AdminPage() {
             </Button>
           </form>
         </div>
+      </div>
+
+      <div
+        className="mb-4 flex flex-wrap gap-2"
+        aria-label="Filter events by status"
+      >
+        {[
+          { value: "all", label: `All (${allEvents.length})`, href: "/admin" },
+          {
+            value: "published",
+            label: `Published (${publishedCount})`,
+            href: "/admin?status=published",
+          },
+          {
+            value: "draft",
+            label: `Draft (${draftCount})`,
+            href: "/admin?status=draft",
+          },
+        ].map((option) => (
+          <Button
+            key={option.value}
+            asChild
+            size="sm"
+            variant={status === option.value ? "default" : "outline"}
+          >
+            <Link href={option.href}>{option.label}</Link>
+          </Button>
+        ))}
       </div>
 
       <div className="overflow-hidden rounded-xl border border-[#2B2B2B]">
