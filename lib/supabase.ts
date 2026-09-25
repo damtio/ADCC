@@ -12,6 +12,7 @@ import {
 } from "@/lib/public-cache-config";
 import { sortEventsChronologically } from "@/lib/utils";
 import { inheritAcademySocials } from "@/lib/event-academy";
+import { upcomingEventsCondition, warsawToday } from "@/lib/event-date";
 
 export function isSupabasePublicConfigured(): boolean {
   const url = process.env.NEXT_PUBLIC_SUPABASE_URL;
@@ -40,7 +41,7 @@ export function createSupabaseClient(): SupabaseClient | null {
   return createClient(url, key);
 }
 
-async function fetchPublishedEvents(): Promise<Event[]> {
+async function fetchPublishedEvents(today: string): Promise<Event[]> {
   const supabase = createSupabaseClient();
   if (!supabase) return [];
 
@@ -48,6 +49,7 @@ async function fetchPublishedEvents(): Promise<Event[]> {
     .from("events")
     .select(EVENT_LIST_COLUMNS)
     .eq("published", true)
+    .or(upcomingEventsCondition(today))
     .order("date", { ascending: true })
     .order("start_time", { ascending: true, nullsFirst: false });
 
@@ -92,10 +94,11 @@ async function fetchPublishedAcademies(): Promise<Academy[]> {
 
 /** Cross-request Data Cache + tags (ISR companion). */
 export function getPublishedEvents(): Promise<Event[]> {
+  const today = warsawToday();
   return unstable_cache(fetchPublishedEvents, ["published-events"], {
     revalidate: PUBLIC_REVALIDATE.home,
     tags: [CACHE_TAGS.events, CACHE_TAGS.academies],
-  })();
+  })(today);
 }
 
 /** Request-level dedupe (metadata + page) + cross-request cache. */
